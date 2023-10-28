@@ -5,15 +5,15 @@
 class WordGenerator
 {
 private:
-	void ReadFromFile() ;
-	int RandomIndex(int size) const;
+	void readFromFile() ;
+	int randomIndex(int size) const;
 
 public:
 	WordGenerator(const std::string& fileName);
-	void UpdateWordGenerator();
-	std::string GetWord() const; 
-	char GetLetter(); // it will return one char
-	bool AvailableLetters();
+	void updateWordGenerator();
+	std::string getWord() const; 
+	char getLetter(); // it will return one char
+	bool availableLetters();
 
 private:
 	std::vector<std::string> m_words;

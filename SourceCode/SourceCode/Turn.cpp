@@ -11,10 +11,10 @@ Turn::Turn(const Player& player)
 	// TO DO timer init
 }
 
-void Turn::reset(const Player& player)
+void Turn::reset(Player* player)
 {
-	m_playerDrawing = new Player(player);
-	m_wordGenerator->UpdateWordGenerator();
+	m_playerDrawing = player;
+	m_wordGenerator->updateWordGenerator();
 	// TO DO reset timer
 }
 
@@ -25,5 +25,5 @@ uint16_t Turn::score()
 
 bool Turn::verifyGuess(const std::string& guess)
 {
-	return guess == m_wordGenerator->GetWord();
+	return guess == m_wordGenerator->getWord();
 }

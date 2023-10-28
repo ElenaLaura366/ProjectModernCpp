@@ -9,7 +9,7 @@ public:
 
 	Turn(const Player& player);
 
-	void reset(const Player& player);
+	void reset(Player* player);
 
 	uint16_t score();
 
