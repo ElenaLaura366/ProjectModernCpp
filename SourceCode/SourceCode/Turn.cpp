@@ -1,5 +1,9 @@
 #include "Turn.h"
 
+Turn::Turn()
+{
+}
+
 Turn::Turn(const Player& player)
 {
 	m_playerDrawing = new Player(player);

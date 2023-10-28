@@ -5,6 +5,8 @@
 class Turn
 {
 public:
+	Turn();
+
 	Turn(const Player& player);
 
 	void reset(const Player& player);

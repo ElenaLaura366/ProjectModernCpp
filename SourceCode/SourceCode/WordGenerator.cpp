@@ -16,7 +16,7 @@ int WordGenerator::RandomIndex(int size) const
 	return (rand() % (size));
 }
 
-WordGenerator::WordGenerator(const std::string& path) : m_fileName(path)
+WordGenerator::WordGenerator(const std::string& fileName) : m_fileName(fileName)
 {
 	srand(time(0));
 	ReadFromFile();

@@ -9,16 +9,16 @@ private:
 	int RandomIndex(int size) const;
 
 public:
-	WordGenerator(const std::string& path);
+	WordGenerator(const std::string& fileName);
 	void UpdateWordGenerator();
 	std::string GetWord() const; 
-	char GetLetter(); // se va returna un singur char
+	char GetLetter(); // it will return one char
 	bool AvailableLetters();
 
 private:
 	std::vector<std::string> m_words;
 	std::string m_currentWord;
 	std::string m_fileName;
-	std::vector<char> m_availableChars; // de vazut ce fel de container vom folosi
+	std::vector<char> m_availableChars; // we'll see what container we'll use
 };
 
