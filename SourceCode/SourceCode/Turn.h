@@ -9,9 +9,13 @@ public:
 
 	void reset(const Player& player);
 
+	uint16_t score();
+
+	bool verifyGuess(const std::string& guess);
+
 private:
-	Player* m_player;
-	WordGenerator* wordGenerator;
+	Player* m_playerDrawing;
+	WordGenerator* m_wordGenerator;
 	// TO DO Timer m_timer;
 };
 
