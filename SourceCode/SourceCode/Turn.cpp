@@ -7,7 +7,7 @@ Turn::Turn()
 Turn::Turn(const Player& player)
 {
 	m_playerDrawing = new Player(player);
-	m_wordGenerator = new WordGenerator("WordsFile.txt");
+	m_wordGenerator = new WordGenerator("wordsFile.txt");
 	// TO DO timer init
 }
 
