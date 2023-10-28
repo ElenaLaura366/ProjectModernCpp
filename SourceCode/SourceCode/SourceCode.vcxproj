@@ -141,14 +141,16 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Turn.cpp" />
     <ClCompile Include="WordGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Turn.h" />
     <ClInclude Include="WordGenerator.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Words.txt" />
+    <Text Include="WordsFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
