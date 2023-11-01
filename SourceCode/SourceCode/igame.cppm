@@ -1,8 +1,8 @@
 export module igame;
 
-export import "Turn.h";
-export import <vector>;
-export import <algorithm>;
+import "Turn.h";
+import <vector>;
+import <algorithm>;
 
 export class IGame
 {

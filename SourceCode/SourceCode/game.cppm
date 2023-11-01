@@ -3,10 +3,13 @@ export module game;
 import igame;
 
 
-export class Game : public IGame
+class Game : public IGame
 {
 public:
 	Game();
+	~Game();
+	Game(const Game& otherGame);
+	Game& operator=(const Game& otherGame);
 	std::vector<Player* > leaderboard() override;
 	void start() override;
 	bool isRunning() const override;

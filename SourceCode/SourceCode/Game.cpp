@@ -4,6 +4,40 @@ Game::Game() : m_isRunning(false)
 {
 }
 
+Game::~Game()
+{
+	for (uint32_t index = 0; index < m_players.size(); index++)
+		delete m_players[index];
+	delete m_turn;
+}
+
+Game::Game(const Game& otherGame)
+{
+	for (uint32_t index = 0; index < m_players.size(); index++)
+		delete m_players[index];
+	m_players.clear();
+	delete m_turn;
+
+	m_players = otherGame.m_players;
+	m_turn = otherGame.m_turn;
+	m_isRunning = otherGame.m_isRunning;
+}
+
+Game& Game::operator=(const Game& otherGame)
+{
+	if (this != &otherGame) {
+		for (uint32_t index = 0; index < m_players.size(); index++)
+			delete m_players[index];
+		m_players.clear();
+		delete m_turn;
+
+		m_players = otherGame.m_players;
+		m_turn = otherGame.m_turn;
+		m_isRunning = otherGame.m_isRunning;
+	}
+	return *this;
+}
+
 class CompareByScore
 {
 public:

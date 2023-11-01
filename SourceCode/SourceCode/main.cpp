@@ -1,5 +1,5 @@
 #include <iostream>
-#include "WordGenerator.h"
+import igame;
 
 
 int main() {
