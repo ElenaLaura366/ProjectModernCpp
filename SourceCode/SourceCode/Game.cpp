@@ -1,4 +1,4 @@
-#include "Game.h"
+import game;
 
 Game::Game() : m_isRunning(false)
 {
@@ -7,9 +7,9 @@ Game::Game() : m_isRunning(false)
 class CompareByScore
 {
 public:
-	bool operator() (const Player& firstPlayer, const Player& secondPlayer) const
+	bool operator() (const Player* const firstPlayer, const Player* const secondPlayer) const
 	{
-		return firstPlayer.getScore() > secondPlayer.getScore();
+		return firstPlayer->getScore() > secondPlayer->getScore();
 	}
 };
 
@@ -35,7 +35,7 @@ void Game::start()
 	// m_isRunning will become false after all 4 rounds end
 }
 
-bool Game::isRunning()
+bool Game::isRunning() const
 {
 	return m_isRunning;
 }
