@@ -2,20 +2,25 @@ export module game;
 
 import igame;
 
-
-class Game : public IGame
+namespace skribbl
 {
-public:
-	Game();
-	~Game();
-	Game(const Game& otherGame);
-	Game& operator=(const Game& otherGame);
-	std::vector<Player* > leaderboard() override;
-	void start() override;
-	bool isRunning() const override;
+	class Game : public IGame
+	{
+	public:
+		Game();
+		~Game();
+		Game(const Game& otherGame);
+		Game& operator=(const Game& otherGame);
+		Game(Game&& otherGame) noexcept;
+		Game& operator=(Game&& otherGame) noexcept;
 
-private:
-	std::vector<Player* > m_players;
-	Turn* m_turn;
-	bool m_isRunning;
-};
+		std::vector<Player* > leaderboard() override;
+		void start() override;
+		bool isRunning() const override;
+
+	private:
+		std::vector<Player* > m_players;
+		Turn* m_turn;
+		bool m_isRunning;
+	};
+}

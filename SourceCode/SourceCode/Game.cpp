@@ -1,4 +1,5 @@
 import game;
+using skribbl::Game;
 
 Game::Game() : m_isRunning(false)
 {
@@ -34,6 +35,40 @@ Game& Game::operator=(const Game& otherGame)
 		m_players = otherGame.m_players;
 		m_turn = otherGame.m_turn;
 		m_isRunning = otherGame.m_isRunning;
+	}
+	return *this;
+}
+
+Game::Game(Game&& otherGame) noexcept
+{
+	for (uint32_t index = 0; index < m_players.size(); index++)
+		delete m_players[index];
+	m_players.clear();
+	delete m_turn;
+
+	m_isRunning = otherGame.m_isRunning;
+	otherGame.m_isRunning = false;
+	m_players = otherGame.m_players;
+	otherGame.m_players.clear();
+	m_turn = otherGame.m_turn;
+	otherGame.m_turn = nullptr;
+}
+
+Game& Game::operator=(Game&& otherGame) noexcept
+{
+	if (this == &otherGame)
+	{
+		for (uint32_t index = 0; index < m_players.size(); index++)
+			delete m_players[index];
+		m_players.clear();
+		delete m_turn;
+
+		m_isRunning = otherGame.m_isRunning;
+		otherGame.m_isRunning = false;
+		m_players = otherGame.m_players;
+		otherGame.m_players.clear();
+		m_turn = otherGame.m_turn;
+		otherGame.m_turn = nullptr;
 	}
 	return *this;
 }
