@@ -1,5 +1,7 @@
 import game;
 using skribbl::Game;
+using skribbl::Player;
+//using skribbl::IGame;
 
 Game::Game() : m_isRunning(false)
 {
@@ -72,7 +74,7 @@ Game& Game::operator=(Game&& otherGame) noexcept
 	}
 	return *this;
 }
-
+// fix this bug, use move semantic
 class CompareByScore
 {
 public:
