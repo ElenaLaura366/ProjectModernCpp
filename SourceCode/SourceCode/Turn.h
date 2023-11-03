@@ -10,9 +10,7 @@ public:
 	Turn(const Player& player);
 
 	void reset(Player* player);
-
 	uint16_t score();
-
 	bool verifyGuess(const std::string& guess);
 
 private:

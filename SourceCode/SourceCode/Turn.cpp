@@ -1,4 +1,5 @@
-#include "Turn.h"
+import turn;
+using skribbl::Turn;
 
 Turn::Turn()
 {

@@ -145,12 +145,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player.cppm" />
-    <ClCompile Include="Turn.cpp" />
+    <ClCompile Include="turn.cpp" />
+    <ClCompile Include="turn.cppm" />
     <ClCompile Include="WordGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Turn.h" />
     <ClInclude Include="WordGenerator.h" />
   </ItemGroup>
   <ItemGroup>
