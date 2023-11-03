@@ -5,9 +5,9 @@ Turn::Turn()
 {
 }
 
-Turn::Turn(const Player& player)
+Turn::Turn(Player* const player)
 {
-	m_playerDrawing = new Player(player);
+	m_playerDrawing = player;
 	m_wordGenerator = new WordGenerator("wordsFile.txt");
 	// TO DO timer init
 }

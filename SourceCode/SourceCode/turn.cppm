@@ -1,7 +1,7 @@
 module;
 export module turn;
 
-import player;
+export import player;
 import "WordGenerator.h";
 
 namespace skribbl
@@ -10,7 +10,7 @@ namespace skribbl
 	{
 	public:
 		Turn();
-		Turn(const Player& player);
+		Turn(Player* const player);
 
 		void reset(Player* player);
 		uint16_t score();

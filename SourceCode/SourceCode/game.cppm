@@ -17,6 +17,8 @@ namespace skribbl
 
 		std::vector<Player* > leaderboard() override;
 		void start() override;
+		void stop() override;
+		void addPlayer(Player* player) override;
 		bool isRunning() const override;
 
 	private:

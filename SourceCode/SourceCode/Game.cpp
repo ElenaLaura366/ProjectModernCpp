@@ -1,22 +1,22 @@
 import game;
 using skribbl::Game;
 using skribbl::Player;
-//using skribbl::IGame;
+using skribbl::Turn;
 
-Game::Game() : m_isRunning(false)
+Game::Game() : m_isRunning(false), m_turn(nullptr)
 {
 }
 
 Game::~Game()
 {
-	for (uint32_t index = 0; index < m_players.size(); index++)
+	for (uint16_t index = 0; index < m_players.size(); index++)
 		delete m_players[index];
 	delete m_turn;
 }
 
 Game::Game(const Game& otherGame)
 {
-	for (uint32_t index = 0; index < m_players.size(); index++)
+	for (uint16_t index = 0; index < m_players.size(); index++)
 		delete m_players[index];
 	m_players.clear();
 	delete m_turn;
@@ -29,7 +29,7 @@ Game::Game(const Game& otherGame)
 Game& Game::operator=(const Game& otherGame)
 {
 	if (this != &otherGame) {
-		for (uint32_t index = 0; index < m_players.size(); index++)
+		for (uint16_t index = 0; index < m_players.size(); index++)
 			delete m_players[index];
 		m_players.clear();
 		delete m_turn;
@@ -43,7 +43,7 @@ Game& Game::operator=(const Game& otherGame)
 
 Game::Game(Game&& otherGame) noexcept
 {
-	for (uint32_t index = 0; index < m_players.size(); index++)
+	for (uint16_t index = 0; index < m_players.size(); index++)
 		delete m_players[index];
 	m_players.clear();
 	delete m_turn;
@@ -60,7 +60,7 @@ Game& Game::operator=(Game&& otherGame) noexcept
 {
 	if (this == &otherGame)
 	{
-		for (uint32_t index = 0; index < m_players.size(); index++)
+		for (uint16_t index = 0; index < m_players.size(); index++)
 			delete m_players[index];
 		m_players.clear();
 		delete m_turn;
@@ -74,7 +74,7 @@ Game& Game::operator=(Game&& otherGame) noexcept
 	}
 	return *this;
 }
-// fix this bug, use move semantic
+
 class CompareByScore
 {
 public:
@@ -94,16 +94,26 @@ std::vector<Player*> Game::leaderboard()
 void Game::start()
 {
 	m_isRunning = true;
-	//this will implement all the processes that happen within a game
-	m_turn = new Turn();
-	//smth like that, tho we don't know yet how to add more players and delete them when they enter the game
-	//ofc, it is related to networking so we have to wait
-	Player* newPlayer = new Player();
-	m_players.push_back(newPlayer);
-	//somehow we should add the players to the vector when they enter the game and remove them when they leave
-	for (Player* currentDrawer : m_players)
-		m_turn->reset(currentDrawer);
-	// m_isRunning will become false after all 4 rounds end
+	////this will implement all the processes that happen within a game
+	//m_turn = new Turn();
+	////smth like that, tho we don't know yet how to add more players and delete them when they enter the game
+	////ofc, it is related to networking so we have to wait
+	//Player* newPlayer = new Player();
+	//m_players.push_back(newPlayer);
+	////somehow we should add the players to the vector when they enter the game and remove them when they leave
+	//for (Player* currentDrawer : m_players)
+	//	m_turn->reset(currentDrawer);
+	//// m_isRunning will become false after all 4 rounds end
+}
+
+void Game::stop()
+{
+	m_isRunning = false;
+}
+
+void Game::addPlayer(Player* player)
+{
+	m_players.push_back(player);
 }
 
 bool Game::isRunning() const

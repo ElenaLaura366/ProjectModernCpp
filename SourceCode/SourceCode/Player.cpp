@@ -15,7 +15,7 @@ Player::Player(std::string username)
 	m_guessed(false)
 {}
 
-int16_t Player::getScore()
+int16_t Player::getScore() const
 {
 	return this->m_score;
 }
