@@ -1,4 +1,5 @@
-#include "Player.h"
+import player;
+using skribbl::Player;
 
 Player::Player()
 	:m_username("-"),
@@ -14,7 +15,7 @@ Player::Player(std::string username)
 	m_guessed(false)
 {}
 
-uint16_t Player::getScore() const
+int16_t Player::getScore()
 {
 	return this->m_score;
 }
@@ -49,8 +50,8 @@ void Player::setGuessed(bool guessed)
 	this->m_guessed = guessed;
 }
 
-void Player::updateScore(int score)
+/*void Player::updateScore(int16_t score)
 {
 	this->m_score = score;
-};
+};*/
 

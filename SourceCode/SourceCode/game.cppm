@@ -1,10 +1,11 @@
+module;
 export module game;
 
 import igame;
 
 namespace skribbl
 {
-	class Game : public IGame
+	export class Game : public IGame
 	{
 	public:
 		Game();

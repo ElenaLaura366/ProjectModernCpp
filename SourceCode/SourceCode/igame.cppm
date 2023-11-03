@@ -1,8 +1,10 @@
+module;
 export module igame;
 
-import "Turn.h";
-import <vector>;
-import <algorithm>;
+#include "Turn.h"
+export import <vector>;
+export import <algorithm>;
+export import player;
 
 namespace skribbl
 {
