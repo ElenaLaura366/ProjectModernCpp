@@ -1,9 +1,8 @@
 module;
 export module igame;
 
-export import <vector>;
-export import <algorithm>;
 export import turn;
+export import <algorithm>;
 
 namespace skribbl
 {

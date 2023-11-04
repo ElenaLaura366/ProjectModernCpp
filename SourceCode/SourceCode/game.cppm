@@ -1,7 +1,7 @@
 module;
 export module game;
 
-import igame;
+export import igame;
 
 namespace skribbl
 {

@@ -1,7 +1,6 @@
 import wordgenerator;
 using skribbl::WordGenerator;
 
-
 void WordGenerator::readFromFile()
 {
 	std::ifstream m_fin(m_fileName);
@@ -11,8 +10,8 @@ void WordGenerator::readFromFile()
 	std::string word;
 	while (m_fin >> word)
 		m_words.push_back(word);
+	m_fin.close();
 }
-
 
 int WordGenerator::randomIndex(int size) const
 {

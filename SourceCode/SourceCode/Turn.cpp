@@ -1,5 +1,7 @@
 import turn;
 using skribbl::Turn;
+using skribbl::WordGenerator;
+using skribbl::Player;
 
 Turn::Turn()
 {

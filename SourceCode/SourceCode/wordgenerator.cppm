@@ -1,9 +1,10 @@
 module;
 export module wordgenerator;
-import <fstream>;
-import <vector>;
+
+export import <fstream>;
+export import <vector>;
+export import <string>;
 import <chrono>;
-import <string>;
 
 namespace skribbl
 {
@@ -25,7 +26,5 @@ namespace skribbl
 		std::string m_currentWord;
 		std::string m_fileName;
 		std::vector<char> m_availableChars; // we'll see what container we'll use
-		std::ifstream m_fin;
 	};
-
 }

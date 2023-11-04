@@ -2,7 +2,7 @@ module;
 export module turn;
 
 export import player;
-import wordgenerator;
+export import wordgenerator;
 
 namespace skribbl
 {

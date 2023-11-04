@@ -1,9 +1,8 @@
 module;
-import <iostream>;
 export module player;
 
-import <string>;
-import <cstdint>;
+export import <string>;
+export import <cstdint>;
 
 namespace skribbl
 {
