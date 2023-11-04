@@ -163,9 +163,6 @@
     <ClCompile Include="wordgenerator.cppm" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WordGenerator.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="wordsFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,7 +15,7 @@ Turn::Turn(Player* const player)
 void Turn::reset(Player* player)
 {
 	m_playerDrawing = player;
-	m_wordGenerator->updateWordGenerator();
+	m_wordGenerator->update();
 	// TO DO reset timer
 }
 
