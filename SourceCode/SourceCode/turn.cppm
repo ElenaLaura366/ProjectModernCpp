@@ -2,7 +2,7 @@ module;
 export module turn;
 
 export import player;
-import "WordGenerator.h";
+import wordgenerator;
 
 namespace skribbl
 {

@@ -1,14 +1,16 @@
-#include "WordGenerator.h"
+import wordgenerator;
+using skribbl::WordGenerator;
+
 
 void WordGenerator::readFromFile()
-{
-	std::ifstream fin(m_fileName);
-	if (!fin.is_open()) {
+{/*
+	std::ifstream f(m_fileName);
+	if (!f.is_open()) {
 		std::exception("File with unable to be oppened");
 	}
 	std::string word;
-	while (fin >> word)
-		m_words.push_back(word);
+	while (f >> word
+		m_words.push_back(word);*/
 }
 
 int WordGenerator::randomIndex(int size) const
@@ -18,18 +20,18 @@ int WordGenerator::randomIndex(int size) const
 
 WordGenerator::WordGenerator(const std::string& fileName) : m_fileName(fileName)
 {
-	srand(time(0));
+	srand(0); // de facut pentru time(0)
 	readFromFile();
 	updateWordGenerator();
 }
 
 void WordGenerator::updateWordGenerator()
-{
+{/*
 	if (m_words.size() == 0)
 		std::exception("There are no words left");
 	m_words.erase(std::remove(m_words.begin(), m_words.end(), m_currentWord), m_words.end());
 	m_currentWord = m_words[randomIndex(m_words.size())];
-	m_availableChars = std::vector<char>(m_currentWord.begin(), m_currentWord.end());
+	m_availableChars = std::vector<char>(m_currentWord.begin(), m_currentWord.end());*/
 }
 
 std::string WordGenerator::getWord() const

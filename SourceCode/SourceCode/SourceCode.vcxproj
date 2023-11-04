@@ -159,7 +159,8 @@
     <ClCompile Include="player.cppm" />
     <ClCompile Include="turn.cpp" />
     <ClCompile Include="turn.cppm" />
-    <ClCompile Include="WordGenerator.cpp" />
+    <ClCompile Include="wordgenerator.cpp" />
+    <ClCompile Include="wordgenerator.cppm" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WordGenerator.h" />
