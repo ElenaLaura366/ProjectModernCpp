@@ -16,6 +16,13 @@ namespace skribbl
 
 	public:
 		WordGenerator(const std::string& fileName);
+		~WordGenerator() = default; 
+		WordGenerator(const WordGenerator& wg)=delete; 
+		WordGenerator& operator=(const WordGenerator&)=delete; 
+		WordGenerator(const WordGenerator&& wg)=default;  
+		WordGenerator& operator=(const WordGenerator&&) = default; 
+
+
 		void update();
 		std::string getWord() const;
 		char getLetter(); // it will return one char
