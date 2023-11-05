@@ -11,11 +11,15 @@ namespace skribbl
 	public:
 		Turn();
 		Turn(Player* const player);
+		Turn(const Turn& other);
 		Turn& operator=(const Turn& other);
+		Turn(Turn&& other) noexcept;
+		Turn& operator=(Turn&& other) noexcept;
 		~Turn();
 
 		void reset(Player* player);
-		int8_t score();
+		int8_t scoreGuessingPlayer();
+		int8_t scoreDrawingPlayer();
 		bool verifyGuess(const std::string& guess);
 		bool isTurnOver();
 

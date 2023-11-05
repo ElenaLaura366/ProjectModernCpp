@@ -4,14 +4,26 @@ using skribbl::WordGenerator;
 using skribbl::Player;
 
 Turn::Turn()
+	: m_playerDrawing{ nullptr },
+	m_wordGenerator{ nullptr }
 {}
 
 
 Turn::Turn(Player* const player)
+	: m_playerDrawing{ player }
 {
-	m_playerDrawing = player;
 	m_wordGenerator = new WordGenerator("wordsFile.txt");
 	// TO DO timer init
+}
+
+Turn::Turn(const Turn& other)
+{
+	delete m_playerDrawing;
+	delete m_wordGenerator;
+
+	m_playerDrawing = other.m_playerDrawing;
+	m_wordGenerator = other.m_wordGenerator;
+	m_avrageAnswerTime = other.m_avrageAnswerTime;
 }
 
 Turn& Turn::operator=(const Turn& other)
@@ -27,6 +39,32 @@ Turn& Turn::operator=(const Turn& other)
 	return *this;
 }
 
+Turn::Turn(Turn&& other) noexcept
+	: m_playerDrawing{ other.m_playerDrawing },
+	m_wordGenerator{ other.m_wordGenerator },
+	m_avrageAnswerTime {other.m_avrageAnswerTime}
+{
+	other.m_playerDrawing = nullptr;
+	other.m_wordGenerator = nullptr;
+	other.m_avrageAnswerTime = 0;
+}
+
+Turn& Turn::operator=(Turn&& other) noexcept
+{
+	if (this != &other)
+	{
+		delete m_playerDrawing;
+		delete m_wordGenerator;
+
+		m_playerDrawing = other.m_playerDrawing;
+		other.m_playerDrawing = nullptr;
+		m_wordGenerator = other.m_wordGenerator;
+		other.m_wordGenerator = nullptr;
+		m_avrageAnswerTime = other.m_avrageAnswerTime;
+		other.m_avrageAnswerTime = 0;
+	}
+}
+
 Turn::~Turn()
 {
 	delete m_playerDrawing;
@@ -40,11 +78,15 @@ void Turn::reset(Player* player)
 	// TO DO reset timer
 }
 
-int8_t Turn::score()
+int8_t Turn::scoreGuessingPlayer()
 {
-	// score for the players that guess
 	uint8_t time = 16; // get curent time from class Timer
 	return time < 30 ? k_maxScore : (60 - time) * 100 / 30;
+}
+
+int8_t Turn::scoreDrawingPlayer()
+{
+	return m_avrageAnswerTime == 0 ? (-1 * k_maxScore) : (60 - m_avrageAnswerTime) * 100 / 30;
 }
 
 bool Turn::verifyGuess(const std::string& guess)
