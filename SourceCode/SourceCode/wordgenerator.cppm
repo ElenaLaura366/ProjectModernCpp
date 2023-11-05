@@ -19,8 +19,8 @@ namespace skribbl
 		~WordGenerator() = default; 
 		WordGenerator(const WordGenerator& wg)=delete; 
 		WordGenerator& operator=(const WordGenerator&)=delete; 
-		WordGenerator(const WordGenerator&& wg)=default;  
-		WordGenerator& operator=(const WordGenerator&&) = default; 
+		WordGenerator(WordGenerator&& wg) =default;  
+		WordGenerator& operator=(WordGenerator&&) = default; 
 
 
 		void update();

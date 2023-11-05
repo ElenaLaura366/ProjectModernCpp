@@ -8,8 +8,8 @@ Player::Player()
 	m_guessed(false)
 {}
 
-Player::Player(std::string username)
-	:m_username(username),
+Player::Player(std::string&& username)
+	:m_username(std::move(username)),
 	m_score(0),
 	m_isDrawing(false),
 	m_guessed(false)
@@ -20,24 +20,24 @@ int16_t Player::getScore() const
 	return this->m_score;
 }
 
-std::string Player::getName()
+std::string Player::getName() const
 {
 	return this->m_username;
 }
 
-bool Player::getIsDrawing()
+bool Player::getIsDrawing() const
 {
 	return this->m_isDrawing;
 }
 
-bool Player::getGuessed()
+bool Player::getGuessed() const
 {
 	return m_guessed;
 }
 
-void Player::setUsername(std::string username)
+void Player::setUsername(std::string&& username)
 {
-	this->m_username = username;
+	this->m_username = std::move(username);
 }
 
 void Player::setIsDrawing(bool isDrawing)
@@ -50,8 +50,8 @@ void Player::setGuessed(bool guessed)
 	this->m_guessed = guessed;
 }
 
-/*void Player::updateScore(int16_t score)
+void Player::setScore(int16_t score)
 {
 	this->m_score = score;
-};*/
+};
 
