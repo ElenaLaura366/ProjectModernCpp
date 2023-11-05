@@ -11,14 +11,19 @@ namespace skribbl
 	public:
 		Turn();
 		Turn(Player* const player);
+		Turn& operator=(const Turn& other);
+		~Turn();
 
 		void reset(Player* player);
-		uint16_t score();
+		int8_t score();
 		bool verifyGuess(const std::string& guess);
+		bool isTurnOver();
 
 	private:
 		Player* m_playerDrawing;
 		WordGenerator* m_wordGenerator;
 		// TO DO Timer m_timer;
+		uint8_t m_avrageAnswerTime;
+		const uint8_t k_maxScore = 100;
 	};
 }
