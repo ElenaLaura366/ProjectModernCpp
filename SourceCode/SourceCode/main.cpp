@@ -54,4 +54,7 @@ int main() {
 	delete game; //game destructor will delete all players, no need for 'delete player;'
 
 	return 0;
+
+
+	return 0;
 }

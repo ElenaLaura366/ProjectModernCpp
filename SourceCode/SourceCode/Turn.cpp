@@ -63,6 +63,7 @@ Turn& Turn::operator=(Turn&& other) noexcept
 		m_avrageAnswerTime = other.m_avrageAnswerTime;
 		other.m_avrageAnswerTime = 0;
 	}
+	return *this;
 }
 
 Turn::~Turn()
@@ -91,7 +92,8 @@ int8_t Turn::scoreDrawingPlayer()
 
 bool Turn::verifyGuess(const std::string& guess)
 {
-	return guess == m_wordGenerator->getWord();
+	std::string cuv = m_wordGenerator->getWord();
+	return guess == cuv;
 }
 
 bool Turn::isTurnOver()

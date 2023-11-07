@@ -40,7 +40,7 @@ std::string WordGenerator::getWord() const
 	return m_currentWord;
 }
 
-char WordGenerator::getLetter()
+uint8_t WordGenerator::getLetter()
 {
 	if (!availableLetters())
 		std::exception("No available letters");
@@ -48,10 +48,36 @@ char WordGenerator::getLetter()
 	char currrent = m_availableChars[index];
 	m_availableChars.erase(m_availableChars.begin() + index); // nu e asa okay ca am o prelucrare de date in interiorul unui getter
 
-	return currrent;
+	return index;
 }
 
 bool WordGenerator::availableLetters()
 {
 	return (m_availableChars.size() > 0);
+}
+
+std::string skribbl::WordGenerator::getWordPattern() const 
+{	
+	if (m_currentWord.size() == 0) {
+		return "";
+	}
+	std::string pattern(2*m_currentWord.size(), '_');
+	for(int i = 1; i < pattern.size(); i+=2)
+		pattern[i] = ' ';
+	return pattern;
+}
+
+std::string skribbl::WordGenerator::getHint() 
+{
+	if (m_currentWord.size() == 0) {
+		return "";
+	}
+	
+	std::string pattern = getWordPattern();
+	for (int i = 0; i < m_currentWord.size()/2; i++) {
+		uint8_t index = getLetter();
+		pattern[2 * index] = m_currentWord[index];
+	}
+
+	return  std::format("English Word with {} letters: {}", m_currentWord.size(), pattern);
 }

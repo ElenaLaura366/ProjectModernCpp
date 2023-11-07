@@ -5,6 +5,7 @@ export import <fstream>;
 export import <vector>;
 export import <string>;
 import <chrono>;
+import <format>;
 
 namespace skribbl
 {
@@ -13,6 +14,7 @@ namespace skribbl
 	private:
 		void readFromFile();
 		int randomIndex(int size) const;
+		uint8_t getLetter(); // it will return one char
 
 	public:
 		WordGenerator(const std::string& fileName);
@@ -22,11 +24,11 @@ namespace skribbl
 		WordGenerator(WordGenerator&& wg) =default;  
 		WordGenerator& operator=(WordGenerator&&) = default; 
 
-
 		void update();
 		std::string getWord() const;
-		char getLetter(); // it will return one char
 		bool availableLetters();
+		std::string getWordPattern() const; // displays only the number of characters the word has
+		std::string getHint(); // displays the number of characters and several characters from the word
 
 	private:
 		std::vector<std::string> m_words;
