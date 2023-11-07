@@ -1,28 +1,28 @@
 import turn;
 using skribbl::Turn;
-using skribbl::WordGenerator;
+using skribbl::WordHandler;
 using skribbl::Player;
 
 Turn::Turn()
 	: m_playerDrawing{ nullptr },
-	m_wordGenerator{ nullptr }
+	m_wordHandler{ nullptr }
 {}
 
 
 Turn::Turn(Player* const player)
 	: m_playerDrawing{ player }
 {
-	m_wordGenerator = new WordGenerator("wordsFile.txt");
+	m_wordHandler = new WordHandler("wordsFile.txt");
 	// TO DO timer init
 }
 
 Turn::Turn(const Turn& other)
 {
 	delete m_playerDrawing;
-	delete m_wordGenerator;
+	delete m_wordHandler;
 
 	m_playerDrawing = other.m_playerDrawing;
-	m_wordGenerator = other.m_wordGenerator;
+	m_wordHandler = other.m_wordHandler;
 	m_avrageAnswerTime = other.m_avrageAnswerTime;
 }
 
@@ -31,9 +31,9 @@ Turn& Turn::operator=(const Turn& other)
 	if (this != &other)
 	{
 		delete m_playerDrawing;
-		delete m_wordGenerator;
+		delete m_wordHandler;
 		m_playerDrawing = other.m_playerDrawing;
-		m_wordGenerator = other.m_wordGenerator;
+		m_wordHandler = other.m_wordHandler;
 		m_avrageAnswerTime = other.m_avrageAnswerTime;
 	}
 	return *this;
@@ -41,11 +41,11 @@ Turn& Turn::operator=(const Turn& other)
 
 Turn::Turn(Turn&& other) noexcept
 	: m_playerDrawing{ other.m_playerDrawing },
-	m_wordGenerator{ other.m_wordGenerator },
+	m_wordHandler{ other.m_wordHandler },
 	m_avrageAnswerTime {other.m_avrageAnswerTime}
 {
 	other.m_playerDrawing = nullptr;
-	other.m_wordGenerator = nullptr;
+	other.m_wordHandler = nullptr;
 	other.m_avrageAnswerTime = 0;
 }
 
@@ -54,12 +54,12 @@ Turn& Turn::operator=(Turn&& other) noexcept
 	if (this != &other)
 	{
 		delete m_playerDrawing;
-		delete m_wordGenerator;
+		delete m_wordHandler;
 
 		m_playerDrawing = other.m_playerDrawing;
 		other.m_playerDrawing = nullptr;
-		m_wordGenerator = other.m_wordGenerator;
-		other.m_wordGenerator = nullptr;
+		m_wordHandler = other.m_wordHandler;
+		other.m_wordHandler = nullptr;
 		m_avrageAnswerTime = other.m_avrageAnswerTime;
 		other.m_avrageAnswerTime = 0;
 	}
@@ -69,13 +69,13 @@ Turn& Turn::operator=(Turn&& other) noexcept
 Turn::~Turn()
 {
 	delete m_playerDrawing;
-	delete m_wordGenerator;
+	delete m_wordHandler;
 }
 
 void Turn::reset(Player* player)
 {
 	m_playerDrawing = player;
-	m_wordGenerator->update();
+	m_wordHandler->update();
 	// TO DO reset timer
 }
 
@@ -92,8 +92,7 @@ int8_t Turn::scoreDrawingPlayer()
 
 bool Turn::verifyGuess(const std::string& guess)
 {
-	std::string cuv = m_wordGenerator->getWord();
-	return guess == cuv;
+	return guess == m_wordHandler->getWord();
 }
 
 bool Turn::isTurnOver()

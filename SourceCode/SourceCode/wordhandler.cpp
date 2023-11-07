@@ -1,7 +1,7 @@
-import wordgenerator;
-using skribbl::WordGenerator;
+import wordhandler;
+using skribbl::WordHandler;
 
-void WordGenerator::readFromFile()
+void WordHandler::readFromFile()
 {
 	std::ifstream m_fin(m_fileName);
 	if (!m_fin.is_open()) {
@@ -13,12 +13,12 @@ void WordGenerator::readFromFile()
 	m_fin.close();
 }
 
-int WordGenerator::randomIndex(int size) const
+int WordHandler::randomIndex(int size) const
 {
 	return (rand() % (size));
 }
 
-WordGenerator::WordGenerator(const std::string& fileName) : m_fileName(fileName)
+WordHandler::WordHandler(const std::string& fileName) : m_fileName(fileName)
 {
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	srand(seed); // de facut pentru time(0)
@@ -26,7 +26,7 @@ WordGenerator::WordGenerator(const std::string& fileName) : m_fileName(fileName)
 	update();
 }
 
-void WordGenerator::update()
+void WordHandler::update()
 {
 	if (m_words.size() == 0)
 		std::exception("There are no words left");
@@ -35,12 +35,12 @@ void WordGenerator::update()
 	m_availableChars = std::vector<char>(m_currentWord.begin(), m_currentWord.end());
 }
 
-std::string WordGenerator::getWord() const
+std::string WordHandler::getWord() const
 {
 	return m_currentWord;
 }
 
-uint8_t WordGenerator::getLetter()
+uint8_t WordHandler::getLetter()
 {
 	if (!availableLetters())
 		std::exception("No available letters");
@@ -51,12 +51,12 @@ uint8_t WordGenerator::getLetter()
 	return index;
 }
 
-bool WordGenerator::availableLetters()
+bool WordHandler::availableLetters()
 {
 	return (m_availableChars.size() > 0);
 }
 
-std::string skribbl::WordGenerator::getWordPattern() const 
+std::string skribbl::WordHandler::getWordPattern() const 
 {	
 	if (m_currentWord.size() == 0) {
 		return "";
@@ -67,7 +67,7 @@ std::string skribbl::WordGenerator::getWordPattern() const
 	return pattern;
 }
 
-std::string skribbl::WordGenerator::getHint() 
+std::string skribbl::WordHandler::getHint() 
 {
 	if (m_currentWord.size() == 0) {
 		return "";

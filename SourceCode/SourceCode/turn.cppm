@@ -2,7 +2,7 @@ module;
 export module turn;
 
 export import player;
-export import wordgenerator;
+export import wordhandler;
 
 namespace skribbl
 {
@@ -25,7 +25,7 @@ namespace skribbl
 
 	private:
 		Player* m_playerDrawing;
-		WordGenerator* m_wordGenerator;
+		WordHandler* m_wordHandler;
 		// TO DO Timer m_timer;
 		uint8_t m_avrageAnswerTime;
 		const uint8_t k_maxScore = 100;

@@ -21,7 +21,7 @@
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wordgenerator.cpp">
+    <ClCompile Include="wordhandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Turn.cpp">
@@ -42,7 +42,7 @@
     <ClCompile Include="turn.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="wordgenerator.cppm">
+    <ClCompile Include="wordhandler.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>

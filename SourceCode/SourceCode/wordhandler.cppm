@@ -1,5 +1,5 @@
 module;
-export module wordgenerator;
+export module wordhandler;
 
 export import <fstream>;
 export import <vector>;
@@ -9,7 +9,7 @@ import <format>;
 
 namespace skribbl
 {
-	export class WordGenerator
+	export class WordHandler
 	{
 	private:
 		void readFromFile();
@@ -17,12 +17,12 @@ namespace skribbl
 		uint8_t getLetter(); // it will return one char
 
 	public:
-		WordGenerator(const std::string& fileName);
-		~WordGenerator() = default; 
-		WordGenerator(const WordGenerator& wg)=delete; 
-		WordGenerator& operator=(const WordGenerator&)=delete; 
-		WordGenerator(WordGenerator&& wg) =default;  
-		WordGenerator& operator=(WordGenerator&&) = default; 
+		WordHandler(const std::string& fileName);
+		~WordHandler() = default; 
+		WordHandler(const WordHandler& wg)=delete; 
+		WordHandler& operator=(const WordHandler&)=delete; 
+		WordHandler(WordHandler&& wg) =default;  
+		WordHandler& operator=(WordHandler&&) = default; 
 
 		void update();
 		std::string getWord() const;
@@ -34,6 +34,6 @@ namespace skribbl
 		std::vector<std::string> m_words;
 		std::string m_currentWord;
 		std::string m_fileName;
-		std::vector<char> m_availableChars; // we'll see what container we'll use
+		std::vector<char> m_availableChars; 
 	};
 }
