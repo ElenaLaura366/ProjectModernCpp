@@ -21,8 +21,8 @@ namespace skribbl
 		~WordHandler() = default; 
 		WordHandler(const WordHandler& wg)=delete; 
 		WordHandler& operator=(const WordHandler&)=delete; 
-		WordHandler(WordHandler&& wg) =default;  
-		WordHandler& operator=(WordHandler&&) = default; 
+		WordHandler(WordHandler&& wg)noexcept =default;  
+		WordHandler& operator=(WordHandler&&)noexcept = default; 
 
 		void update();
 		std::string getWord() const;
