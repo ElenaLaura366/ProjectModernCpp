@@ -10,12 +10,12 @@ namespace skribbl
 	{
 	public:
 		Player();
-		Player(std::string&& username);
+		Player(const std::string& username);
 		int16_t getScore() const;
 		std::string getName() const;
 		bool getIsDrawing() const;
 		bool getGuessed() const;
-		void setUsername(std::string&& username);
+		void setUsername(const std::string& username);
 		void setIsDrawing(bool isDrawing);
 		void setGuessed(bool guessed);
 		void setScore(int16_t score);

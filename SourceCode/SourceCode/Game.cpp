@@ -125,7 +125,7 @@ void Game::stop()
 
 void Game::addPlayer(const std::string& name)
 {
-	Player* player = new Player(/*name*/);
+	Player* player = new Player(name);
 	m_players.push_back(player);
 }
 

@@ -21,13 +21,14 @@ namespace skribbl
 		int8_t scoreGuessingPlayer();
 		int8_t scoreDrawingPlayer();
 		bool verifyGuess(const std::string& guess);
-		bool isTurnOver();
+		uint8_t avrageAnswerTime();
+		bool isTurnOver() const;
 
 	private:
 		Player* m_playerDrawing;
 		WordHandler* m_wordHandler;
 		// TO DO Timer m_timer;
-		uint8_t m_avrageAnswerTime;
+		std::vector<uint8_t> m_answerTimestamps;
 		const uint8_t k_maxScore = 100;
 	};
 }
