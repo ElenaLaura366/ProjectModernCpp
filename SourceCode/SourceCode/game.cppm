@@ -19,6 +19,7 @@ namespace skribbl
 		void start() override;
 		void stop() override;
 		void addPlayer(const std::string& name) override;
+		bool verifyGuess(const std::string& guess) override;
 		bool isRunning() const override;
 
 	private:

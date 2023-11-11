@@ -99,9 +99,14 @@ std::vector<Player*> Game::leaderboard()
 
 void Game::start()
 {
-	m_isRunning = true;
 	////this will implement all the processes that happen within a game
-	//m_turn = new Turn();
+	if (m_players.size() != 0)
+		m_turn = new Turn(m_players[0]);
+	else
+		return; // throws error;
+
+	//m_turn.start();
+
 	////smth like that, tho we don't know yet how to add more players and delete them when they enter the game
 	////ofc, it is related to networking so we have to wait
 	//Player* newPlayer = new Player();
@@ -110,6 +115,7 @@ void Game::start()
 	//for (Player* currentDrawer : m_players)
 	//	m_turn->reset(currentDrawer);
 	//// m_isRunning will become false after all 4 rounds end
+	m_isRunning = true;
 }
 
 void Game::stop()
@@ -121,6 +127,11 @@ void Game::addPlayer(const std::string& name)
 {
 	Player* player = new Player(/*name*/);
 	m_players.push_back(player);
+}
+
+bool Game::verifyGuess(const std::string& guess)
+{
+	return m_turn->verifyGuess(guess);
 }
 
 bool Game::isRunning() const

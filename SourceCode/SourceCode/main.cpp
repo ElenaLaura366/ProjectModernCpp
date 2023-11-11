@@ -14,8 +14,6 @@ int main() {
 	game->addPlayer("Ioana");
 	game->start();
 
-	Turn* currentTurn = new Turn();
-
 	//currentTurn->displaySentence()
 
 	while (game->isRunning())
@@ -29,7 +27,7 @@ int main() {
 		std::string word;
 		std::cin >> word;
 
-		if (currentTurn->verifyGuess(word))
+		if (game->verifyGuess(word))
 		{
 			std::cout << "\nYou win! Good job!\n";
 			game->stop();
@@ -46,8 +44,6 @@ int main() {
 		}
 		
 	}
-
-	delete currentTurn;
 
 	return 0;
 }
