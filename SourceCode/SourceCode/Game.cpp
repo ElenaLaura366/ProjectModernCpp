@@ -117,8 +117,9 @@ void Game::stop()
 	m_isRunning = false;
 }
 
-void Game::addPlayer(Player* player)
+void Game::addPlayer(const std::string& name)
 {
+	Player* player = new Player(/*name*/);
 	m_players.push_back(player);
 }
 

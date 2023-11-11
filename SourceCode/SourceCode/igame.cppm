@@ -17,7 +17,7 @@ namespace skribbl
 		virtual std::vector<Player* > leaderboard() = 0;
 		virtual void start() = 0;
 		virtual void stop() = 0;
-		virtual void addPlayer(Player* player) = 0;
+		virtual void addPlayer(const std::string& name) = 0;
 		virtual bool isRunning() const = 0;
 	};
 }

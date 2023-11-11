@@ -1,7 +1,6 @@
 import <iostream>;
 import <format>;
 import igame;
-import game;
 
 using namespace skribbl;
 
@@ -11,13 +10,11 @@ int main() {
 	
 	int16_t contor = 10;
 
-	Player* Ioana = new Player;
-
-	IGame* game = new Game;
-	game->addPlayer(Ioana);
+	IGamePtr game = IGame::Factory();
+	game->addPlayer("Ioana");
 	game->start();
 
-	Turn* currentTurn = new Turn(Ioana);
+	Turn* currentTurn = new Turn();
 
 	//currentTurn->displaySentence()
 
@@ -51,7 +48,6 @@ int main() {
 	}
 
 	delete currentTurn;
-	delete game; //game destructor will delete all players, no need for 'delete player;'
 
 	return 0;
 }
