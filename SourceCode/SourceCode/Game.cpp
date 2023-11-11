@@ -1,4 +1,5 @@
 import game;
+using skribbl::IGame;
 using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
@@ -24,6 +25,11 @@ Game::Game(const Game& otherGame)
 	m_players = otherGame.m_players;
 	m_turn = otherGame.m_turn;
 	m_isRunning = otherGame.m_isRunning;
+}
+
+std::shared_ptr<IGame> IGame::Factory()
+{
+	return std::make_shared<Game>();
 }
 
 Game& Game::operator=(const Game& otherGame)
