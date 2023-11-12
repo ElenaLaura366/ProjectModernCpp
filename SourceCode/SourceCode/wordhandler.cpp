@@ -5,7 +5,7 @@ void WordHandler::readFromFile()
 {
 	std::ifstream m_fin(m_fileName);
 	if (!m_fin.is_open()) {
-		std::exception("File with unable to be oppened");
+		throw std::exception("File was unable to be oppened");
 	}
 	std::string word;
 	while (m_fin >> word)
@@ -56,28 +56,28 @@ bool WordHandler::availableLetters()
 	return (m_availableChars.size() > 0);
 }
 
-std::string skribbl::WordHandler::getWordPattern() const 
-{	
-	if (m_currentWord.size() == 0) {
-		return "";
-	}
-	std::string pattern(2*m_currentWord.size(), '_');
-	for(int i = 1; i < pattern.size(); i+=2)
-		pattern[i] = ' ';
-	return pattern;
-}
+//std::vector<int> skribbl::WordHandler::getWordPattern() const 
+//{	
+//	if (m_currentWord.size() == 0) {
+//		return "";
+//	}
+//	std::string pattern(2*m_currentWord.size(), '_');
+//	for(int i = 1; i < pattern.size(); i+=2)
+//		pattern[i] = ' ';
+//	return pattern;
+//}
 
-std::string skribbl::WordHandler::getHint() 
+std::vector<std::pair<int, char>> skribbl::WordHandler::getHint() 
 {
 	if (m_currentWord.size() == 0) {
-		return "";
+		return {};
 	}
 	
-	std::string pattern = getWordPattern();
+	std::vector<std::pair<int, char>> m_hint;
 	for (int i = 0; i < m_currentWord.size()/2; i++) {
 		uint8_t index = getLetter();
-		pattern[2 * index] = m_currentWord[index];
+		m_hint.push_back({index, m_currentWord[index]});
 	}
 
-	return  std::format("English Word with {} letters: {}", m_currentWord.size(), pattern);
+	return m_hint;
 }
