@@ -2,6 +2,8 @@ import <iostream>;
 import <format>;
 import igame;
 
+#include "Login.h"
+
 using namespace skribbl;
 
 std::string getWordPattern(int size) {
@@ -21,6 +23,18 @@ int main() {
 	//This is only for one turn
 	//We get a sentence that describes a word and we should guess it, max 10 mistakes
 	//
+	auto storage = sql::make_storage("database.sqlite",
+		skribbl::Login::getTableDefinition());
+	storage.sync_schema();
+
+	std::string username, password;
+	std::cin >> username >> password;
+
+	skribbl::Login login1(username, password);
+	storage.replace(login1);
+
+	std::cout<<"Username: "<<login1.getUsername()<<"\n";
+
 	int16_t contor = 10;
 
 	IGamePtr game = IGame::Factory();
