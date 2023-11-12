@@ -63,7 +63,7 @@ Game::Game(Game&& otherGame) noexcept
 	m_turn = otherGame.m_turn;
 	otherGame.m_turn = nullptr;
 	m_state = otherGame.m_state;
-	otherGame.m_state = GAME::STATE::GAME_OVER;
+	otherGame.m_state = Game::STATE::GAME_OVER;
 }
 
 Game& Game::operator=(Game&& otherGame) noexcept
@@ -82,7 +82,7 @@ Game& Game::operator=(Game&& otherGame) noexcept
 		m_turn = otherGame.m_turn;
 		otherGame.m_turn = nullptr;
 		m_state = otherGame.m_state;
-		otherGame.m_state = GAME::STATE::GAME_OVER;
+		otherGame.m_state = Game::STATE::GAME_OVER;
 	}
 	return *this;
 }

@@ -6,13 +6,11 @@ import igame;
 
 using namespace skribbl;
 
-//shouldn't this function be in wordhandler? 
 std::string getWordPattern(int size) {
 	std::string pattern(size, '_');
 	return pattern;
 }
 
-//this too
 std::string getHint(int size, const std::vector<std::pair<int, char>> hints) {
 	std::string pattern(size, '_');
 	for (auto& el : hints) {
