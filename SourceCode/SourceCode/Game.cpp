@@ -4,7 +4,7 @@ using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
 
-Game::Game() : m_isRunning(false), m_turn(nullptr)
+Game::Game() : m_isRunning(false), m_turn(nullptr), m_state(Game::STATE::MENU)
 {
 }
 
@@ -25,6 +25,7 @@ Game::Game(const Game& otherGame)
 	m_players = otherGame.m_players;
 	m_turn = otherGame.m_turn;
 	m_isRunning = otherGame.m_isRunning;
+	m_state = otherGame.m_state;
 }
 
 std::shared_ptr<IGame> IGame::Factory()
@@ -43,6 +44,7 @@ Game& Game::operator=(const Game& otherGame)
 		m_players = otherGame.m_players;
 		m_turn = otherGame.m_turn;
 		m_isRunning = otherGame.m_isRunning;
+		m_state = otherGame.m_state;
 	}
 	return *this;
 }
@@ -60,6 +62,8 @@ Game::Game(Game&& otherGame) noexcept
 	otherGame.m_players.clear();
 	m_turn = otherGame.m_turn;
 	otherGame.m_turn = nullptr;
+	m_state = otherGame.m_state;
+	otherGame.m_state = GAME::STATE::GAME_OVER;
 }
 
 Game& Game::operator=(Game&& otherGame) noexcept
@@ -77,6 +81,8 @@ Game& Game::operator=(Game&& otherGame) noexcept
 		otherGame.m_players.clear();
 		m_turn = otherGame.m_turn;
 		otherGame.m_turn = nullptr;
+		m_state = otherGame.m_state;
+		otherGame.m_state = GAME::STATE::GAME_OVER;
 	}
 	return *this;
 }

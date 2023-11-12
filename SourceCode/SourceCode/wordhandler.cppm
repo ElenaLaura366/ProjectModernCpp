@@ -20,8 +20,8 @@ namespace skribbl
 		WordHandler(const std::string& fileName);
 		~WordHandler() = default; 
 		WordHandler(const WordHandler& wg)=delete; 
-		WordHandler& operator=(const WordHandler&)=delete; 
-		WordHandler(WordHandler&& wg)noexcept =default;  
+		WordHandler& operator=(const WordHandler&) = delete;
+		WordHandler(WordHandler&& wg)noexcept = default;
 		WordHandler& operator=(WordHandler&&)noexcept = default; 
 
 		void update();

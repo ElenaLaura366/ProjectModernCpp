@@ -5,8 +5,21 @@ export import igame;
 
 namespace skribbl
 {
+
 	export class Game : public IGame
 	{
+	public:
+		enum class STATE
+		{
+			MENU,
+			LOADING,
+			FIRST_ROUND,
+			SECOND_ROUND,
+			THIRD_ROUND,
+			FOURTH_ROUND,
+			GAME_OVER
+		};
+
 	public:
 		Game();
 		~Game();
@@ -25,6 +38,7 @@ namespace skribbl
 	private:
 		std::vector<Player* > m_players;
 		Turn* m_turn;
+		STATE m_state;
 		bool m_isRunning;
 	};
 }
