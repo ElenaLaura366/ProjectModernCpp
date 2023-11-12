@@ -10,6 +10,7 @@ namespace skribbl
 	{
 	public:
 		Player();
+		Player(Player* player);
 		Player(const std::string& username);
 		int16_t getScore() const;
 		std::string getName() const;

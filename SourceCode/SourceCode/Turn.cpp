@@ -8,12 +8,13 @@ import <numeric>;
 Turn::Turn()
 	: m_playerDrawing{ nullptr },
 	m_wordHandler{ nullptr }
-{}
+{
 
+}
 
 Turn::Turn(Player* const player)
-	: m_playerDrawing{ player }
 {
+	m_playerDrawing = new Player(player);
 	m_wordHandler = new WordHandler("wordsFile.txt");
 	// TO DO timer init
 }

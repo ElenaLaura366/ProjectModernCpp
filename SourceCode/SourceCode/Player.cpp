@@ -15,6 +15,14 @@ Player::Player(const std::string& username)
 	m_guessed(false)
 {}
 
+Player::Player(Player* player)
+{
+	m_guessed = player->getGuessed();
+	m_score = player->getScore();
+	m_isDrawing = player->getIsDrawing();
+	m_guessed = player->getGuessed();
+}
+
 int16_t Player::getScore() const
 {
 	return this->m_score;
