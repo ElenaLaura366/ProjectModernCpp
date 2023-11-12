@@ -13,6 +13,14 @@ namespace skribbl
 		std::string getPassword() const;
 		void setUsername(const std::string& username);
 		void setPassword(const std::string& password);
+
+		static auto getTableDefinition() {
+			return sql::make_table("Login",
+				sql::make_column("username", &Login::m_username, sql::primary_key()),
+				sql::make_column("password", &Login::m_password)
+			);
+		}
+
 	private:
 		std::string m_username;
 		std::string m_password;
