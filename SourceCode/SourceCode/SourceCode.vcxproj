@@ -154,6 +154,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
     <ClCompile Include="igame.cppm" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player.cppm" />
@@ -164,6 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="wordsFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Login.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
