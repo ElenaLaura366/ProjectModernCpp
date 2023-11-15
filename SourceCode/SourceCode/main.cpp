@@ -26,9 +26,12 @@ int main() {
 	auto storage = sql::make_storage("database.sqlite",
 		skribbl::Login::getTableDefinition());
 	storage.sync_schema();
-
 	std::string username, password;
-	std::cin >> username >> password;
+
+	std::cout<< "Username: ";
+	std::cin >> username;
+	std::cout<< "Password: ";
+	std::cin>> password;
 
 	skribbl::Login login1(username, password);
 	storage.replace(login1);

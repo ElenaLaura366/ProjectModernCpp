@@ -26,3 +26,18 @@ void skribbl::Login::setPassword(const std::string& password)
 {
 	this->m_password = password;
 }
+
+bool skribbl::Login::verifyParola(const std::string& password) const
+{
+	return this->m_password == password;
+}
+
+bool skribbl::Login::verifyUsername(const std::string& username) const
+{
+	return this->m_username == username;
+}
+
+bool skribbl::Login::verifyLogin(const std::string& username, const std::string& password) const
+{
+	return verifyParola(password) && verifyUsername(username);
+}
