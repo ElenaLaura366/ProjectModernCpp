@@ -20,9 +20,6 @@ std::string getHint(int size, const std::vector<std::pair<int, char>> hints) {
 }
 
 int main() {
-	//This is only for one turn
-	//We get a sentence that describes a word and we should guess it, max 10 mistakes
-	//
 
 	auto storage = sql::make_storage("database.sqlite",
 		skribbl::Login::getTableDefinition());
