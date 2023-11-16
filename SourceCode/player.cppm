@@ -18,7 +18,7 @@ namespace skribbl
 		bool getGuessed() const;
 		void setUsername(const std::string& username);
 		void setIsDrawing(bool isDrawing);
-		void setGuessed(bool guessed);
+		void setGuessed();
 		void setScore(int16_t score);
 	private:
 		std::string m_username;

@@ -4,7 +4,7 @@ using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
 
-Game::Game() : m_isRunning(false), m_turn(nullptr), m_state(Game::STATE::MENU)
+Game::Game() : m_turn(nullptr), m_state(Game::State::LOADING)
 {
 }
 
@@ -24,7 +24,6 @@ Game::Game(const Game& otherGame)
 
 	m_players = otherGame.m_players;
 	m_turn = otherGame.m_turn;
-	m_isRunning = otherGame.m_isRunning;
 	m_state = otherGame.m_state;
 }
 
@@ -43,7 +42,6 @@ Game& Game::operator=(const Game& otherGame)
 
 		m_players = otherGame.m_players;
 		m_turn = otherGame.m_turn;
-		m_isRunning = otherGame.m_isRunning;
 		m_state = otherGame.m_state;
 	}
 	return *this;
@@ -56,14 +54,12 @@ Game::Game(Game&& otherGame) noexcept
 	m_players.clear();
 	delete m_turn;
 
-	m_isRunning = otherGame.m_isRunning;
-	otherGame.m_isRunning = false;
 	m_players = otherGame.m_players;
 	otherGame.m_players.clear();
 	m_turn = otherGame.m_turn;
 	otherGame.m_turn = nullptr;
 	m_state = otherGame.m_state;
-	otherGame.m_state = Game::STATE::GAME_OVER;
+	otherGame.m_state = Game::State::GAME_OVER;
 }
 
 Game& Game::operator=(Game&& otherGame) noexcept
@@ -75,14 +71,12 @@ Game& Game::operator=(Game&& otherGame) noexcept
 		m_players.clear();
 		delete m_turn;
 
-		m_isRunning = otherGame.m_isRunning;
-		otherGame.m_isRunning = false;
 		m_players = otherGame.m_players;
 		otherGame.m_players.clear();
 		m_turn = otherGame.m_turn;
 		otherGame.m_turn = nullptr;
 		m_state = otherGame.m_state;
-		otherGame.m_state = Game::STATE::GAME_OVER;
+		otherGame.m_state = Game::State::GAME_OVER;
 	}
 	return *this;
 }
@@ -105,28 +99,22 @@ std::vector<Player*> Game::leaderboard()
 
 void Game::start()
 {
-	////this will implement all the processes that happen within a game
-	if (m_players.size() != 0)
-		m_turn = new Turn(m_players[0]);
-	else
-		return; // throws error;
+	Turn* turn = new Turn;
+	while (m_state != Game::State::GAME_OVER)
+	{
+		while (m_players.size() < 2)
+		{
+			// CROW_ROUTE to get player username from database and then addPlayer(username) or something like that
+		}
+		m_state = Game::State::FIRST_ROUND;
+		for (Player* player : m_players)
+			turn->reset(player);
 
-	//m_turn.start();
 
-	////smth like that, tho we don't know yet how to add more players and delete them when they enter the game
-	////ofc, it is related to networking so we have to wait
-	//Player* newPlayer = new Player();
-	//m_players.push_back(newPlayer);
-	////somehow we should add the players to the vector when they enter the game and remove them when they leave
-	//for (Player* currentDrawer : m_players)
-	//	m_turn->reset(currentDrawer);
-	//// m_isRunning will become false after all 4 rounds end
-	m_isRunning = true;
-}
-
-void Game::stop()
-{
-	m_isRunning = false;
+		if (m_players.size() == 0)
+			m_state = Game::State::GAME_OVER;
+	}
+	delete turn;
 }
 
 void Game::addPlayer(const std::string& name)
@@ -140,7 +128,3 @@ bool Game::verifyGuess(const std::string& guess)
 	return m_turn->verifyGuess(guess);
 }
 
-bool Game::isRunning() const
-{
-	return m_isRunning;
-}

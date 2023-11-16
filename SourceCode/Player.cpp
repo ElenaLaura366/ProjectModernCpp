@@ -53,9 +53,9 @@ void Player::setIsDrawing(bool isDrawing)
 	this->m_isDrawing = isDrawing;
 }
 
-void Player::setGuessed(bool guessed)
+void Player::setGuessed()
 {
-	this->m_guessed = guessed;
+	this->m_guessed = true;
 }
 
 void Player::setScore(int16_t score)

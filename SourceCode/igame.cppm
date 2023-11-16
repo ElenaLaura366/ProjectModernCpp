@@ -16,9 +16,7 @@ namespace skribbl
 		virtual ~IGame() = default;
 		virtual std::vector<Player* > leaderboard() = 0;
 		virtual void start() = 0;
-		virtual void stop() = 0;
 		virtual void addPlayer(const std::string& name) = 0;
 		virtual bool verifyGuess(const std::string& guess) = 0;
-		virtual bool isRunning() const = 0;
 	};
 }

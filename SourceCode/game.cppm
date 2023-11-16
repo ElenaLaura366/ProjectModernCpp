@@ -9,9 +9,8 @@ namespace skribbl
 	export class Game : public IGame
 	{
 	public:
-		enum class STATE
-		{
-			MENU,
+		enum class State
+		{	
 			LOADING,
 			FIRST_ROUND,
 			SECOND_ROUND,
@@ -30,15 +29,12 @@ namespace skribbl
 
 		std::vector<Player* > leaderboard() override;
 		void start() override;
-		void stop() override;
 		void addPlayer(const std::string& name) override;
 		bool verifyGuess(const std::string& guess) override;
-		bool isRunning() const override;
 
 	private:
 		std::vector<Player* > m_players;
 		Turn* m_turn;
-		STATE m_state;
-		bool m_isRunning;
+		State m_state;
 	};
 }
