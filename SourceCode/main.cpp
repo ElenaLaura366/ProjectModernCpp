@@ -20,22 +20,6 @@ std::string getHint(int size, const std::vector<std::pair<int, char>> hints) {
 }
 
 int main() {
-
-	auto storage = sql::make_storage("database.sqlite",
-		skribbl::Login::getTableDefinition());
-	storage.sync_schema();
-	std::string username, password;
-
-	std::cout<< "Username: ";
-	std::cin >> username;
-	std::cout<< "Password: ";
-	std::cin>> password;
-
-	skribbl::Login login1(username, password);
-	storage.replace(login1);
-
-	std::cout<<"Username: "<<login1.getUsername()<<"\n";
-
 	IGamePtr game = IGame::Factory();
 	
 	game->start();

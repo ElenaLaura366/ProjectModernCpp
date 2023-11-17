@@ -1,5 +1,6 @@
 #include "Register.h"
 
-skribbl::Register::Register()
+skribbl::Register::Register(UserTable& userTable)
+	: m_db{ userTable }
 {
 }

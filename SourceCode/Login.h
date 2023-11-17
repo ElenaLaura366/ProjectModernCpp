@@ -18,13 +18,6 @@ namespace skribbl
 		bool verifyUsername(const std::string& username) const;
 		bool verifyLogin(const std::string& username, const std::string& password) const;
 
-		static auto getTableDefinition() {
-			return sql::make_table("Login",
-				sql::make_column("username", &Login::m_username, sql::primary_key()),
-				sql::make_column("password", &Login::m_password)
-			);
-		}
-
 	private:
 		std::string m_username;
 		std::string m_password;
