@@ -1,25 +1,17 @@
 #pragma once
-#include <sqlite_orm/sqlite_orm.h>
-namespace sql = sqlite_orm;
+#include <string>
+#include <optional>
+#include "Register.h"
 
 namespace skribbl
 {
 	class Login
 	{
 	public:
-		Login();
-		Login(const std::string& username, const std::string& password);
-		std::string getUsername() const;
-		std::string getPassword() const;
-		void setUsername(const std::string& username);
-		void setPassword(const std::string& password);
-
-		bool verifyParola(const std::string& password) const;
-		bool verifyUsername(const std::string& username) const;
-		bool verifyLogin(const std::string& username, const std::string& password) const;
-
+		Login(UserTable& userTable);
+		//~Login();
+		std::optional<User> authenticateUser(const std::string& username, const std::string& password);
 	private:
-		std::string m_username;
-		std::string m_password;
+		UserTable& m_db;
 	};
 }
