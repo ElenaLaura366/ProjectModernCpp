@@ -2,7 +2,7 @@ import <iostream>;
 import <format>;
 import igame;
 
-#include "Login.h"
+#include "Register.h"
 
 using namespace skribbl;
 
@@ -20,6 +20,12 @@ std::string getHint(int size, const std::vector<std::pair<int, char>> hints) {
 }
 
 int main() {
+
+	const std::string db_file = "database.sqlite";
+	UserTable db = createUser(db_file);
+	db.sync_schema();
+
+
 	IGamePtr game = IGame::Factory();
 	
 	game->start();
