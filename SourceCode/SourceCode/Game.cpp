@@ -3,7 +3,6 @@ using skribbl::IGame;
 using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
-//#include <crow.h>
 
 Game::Game() : m_turn(nullptr), m_state(Game::State::LOADING)
 {
@@ -101,12 +100,7 @@ std::vector<Player*> Game::leaderboard()
 void Game::start()
 {
 	Turn* turn = new Turn; //new Turn(&m_players) we'll se in the future how to do this
-	
-	//this still have some cases when this is not a good option
-	while (m_players.size() < 2)
-	{
-		// CROW_ROUTE to get player username from database and then addPlayer(username) or something like that
-	}
+
 
 	m_state = Game::State::FIRST_ROUND;
 	
@@ -116,7 +110,7 @@ void Game::start()
 		for (Player* player : m_players)
 		{
 			turn->reset(player);
-			//game update,, verifica daca mai sunt playeri de au venit noi, ii adauga, si ii scoate din vector pe cei care au iesit deja
+			//sends leaderboard to GUI
 		}
 
 		switch (m_state)

@@ -1,3 +1,4 @@
+#include "crow.h"
 import <iostream>;
 import <format>;
 import igame;
@@ -25,10 +26,24 @@ int main() {
 	UserTable db = createUser(db_file);
 	db.sync_schema();
 
-
 	IGamePtr game = IGame::Factory();
 	
+	/*crow::SimpleApp app;
+
+	CROW_ROUTE(app, "/<string>").methods("PUT"_method)(
+		[&game](const std::string& name)
+		{
+			game->addPlayer(name);
+			return "Adaugat!";
+		}
+	);
+	
+	app.port(18080).multithreaded().run();*/
+
 	game->start();
+
+
+
 
 	// how to use new methods of wordHandler from main
 	// in order to implement the methods from main there should be defined in game class getWord() and probably a similar methos in turn too
