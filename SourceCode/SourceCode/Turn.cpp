@@ -1,4 +1,4 @@
-import turn;
+module turn;
 using skribbl::Turn;
 using skribbl::WordHandler;
 using skribbl::Player;
