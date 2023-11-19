@@ -53,6 +53,19 @@ void populateWords(WordsTable& storage) {
 	storage.insert_range(words.begin(), words.end());
 }
 
+std::optional<std::string> getWord(WordsTable& storage, int index) {
+	int wordCount = storage.count<Word>();
+
+	if (wordCount <= index) {
+		return std::nullopt; // Index is out of bounds.
+	}
+
+	auto word = storage.get<Word>(index);
+
+	return word.name;
+}
+
+
 int main() {
 
 	const std::string db_file = "database.sqlite";
@@ -61,6 +74,19 @@ int main() {
 	WordsTable dbw = createWord(db_filew);
 	db.sync_schema();
 	dbw.sync_schema();
+
+	auto count = dbw.count<Word>();
+	if (count == 0) {
+		populateWords(dbw);
+	}
+
+	std::optional<std::string> result = getWord(dbw, 1);
+	if (result.has_value()) {
+		std::cout << "Word: " << result.value() << std::endl;
+	}
+	else {
+		std::cout << "Word not found." << std::endl;
+	}
 
 
 	IGame::IGamePtr game = IGame::Factory();
@@ -85,7 +111,7 @@ int main() {
 	// how to use new methods of wordHandler from main
 	// in order to implement the methods from main there should be defined in game class getWord() and probably a similar methos in turn too
 	//WordHandler wh("wordsFile.txt");
-	//
+	
 	//std::cout << getWordPattern(wh.getWord().length()) << "\n";
 	//std::cout << getHint(wh.getWord().length(), wh.getHint());
 

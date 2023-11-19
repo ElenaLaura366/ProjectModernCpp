@@ -18,6 +18,7 @@ namespace skribbl
 		uint8_t getLetter(); // it will return one char
 
 	public:
+		WordHandler();
 		WordHandler(const std::string& fileName);
 		~WordHandler() = default; 
 		WordHandler(const WordHandler& wg)=delete; 
