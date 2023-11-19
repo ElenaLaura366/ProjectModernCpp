@@ -63,7 +63,7 @@ int main() {
 	dbw.sync_schema();
 
 
-	IGamePtr game = IGame::Factory();
+	IGame::IGamePtr game = IGame::Factory();
 	
 	/*crow::SimpleApp app;
 

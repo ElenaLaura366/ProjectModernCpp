@@ -18,7 +18,7 @@ int WordHandler::randomIndex(int size) const
 	return (rand() % (size));
 }
 
-WordHandler::WordHandler(const std::string& fileName) : m_fileName(fileName)
+WordHandler::WordHandler(const std::string& fileName) : m_fileName{ fileName }
 {
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	srand(seed); // de facut pentru time(0)

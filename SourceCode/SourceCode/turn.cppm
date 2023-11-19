@@ -9,13 +9,19 @@ namespace skribbl
 	export class Turn
 	{
 	public:
+		static const uint8_t kMaxScore = 100;
+
+	public:
 		Turn();
 		Turn(Player* const player);
-		Turn(const Turn& other);
-		Turn& operator=(const Turn& other);
+		Turn(const Turn& other) = delete;
+		Turn& operator=(const Turn& other) = delete;
 		Turn(Turn&& other) noexcept;
 		Turn& operator=(Turn&& other) noexcept;
 		~Turn();
+
+		void setPlayerDrawing(Player* const player);
+		void setAllGuessed(bool value);
 
 		void reset(Player* player);
 		int8_t scoreGuessingPlayer();
@@ -29,6 +35,6 @@ namespace skribbl
 		WordHandler* m_wordHandler;
 		// TO DO Timer m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
-		const uint8_t k_maxScore = 100;
+		bool m_allGuessed;
 	};
 }

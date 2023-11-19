@@ -4,7 +4,9 @@ using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
 
-Game::Game() : m_turn(nullptr), m_state(Game::State::LOADING)
+Game::Game() 
+	: m_turn{ nullptr }, 
+	m_state{ Game::State::LOADING }
 {
 }
 
@@ -27,7 +29,7 @@ Game::Game(const Game& otherGame)
 	m_state = otherGame.m_state;
 }
 
-std::shared_ptr<IGame> IGame::Factory()
+IGame::IGamePtr IGame::Factory()
 {
 	return std::make_shared<Game>();
 }

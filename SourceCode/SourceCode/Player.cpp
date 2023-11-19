@@ -2,15 +2,15 @@ import player;
 using skribbl::Player;
 
 Player::Player()
-	:m_username("-"),
-	m_score(0),
-	m_guessed(false)
+	:m_username{ "-" },
+	m_score{ 0 },
+	m_guessed{ false }
 {}
 
 Player::Player(const std::string& username)
-	:m_username(std::move(username)),
-	m_score(0),
-	m_guessed(false)
+	:m_username{ std::move(username) },
+	m_score{ 0 },
+	m_guessed{ false }
 {}
 
 Player::Player(Player* player)

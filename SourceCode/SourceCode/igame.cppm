@@ -7,10 +7,12 @@ export import <memory>;
 
 namespace skribbl
 {
-	export using IGamePtr = std::shared_ptr<class IGame>;
 
 	export class IGame
 	{
+	public:
+		using IGamePtr = std::shared_ptr<class IGame>;
+
 	public:
 		static IGamePtr Factory();
 		virtual ~IGame() = default;

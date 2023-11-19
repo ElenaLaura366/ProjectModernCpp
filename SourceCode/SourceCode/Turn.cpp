@@ -19,28 +19,28 @@ Turn::Turn(Player* const player)
 	// TO DO timer init
 }
 
-Turn::Turn(const Turn& other)
-{
-	delete m_playerDrawing;
-	delete m_wordHandler;
-
-	m_playerDrawing = other.m_playerDrawing;
-	m_wordHandler = other.m_wordHandler;
-	m_answerTimestamps = other.m_answerTimestamps;
-}
-
-Turn& Turn::operator=(const Turn& other)
-{
-	if (this != &other)
-	{
-		delete m_playerDrawing;
-		delete m_wordHandler;
-		m_playerDrawing = other.m_playerDrawing;
-		m_wordHandler = other.m_wordHandler;
-		m_answerTimestamps = other.m_answerTimestamps;
-	}
-	return *this;
-}
+//Turn::Turn(const Turn& other)
+//{
+//	delete m_playerDrawing;
+//	delete m_wordHandler;
+//
+//	m_playerDrawing = other.m_playerDrawing;
+//	m_wordHandler = other.m_wordHandler;
+//	m_answerTimestamps = other.m_answerTimestamps;
+//}
+//
+//Turn& Turn::operator=(const Turn& other)
+//{
+//	if (this != &other)
+//	{
+//		delete m_playerDrawing;
+//		delete m_wordHandler;
+//		m_playerDrawing = other.m_playerDrawing;
+//		m_wordHandler = other.m_wordHandler;
+//		m_answerTimestamps = other.m_answerTimestamps;
+//	}
+//	return *this;
+//}
 
 Turn::Turn(Turn&& other) noexcept
 	: m_playerDrawing{ other.m_playerDrawing },
@@ -75,6 +75,16 @@ Turn::~Turn()
 	delete m_wordHandler;
 }
 
+void Turn::setPlayerDrawing(Player* const player)
+{
+	m_playerDrawing = new Player(player);
+}
+
+void Turn::setAllGuessed(bool value)
+{
+	m_allGuessed = value;
+}
+
 void Turn::reset(Player* player)
 {
 	m_playerDrawing = player;
@@ -85,7 +95,7 @@ void Turn::reset(Player* player)
 int8_t Turn::scoreGuessingPlayer()
 {
 	uint8_t time = 16; // get curent time from class Timer
-	return time < 30 ? k_maxScore : (60 - time) * 100 / 30;
+	return time < 30 ? kMaxScore : (60 - time) * 100 / 30;
 }
 
 uint8_t Turn::avrageAnswerTime()
@@ -101,7 +111,7 @@ int8_t Turn::scoreDrawingPlayer()
 		return (60 - avrageTime) * 100 / 30;
 	}
 	else
-		return (-1 * k_maxScore);
+		return (-1 * kMaxScore);
 }
 
 bool Turn::verifyGuess(const std::string& guess)
@@ -118,6 +128,5 @@ bool Turn::verifyGuess(const std::string& guess)
 
 bool Turn::isTurnOver() const
 {
-	// has time run out OR everyone guessed
-	return false;
+	return m_allGuessed /* OR time's up*/ ;
 }
