@@ -15,6 +15,10 @@ namespace skribbl
 
 	public:
 		Timer();
+
+		Timer(const Timer& other) = delete;
+		Timer& operator=(const Timer& other) = delete;
+
 		~Timer() = default;
 
 		void start();
@@ -22,15 +26,17 @@ namespace skribbl
 		void restart();
 		void stop();
 
-		uint8_t getTime() const;
+		uint8_t getElapsedTime() const;
 
 	private:
 		std::thread m_timerThread;
+		std::condition_variable m_condition;
+		std::mutex m_mutex;
 
 		std::atomic<bool> m_isRunning;
 		std::atomic<TimeConfig> m_duration;
+		std::atomic<TimeConfig> m_elapsedTime;
 
-		std::mutex m_mutex;
-		std::condition_variable m_condition;
+
 	};
 }
