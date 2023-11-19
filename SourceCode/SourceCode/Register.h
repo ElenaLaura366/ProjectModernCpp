@@ -24,6 +24,8 @@ inline auto createUser(const std::string& filename) {
 	);
 }
 
+
+
 using UserTable = decltype(createUser(""));
 
 namespace skribbl

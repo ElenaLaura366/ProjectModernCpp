@@ -7,6 +7,7 @@ export import <string>;
 import <chrono>;
 import <format>;
 
+
 namespace skribbl
 {
 	export class WordHandler
@@ -35,6 +36,6 @@ namespace skribbl
 		std::vector<std::string> m_words;
 		std::string m_currentWord;
 		std::string m_fileName;
-		std::vector<char> m_availableChars; 
+		std::vector<char> m_availableChars;  
 	};
 }
