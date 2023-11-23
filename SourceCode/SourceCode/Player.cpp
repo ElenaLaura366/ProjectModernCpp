@@ -13,11 +13,21 @@ Player::Player(const std::string& username)
 	m_guessed{ false }
 {}
 
-Player::Player(Player* player)
+Player::Player(const Player& player)
+	: m_username{ player.getName() },
+	m_score{ player.getScore() },
+	m_guessed{ player.getGuessed() }
+{}
+
+Player& skribbl::Player::operator=(const Player & other)
 {
-	m_guessed = player->getGuessed();
-	m_score = player->getScore();
-	m_guessed = player->getGuessed();
+	if (this != &other)
+	{
+		m_username = other.m_username;
+		m_score = other.m_score;
+		m_guessed = other.m_guessed;
+	}
+	return *this;
 }
 
 int16_t Player::getScore() const
