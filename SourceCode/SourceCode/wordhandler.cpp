@@ -1,4 +1,4 @@
-import wordhandler;
+module wordhandler;
 using skribbl::WordHandler;
 
 void WordHandler::readFromFile()

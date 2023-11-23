@@ -1,11 +1,15 @@
 #include <crow.h>
-import game;
+#include <cpr/cpr.h>
+module game;
 using skribbl::IGame;
 using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
 
-Game::Game() : m_state{ Game::State::LOADING }
+Game::Game() 
+	: m_turn{nullptr},
+	m_state{ Game::State::LOADING },
+	m_url{"http:/192.168.81.112/18080/"}
 {
 }
 
@@ -84,5 +88,22 @@ void Game::addPlayer(const std::string& name)
 bool Game::verifyGuess(const std::string& guess)
 {
 	return m_turn->verifyGuess(guess);
+}
+
+std::string Game::getUrl() const
+{
+	return m_url;
+}
+
+void skribbl::Game::setLobbyUrl(int lobbyCode)
+{
+	m_url += std::to_string(lobbyCode);
+}
+
+bool skribbl::Game::lobbyExists(int lobbyCode)
+{
+	if (std::find(m_lobbyCodes.begin(), m_lobbyCodes.end(), lobbyCode) == m_lobbyCodes.end())
+		return false;
+	return true;
 }
 

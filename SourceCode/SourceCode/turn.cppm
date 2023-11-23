@@ -1,8 +1,9 @@
 module;
 export module turn;
 
-export import player;
-export import wordhandler;
+import wordhandler;
+import player;
+import <vector>;
 
 namespace skribbl
 {

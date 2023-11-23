@@ -1,9 +1,9 @@
 module;
 export module wordhandler;
 
-export import <fstream>;
-export import <vector>;
-export import <string>;
+import <fstream>;
+import <vector>;
+import <string>;
 import <chrono>;
 import <format>;
 

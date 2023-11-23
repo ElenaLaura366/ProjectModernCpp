@@ -1,7 +1,13 @@
 module;
 export module game;
 
-export import igame;
+import igame;
+import player;
+import turn;
+export import <string>;
+export import <vector>;
+import <memory>;
+import <algorithm>;
 
 namespace skribbl
 {
@@ -31,10 +37,16 @@ namespace skribbl
 		void start() override;
 		void addPlayer(const std::string& name) override;
 		bool verifyGuess(const std::string& guess) override;
+		std::string getUrl() const;
+		void setLobbyUrl(int lobbyCode);
+		bool lobbyExists(int lobbyCode);
+
 
 	private:
 		std::vector<std::shared_ptr<Player>> m_players;
 		std::shared_ptr<Turn> m_turn;
 		State m_state;
+		std::string m_url;
+		std::vector<int> m_lobbyCodes;
 	};
 }
