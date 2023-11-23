@@ -11,7 +11,7 @@ bool skribbl::Register::checkUserExists(const std::string& username)
 	return !user.empty();
 }
 
-void skribbl::Register::createUser(const std::string& username, const std::string& password)
+void skribbl::Register::createNewUser(const std::string& username, const std::string& password)
 {
 	m_db.insert(User{ -1, username, password, 0 });
 }

@@ -35,7 +35,7 @@ namespace skribbl
 	public:
 		Register(UserTable& userTable);
 		bool checkUserExists(const std::string& username);
-		void createUser(const std::string& username, const std::string& password);
+		void createNewUser(const std::string& username, const std::string& password);
 	private:
 		UserTable& m_db;
 	};

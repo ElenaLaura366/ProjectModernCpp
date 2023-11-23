@@ -3,6 +3,7 @@ import <iostream>;
 import <format>;
 import igame;
 
+#include "Login.h"
 #include "Register.h"
 #include <sqlite_orm/sqlite_orm.h>
 
@@ -88,6 +89,50 @@ int main() {
 		std::cout << "Word not found." << std::endl;
 	}
 
+	int option;
+	std::cout<< "1. Register\n2. Login\n";
+	std::cin >> option;
+	while (option != 1 && option != 2) {
+		std::cout << "Invalid option!\n";
+		std::cin >> option;
+	}
+
+	if (option == 1)
+	{
+		std::cout<<"Username: ";
+		std::string username;
+		std::cin >> username;
+		std::cout<<"Password: ";
+		std::string password;
+		std::cin >> password;
+		Register reg(db);
+		if (reg.checkUserExists(username))
+		{
+			std::cout<<"User already exists!\n";
+		}
+		else
+		{
+			reg.createNewUser(username, password);
+			std::cout<<"User created!\n";
+		}
+	}
+	else {
+		std::cout << "Username: ";
+		std::string username;
+		std::cin >> username;
+		std::cout << "Password: ";
+		std::string password;
+		std::cin >> password;
+		Login log(db);
+		if (log.authenticateUser(username, password).has_value())
+		{
+			std::cout << "User authenticated!\n";
+		}
+		else
+		{
+			std::cout << "User not found!\n";
+		}
+	}
 
 	IGame::IGamePtr game = IGame::Factory();
 	

@@ -13,20 +13,6 @@ Player::Player(const std::string& username)
 	m_guessed{ false }
 {}
 
-Player::Player(std::shared_ptr<Player> player)
-{
-	if (player != nullptr) {
-		this->m_username = player->m_username;
-		this->m_score = player->m_score;
-		this->m_guessed = player->m_guessed;
-	}
-	else {
-		this->m_username = "-";
-		this->m_score = 0;
-		this->m_guessed = false;
-	}
-}
-
 Player::Player(const Player& player)
 	: m_username{ player.getName() },
 	m_score{ player.getScore() },

@@ -13,7 +13,6 @@ namespace skribbl
 	public:
 		Player();
 		Player(const std::string& username);
-		Player(std::shared_ptr<Player> player);
 		Player(const Player& player);
 		Player& operator=(const Player& other);
 		Player(Player&& player) noexcept = default;

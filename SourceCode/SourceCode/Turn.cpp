@@ -14,7 +14,7 @@ Turn::Turn()
 
 Turn::Turn(const std::shared_ptr<Player> player)
 {
-	m_playerDrawing = std::make_shared<Player>(player);
+	m_playerDrawing = player;
 	m_wordHandler = std::make_shared<WordHandler>("wordsFile.txt");
 	// TO DO timer init
 }
