@@ -11,17 +11,11 @@ namespace skribbl
 	public:
 		Player();
 		Player(const std::string& username);
+		Player(Player* player);
 		Player(const Player& player);
 		Player& operator=(const Player& other);
-		/*
-		
-		Piece(Body body, Color color, Height height, Shape shape);
-		Piece(const Piece& piece) = delete;
-		Piece& operator=(const Piece& other) = delete;
-		Piece(Piece&& piece) noexcept = default;
-		Piece& operator=(Piece&& piece) noexcept = default;
-		
-		*/
+		Player(Player&& player) noexcept = default;
+		Player& operator=(Player&& player) noexcept = default;
 
 		int16_t getScore() const;
 		std::string getName() const;
