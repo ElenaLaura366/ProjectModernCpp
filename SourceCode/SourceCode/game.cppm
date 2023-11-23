@@ -10,7 +10,7 @@ namespace skribbl
 	{
 	public:
 		enum class State
-		{	
+		{
 			LOADING,
 			FIRST_ROUND,
 			SECOND_ROUND,
@@ -21,20 +21,20 @@ namespace skribbl
 
 	public:
 		Game();
-		~Game();
-		Game(const Game& otherGame);
-		Game& operator=(const Game& otherGame);
-		Game(Game&& otherGame) noexcept;
-		Game& operator=(Game&& otherGame) noexcept;
+		~Game() = default;
+		Game(const Game& otherGame) = delete;
+		Game& operator=(const Game& otherGame) = delete;
+		Game(Game&& otherGame) noexcept = default;
+		Game& operator=(Game&& otherGame) noexcept = default;
 
-		std::vector<Player* > leaderboard() override;
+		std::vector<std::shared_ptr<Player>> leaderboard() override;
 		void start() override;
 		void addPlayer(const std::string& name) override;
 		bool verifyGuess(const std::string& guess) override;
 
 	private:
-		std::vector<Player* > m_players;
-		Turn* m_turn;
+		std::vector<std::shared_ptr<Player>> m_players;
+		std::shared_ptr<Turn> m_turn;
 		State m_state;
 	};
 }

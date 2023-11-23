@@ -13,7 +13,7 @@ Player::Player(const std::string& username)
 	m_guessed{ false }
 {}
 
-Player::Player(Player *player)
+Player::Player(std::shared_ptr<Player> player)
 {
 	if (player != nullptr) {
 		this->m_username = player->m_username;

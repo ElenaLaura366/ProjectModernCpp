@@ -3,6 +3,8 @@ export module player;
 
 export import <string>;
 export import <cstdint>;
+export import <memory>;
+
 
 namespace skribbl
 {
@@ -11,7 +13,7 @@ namespace skribbl
 	public:
 		Player();
 		Player(const std::string& username);
-		Player(Player* player);
+		Player(std::shared_ptr<Player> player);
 		Player(const Player& player);
 		Player& operator=(const Player& other);
 		Player(Player&& player) noexcept = default;

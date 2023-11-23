@@ -12,10 +12,10 @@ Turn::Turn()
 
 }
 
-Turn::Turn(Player* const player)
+Turn::Turn(const std::shared_ptr<Player> player)
 {
-	m_playerDrawing = new Player(player);
-	m_wordHandler = new WordHandler("wordsFile.txt");
+	m_playerDrawing = std::make_shared<Player>(player);
+	m_wordHandler = std::make_shared<WordHandler>("wordsFile.txt");
 	// TO DO timer init
 }
 
@@ -43,41 +43,26 @@ Turn::Turn(Player* const player)
 //}
 
 Turn::Turn(Turn&& other) noexcept
-	: m_playerDrawing{ other.m_playerDrawing },
-	m_wordHandler{ other.m_wordHandler },
-	m_answerTimestamps{other.m_answerTimestamps }
+	: m_playerDrawing{ std::move(other.m_playerDrawing) },
+	m_wordHandler{ std::move(other.m_wordHandler) },
+	m_answerTimestamps{ std::move(other.m_answerTimestamps) }
 {
-	other.m_playerDrawing = nullptr;
-	other.m_wordHandler = nullptr;
-	other.m_answerTimestamps.clear();
 }
 
 Turn& Turn::operator=(Turn&& other) noexcept
 {
 	if (this != &other)
 	{
-		delete m_playerDrawing;
-		delete m_wordHandler;
-
-		m_playerDrawing = other.m_playerDrawing;
-		other.m_playerDrawing = nullptr;
-		m_wordHandler = other.m_wordHandler;
-		other.m_wordHandler = nullptr;
-		m_answerTimestamps = other.m_answerTimestamps;
-		other.m_answerTimestamps.clear();
+		m_playerDrawing = std::move(other.m_playerDrawing);
+		m_wordHandler = std::move(other.m_wordHandler);
+		m_answerTimestamps = std::move(other.m_answerTimestamps);
 	}
 	return *this;
 }
 
-Turn::~Turn()
+void Turn::setPlayerDrawing(const std::shared_ptr<Player> player)
 {
-	delete m_playerDrawing;
-	delete m_wordHandler;
-}
-
-void Turn::setPlayerDrawing(Player* const player)
-{
-	m_playerDrawing = new Player(player);
+	m_playerDrawing = player;
 }
 
 void Turn::setAllGuessed(bool value)
@@ -85,7 +70,7 @@ void Turn::setAllGuessed(bool value)
 	m_allGuessed = value;
 }
 
-void Turn::reset(Player* player)
+void Turn::reset(std::shared_ptr<Player> player)
 {
 	m_playerDrawing = player;
 	m_wordHandler->update();
@@ -128,5 +113,5 @@ bool Turn::verifyGuess(const std::string& guess)
 
 bool Turn::isTurnOver() const
 {
-	return m_allGuessed /* OR time's up*/ ;
+	return m_allGuessed /* OR time's up*/;
 }
