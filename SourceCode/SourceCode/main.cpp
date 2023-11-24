@@ -136,18 +136,6 @@ int main() {
 
 	IGame::IGamePtr game = IGame::Factory();
 	
-	/*crow::SimpleApp app;
-
-	CROW_ROUTE(app, "/<string>").methods("PUT"_method)(
-		[&game](const std::string& name)
-		{
-			game->addPlayer(name);
-			return "Adaugat!";
-		}
-	);
-	
-	app.port(18080).multithreaded().run();*/
-
 	game->start();
 
 

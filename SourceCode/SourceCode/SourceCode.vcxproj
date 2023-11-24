@@ -187,6 +187,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player.cppm" />
     <ClCompile Include="Register.cpp" />
+    <ClCompile Include="Routing.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="timer.cppm" />
     <ClCompile Include="turn.cpp" />
@@ -200,6 +201,7 @@
   <ItemGroup>
     <ClInclude Include="Login.h" />
     <ClInclude Include="Register.h" />
+    <ClInclude Include="Routing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
