@@ -15,6 +15,11 @@ Timer::Timer()
 	// empty
 }
 
+Timer::~Timer()
+{
+	stop();
+}
+
 void Timer::start()
 {
 	if (m_isRunning)
@@ -28,7 +33,7 @@ void Timer::start()
 			{
 				time_point<steady_clock> startLock = steady_clock::now();
 				std::unique_lock<std::mutex> lock(m_mutex);
-				m_condition.wait_for(lock, kRefreshingRate, [&] {return !m_isRunning; });
+				m_condition.wait_for(lock, kRefreshingRate, [&] {return !m_isRunning || m_isPaused; });
 				time_point<steady_clock> endLock = steady_clock::now();
 
 				if (!m_isRunning)
@@ -38,6 +43,15 @@ void Timer::start()
 				}
 			}
 		});
+}
+
+void Timer::pause()
+{
+	if (m_isRunning && !m_isPaused)
+	{
+		m_isPaused = true;
+		m_condition.notify_all();
+	}
 }
 
 void skribbl::Timer::restart()
@@ -59,4 +73,9 @@ void Timer::stop()
 uint8_t Timer::getElapsedTime() const
 {
 	return m_elapsedTime.load().count();
+}
+
+bool Timer::isTimeUp() const
+{
+	return m_elapsedTime.load().count() >= m_duration.load().count();
 }
