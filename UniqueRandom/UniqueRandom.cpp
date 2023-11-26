@@ -1,11 +1,10 @@
 #include "UniqueRandom.h"
 
 
-UniqueRandom::UniqueRandom(int number)
+UniqueRandom::UniqueRandom(unsigned number)
 {
-	if(number > 0)
-		m_dist = std::uniform_int_distribution<int>(0, number-1);
-	number = 0;
+	m_dist = std::uniform_int_distribution<int>(0, number-1);
+	reset();
 }
 
 void UniqueRandom::reset()

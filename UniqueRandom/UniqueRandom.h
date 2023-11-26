@@ -5,11 +5,11 @@
 class __declspec(dllexport) UniqueRandom
 {
 public:
-	UniqueRandom(int number);
+	UniqueRandom(unsigned number);
 	size_t getValue() const noexcept;
-	void reset();
 
 private:
+	void reset();
 	std::random_device m_rand;
 	std::uniform_int_distribution<int> m_dist;
 	std::set<size_t> m_usedNumber;

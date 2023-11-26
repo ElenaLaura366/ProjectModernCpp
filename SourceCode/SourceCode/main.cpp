@@ -9,7 +9,6 @@ import igame;
 #include <sqlite_orm/sqlite_orm.h>
 #include "../../UniqueRandom/UniqueRandom.h"
 
-
 using namespace skribbl;
 
 std::string getWordPattern(int size) {
@@ -69,29 +68,31 @@ std::optional<std::string> getWord(WordsTable& storage, int index) {
 	return word.name;
 }
 
-
-int main() {
-
-	const std::string db_file = "database.sqlite";
+void openWordDatabase() {
 	const std::string db_filew = "database-words.sqlite";
-	UserTable db = createUser(db_file);
 	WordsTable dbw = createWord(db_filew);
-	db.sync_schema();
 	dbw.sync_schema();
-
 	auto count = dbw.count<Word>();
 	if (count == 0) {
 		populateWords(dbw);
 	}
-
 	std::optional<std::string> result = getWord(dbw, 1);
+
 	if (result.has_value()) {
 		std::cout << "Word: " << result.value() << std::endl;
 	}
 	else {
 		std::cout << "Word not found." << std::endl;
 	}
+}
 
+int main() {
+
+	openWordDatabase();
+
+	const std::string db_file = "database.sqlite";
+	UserTable db = createUser(db_file);
+	db.sync_schema();
 	int option;
 	std::cout<< "1. Register\n2. Login\n";
 	std::cin >> option;
