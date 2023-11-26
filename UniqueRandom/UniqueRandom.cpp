@@ -4,3 +4,8 @@
 UniqueRandom::UniqueRandom() {
 	// empty
 }
+
+int UniqueRandom::getValue()
+{
+	return 0;
+}
