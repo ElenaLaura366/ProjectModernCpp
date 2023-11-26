@@ -17,7 +17,8 @@ void skribbl::Routing::run()
 	CROW_ROUTE(m_app, "/login")(
 		[/*get's database for users*/]()
 		{
-
+			int a = 0;
+			return a;
 
 		}
 		);
