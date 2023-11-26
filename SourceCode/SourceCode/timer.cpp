@@ -2,15 +2,13 @@ module timer;
 
 using namespace skribbl;
 
-using namespace std::chrono;
-using namespace std::chrono_literals;
-
 static const milliseconds kRefreshingRate{ 10 };
+static const seconds kDuration{ 60 };
 
 Timer::Timer()
 	: m_isRunning{ false },
-	m_duration{ 60s },
-	m_elapsedTime{0s}
+	m_duration{ kDuration },
+	m_elapsedTime{ 0s }
 {
 	// empty
 }
@@ -36,11 +34,15 @@ void Timer::start()
 				m_condition.wait_for(lock, kRefreshingRate, [&] {return !m_isRunning || m_isPaused; });
 				time_point<steady_clock> endLock = steady_clock::now();
 
-				if (!m_isRunning)
+				if (isTimeUp() & !m_isPaused)
 				{
-					milliseconds timePassed = duration_cast<milliseconds>(endLock - startLock);
-					m_elapsedTime.store(m_elapsedTime.load() + timePassed);
+					m_isPaused = true;
+					m_condition.notify_one();
+					// notify game of end turn;
 				}
+
+				milliseconds timePassed = duration_cast<milliseconds>(endLock - startLock);
+				m_elapsedTime.store(m_elapsedTime.load() + timePassed);
 			}
 		});
 }
@@ -54,9 +56,11 @@ void Timer::pause()
 	}
 }
 
-void skribbl::Timer::restart()
+void Timer::restart()
 {
 	m_elapsedTime.store(0s);
+	m_isPaused = false;
+	m_condition.notify_all();
 }
 
 void Timer::stop()
@@ -70,9 +74,14 @@ void Timer::stop()
 		m_timerThread.join();
 }
 
-uint8_t Timer::getElapsedTime() const
+milliseconds Timer::getElapsedTime() const
 {
-	return m_elapsedTime.load().count();
+	return m_elapsedTime.load();
+}
+
+milliseconds Timer::getRemainingTime() const
+{
+	return m_duration.load() - m_elapsedTime.load();
 }
 
 bool Timer::isTimeUp() const

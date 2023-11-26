@@ -6,12 +6,15 @@ import <chrono>;
 import <atomic>;
 import <mutex>;
 
+using namespace std::chrono;
+using namespace std::chrono_literals;
+
 namespace skribbl
 {
 	export class Timer
 	{
 	public:
-		using TimeConfig = std::chrono::milliseconds;
+		using TimeConfig = milliseconds;
 
 	public:
 		Timer();
@@ -26,7 +29,8 @@ namespace skribbl
 		void restart();
 		void stop();
 
-		uint8_t getElapsedTime() const;
+		milliseconds getElapsedTime() const;
+		milliseconds getRemainingTime() const;
 
 		bool isTimeUp() const;
 
