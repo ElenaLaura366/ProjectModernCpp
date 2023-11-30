@@ -4,6 +4,7 @@ import <format>;
 import igame;
 
 
+#include "Routing.h"
 #include "Login.h"
 #include "Register.h"
 #include <sqlite_orm/sqlite_orm.h>
@@ -140,8 +141,8 @@ int main() {
 
 	IGame::IGamePtr game = IGame::Factory();
 	
-	game->start();
-
+	Routing r;
+	r.run(game);
 
 
 

@@ -1,4 +1,3 @@
-#include <crow.h>
 module turn;
 using skribbl::Turn;
 using skribbl::WordHandler;
@@ -20,28 +19,6 @@ Turn::Turn(const std::shared_ptr<Player> player)
 	// TO DO timer init
 }
 
-//Turn::Turn(const Turn& other)
-//{
-//	delete m_playerDrawing;
-//	delete m_wordHandler;
-//
-//	m_playerDrawing = other.m_playerDrawing;
-//	m_wordHandler = other.m_wordHandler;
-//	m_answerTimestamps = other.m_answerTimestamps;
-//}
-//
-//Turn& Turn::operator=(const Turn& other)
-//{
-//	if (this != &other)
-//	{
-//		delete m_playerDrawing;
-//		delete m_wordHandler;
-//		m_playerDrawing = other.m_playerDrawing;
-//		m_wordHandler = other.m_wordHandler;
-//		m_answerTimestamps = other.m_answerTimestamps;
-//	}
-//	return *this;
-//}
 
 Turn::Turn(Turn&& other) noexcept
 	: m_playerDrawing{ std::move(other.m_playerDrawing) },

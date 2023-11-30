@@ -4,8 +4,8 @@ export module game;
 import igame;
 import player;
 import turn;
-export import <string>;
-export import <vector>;
+import <string>;
+import <vector>;
 import <memory>;
 import <algorithm>;
 

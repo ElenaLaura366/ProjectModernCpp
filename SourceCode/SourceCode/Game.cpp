@@ -46,7 +46,6 @@ void Game::start()
 		for (std::shared_ptr<Player> player : m_players)
 		{
 			m_turn->reset(player);
-			//sends leaderboard to GUI
 		}
 
 		switch (m_state)
