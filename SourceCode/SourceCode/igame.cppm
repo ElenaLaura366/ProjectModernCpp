@@ -21,6 +21,7 @@ namespace skribbl
 		virtual void start() = 0;
 		virtual void addPlayer(const std::string& name) = 0;
 		virtual bool verifyGuess(const std::string& guess) = 0;
-		virtual void setLobbyUrl(int lobbyCode) = 0;
+		virtual void setLobbyUrl(uint16_t lobbyCode) = 0;
+		virtual std::string getUrl() const = 0;
 	};
 }

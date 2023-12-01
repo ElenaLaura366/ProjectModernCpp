@@ -1,6 +1,7 @@
 #pragma once
 #include <crow.h>
 import igame;
+import <vector>;
 
 namespace skribbl
 {

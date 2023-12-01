@@ -9,7 +9,7 @@ using skribbl::Turn;
 Game::Game() 
 	: m_turn{nullptr},
 	m_state{ Game::State::LOADING },
-	m_url{"http:/192.168.81.112/18080/"}
+	m_url{"/"}
 {
 }
 
@@ -94,15 +94,7 @@ std::string Game::getUrl() const
 	return m_url;
 }
 
-void skribbl::Game::setLobbyUrl(int lobbyCode)
+void skribbl::Game::setLobbyUrl(uint16_t lobbyCode)
 {
 	m_url += std::to_string(lobbyCode);
 }
-
-bool skribbl::Game::lobbyExists(int lobbyCode)
-{
-	if (std::find(m_lobbyCodes.begin(), m_lobbyCodes.end(), lobbyCode) == m_lobbyCodes.end())
-		return false;
-	return true;
-}
-

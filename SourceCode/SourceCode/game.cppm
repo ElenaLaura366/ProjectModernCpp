@@ -38,15 +38,13 @@ namespace skribbl
 		void addPlayer(const std::string& name) override;
 		bool verifyGuess(const std::string& guess) override;
 		std::string getUrl() const;
-		void setLobbyUrl(int lobbyCode);
-		bool lobbyExists(int lobbyCode);
-
+		void setLobbyUrl(uint16_t lobbyCode);
 
 	private:
 		std::vector<std::shared_ptr<Player>> m_players;
 		std::shared_ptr<Turn> m_turn;
 		State m_state;
 		std::string m_url;
-		std::vector<int> m_lobbyCodes;
+		uint16_t m_lobbyCode;
 	};
 }
