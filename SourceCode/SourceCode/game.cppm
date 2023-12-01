@@ -39,6 +39,7 @@ namespace skribbl
 		bool verifyGuess(const std::string& guess) override;
 		std::string getUrl() const;
 		void setLobbyUrl(uint16_t lobbyCode);
+		uint16_t getLobbyCode() const;
 
 	private:
 		std::vector<std::shared_ptr<Player>> m_players;

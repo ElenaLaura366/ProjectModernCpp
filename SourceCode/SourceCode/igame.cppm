@@ -23,5 +23,6 @@ namespace skribbl
 		virtual bool verifyGuess(const std::string& guess) = 0;
 		virtual void setLobbyUrl(uint16_t lobbyCode) = 0;
 		virtual std::string getUrl() const = 0;
+		virtual uint16_t getLobbyCode() const = 0;
 	};
 }

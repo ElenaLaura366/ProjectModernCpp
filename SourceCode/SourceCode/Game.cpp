@@ -98,3 +98,8 @@ void skribbl::Game::setLobbyUrl(uint16_t lobbyCode)
 {
 	m_url += std::to_string(lobbyCode);
 }
+
+uint16_t skribbl::Game::getLobbyCode() const
+{
+	return m_lobbyCode;
+}

@@ -8,7 +8,6 @@ import igame;
 #include "Login.h"
 #include "Register.h"
 #include <sqlite_orm/sqlite_orm.h>
-#include "../../UniqueRandom/UniqueRandom.h"
 
 using namespace skribbl;
 
@@ -138,11 +137,9 @@ int main() {
 			std::cout << "User not found!\n";
 		}
 	}
-
-	IGame::IGamePtr game = IGame::Factory();
 	
 	Routing r;
-	r.run(game);
+	r.run();
 
 
 
