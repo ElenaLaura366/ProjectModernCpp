@@ -8,6 +8,7 @@ import <chrono>;
 import <format>;
 import <memory>;
 
+#include "Database.h";
 
 namespace skribbl
 {
@@ -24,7 +25,7 @@ namespace skribbl
 		WordHandler(const WordHandler& wg)=delete; 
 		WordHandler& operator=(const WordHandler&) = delete;
 		WordHandler(WordHandler&& wg)noexcept = default;
-		WordHandler& operator=(WordHandler&&)noexcept = default; 
+		WordHandler& operator=(WordHandler&&)noexcept = default;
 
 		void update();
 		std::string getWord() const;
