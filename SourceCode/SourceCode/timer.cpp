@@ -1,4 +1,4 @@
-module timer;
+/*module timer;
 
 using namespace skribbl;
 
@@ -88,3 +88,4 @@ bool Timer::isTimeUp() const
 {
 	return m_elapsedTime.load().count() >= m_duration.load().count();
 }
+*/

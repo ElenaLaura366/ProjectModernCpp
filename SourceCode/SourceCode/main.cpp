@@ -26,25 +26,6 @@ std::string getHint(int size, const std::vector<std::pair<int, char>> hints) {
 
 // We'll where we'll put the following code
 
-
-struct Word {
-	int id;
-	std::string name;
-};
-
-inline auto createWord(const std::string& filename) {
-	return sql::make_storage(
-		filename,
-		sql::make_table(
-			"Words",
-			sql::make_column("id", &Word::id, sql::primary_key().autoincrement()),
-			sql::make_column("word", &Word::name)
-		)
-	);
-}
-
-using WordsTable = decltype(createWord(""));
-
 void populateWords(WordsTable& storage) {
 	std::vector<Word> words{
 		{-1, "elephant"},
@@ -91,7 +72,7 @@ int main() {
 	WordHandler wh("wordsFile.txt");
 
 	std::cout << getWordPattern(wh.getWord().length()) << "\n";
-	std::cout << getHint(wh.getWord().length(), wh.getHint());
+	//std::cout << getHint(wh.getWord().length(), wh.getHint());
 
 	openWordDatabase();
 

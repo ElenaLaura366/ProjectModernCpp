@@ -43,7 +43,7 @@ std::string WordHandler::getWord() const
 }
 
 
-
+/*
 std::vector<std::pair<int, char>> skribbl::WordHandler::getHint() 
 {
 	if (m_currentWord.size() == 0) {
@@ -60,3 +60,4 @@ std::vector<std::pair<int, char>> skribbl::WordHandler::getHint()
 
 	return m_hint;
 }
+*/

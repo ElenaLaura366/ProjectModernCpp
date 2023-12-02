@@ -1,4 +1,4 @@
-#include "UniqueRandom.h"
+/*#include "UniqueRandom.h"
 
 
 UniqueRandom::UniqueRandom(int number) : m_rand(),  m_dist(0, static_cast<int>(number)-1)
@@ -23,7 +23,7 @@ int UniqueRandom::getValue()
 	int current = m_currentValue;
 	reset();
 	return current;
-}
+}*/
 
 //size_t UniqueRandom::generateUniqueNumber()
 //{
