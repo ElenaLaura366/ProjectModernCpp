@@ -35,7 +35,13 @@ inline auto createDatabase(const std::string& filename)
 	);
 }
 
+using Storage = decltype(createDatabase(""));
+
 class Database
 {
+public:
+	Database(Storage& db);
+private:
+	Storage& m_db;
 };
 

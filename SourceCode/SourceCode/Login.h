@@ -1,17 +1,17 @@
 #pragma once
 #include <string>
 #include <optional>
-#include "Register.h"
+#include "Database.h"
 
 namespace skribbl
 {
 	class Login
 	{
 	public:
-		Login(UserTable& userTable);
+		Login(Storage& login);
 		//~Login();
 		std::optional<User> authenticateUser(const std::string& username, const std::string& password);
 	private:
-		UserTable& m_db;
+		Storage& m_db;
 	};
 }

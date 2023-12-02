@@ -1,7 +1,7 @@
 #include "Login.h"
 
-skribbl::Login::Login(UserTable& userTable) 
-	: m_db{ userTable }
+skribbl::Login::Login(Storage& login)
+	: m_db{ login }
 {}
 
 std::optional<User> skribbl::Login::authenticateUser(const std::string& username, const std::string& password)

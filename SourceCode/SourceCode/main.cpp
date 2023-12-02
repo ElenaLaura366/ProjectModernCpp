@@ -26,7 +26,7 @@ std::string getHint(int size, const std::vector<std::pair<int, char>> hints) {
 
 // We'll where we'll put the following code
 
-void populateWords(WordsTable& storage) {
+/*void populateWords(WordsTable& storage) {
 	std::vector<Word> words{
 		{-1, "elephant"},
 		{-1, "apple"},
@@ -65,19 +65,16 @@ void openWordDatabase() {
 	else {
 		std::cout << "Word not found." << std::endl;
 	}
-}
+}*/
 
 int main() {
 
-	WordHandler wh("wordsFile.txt");
+	//WordHandler wh("wordsFile.txt");
 
-	std::cout << getWordPattern(wh.getWord().length()) << "\n";
+	//std::cout << getWordPattern(wh.getWord().length()) << "\n";
 	//std::cout << getHint(wh.getWord().length(), wh.getHint());
-
-	openWordDatabase();
-
 	const std::string db_file = "database.sqlite";
-	UserTable db = createUser(db_file);
+	Storage db = createDatabase(db_file);
 	db.sync_schema();
 	int option;
 	std::cout<< "1. Register\n2. Login\n";

@@ -1,9 +1,8 @@
 #include "Register.h"
 
-skribbl::Register::Register(UserTable& userTable)
-	: m_db{ userTable }
-{
-}
+skribbl::Register::Register(Storage& registerTable)
+	: m_db{ registerTable }
+{}
 
 bool skribbl::Register::checkUserExists(const std::string& username)
 {
