@@ -2,7 +2,7 @@
 import <iostream>;
 import <format>;
 import igame;
-
+import wordhandler;
 
 #include "Routing.h"
 #include "Login.h"
@@ -88,6 +88,11 @@ void openWordDatabase() {
 
 int main() {
 
+	WordHandler wh("wordsFile.txt");
+
+	std::cout << getWordPattern(wh.getWord().length()) << "\n";
+	std::cout << getHint(wh.getWord().length(), wh.getHint());
+
 	openWordDatabase();
 
 	const std::string db_file = "database.sqlite";
@@ -145,10 +150,7 @@ int main() {
 
 	// how to use new methods of wordHandler from main
 	// in order to implement the methods from main there should be defined in game class getWord() and probably a similar methos in turn too
-	//WordHandler wh("wordsFile.txt");
-	
-	//std::cout << getWordPattern(wh.getWord().length()) << "\n";
-	//std::cout << getHint(wh.getWord().length(), wh.getHint());
+
 
 	return 0;
 }
