@@ -1,12 +1,21 @@
 #pragma once
+#ifndef GAMEPAGE_H
+#define GAMEPAGE_H
 
 #include <QWidget>
 
-class GamePage  : public QWidget
+namespace Ui {
+    class GamePage;
+}
+
+class GamePage : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	GamePage(QWidget *parent);
-	~GamePage();
+    explicit GamePage(QWidget* parent = nullptr);
+    ~GamePage();
+
 };
+
+#endif
