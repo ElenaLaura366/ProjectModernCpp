@@ -8,8 +8,6 @@ import <chrono>;
 import <format>;
 import <memory>;
 
-#include "Database.h";
-
 namespace skribbl
 {
 	export class WordHandler
