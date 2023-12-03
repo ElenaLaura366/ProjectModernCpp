@@ -3,6 +3,7 @@
 #define LOGINPAGE_H
 
 #include <QWidget>
+#include <QPainter>
 
 
 class LoginPage  : public QWidget
@@ -12,6 +13,7 @@ class LoginPage  : public QWidget
 public:
 	LoginPage(QWidget *parent = nullptr);
 	~LoginPage();
+	void paintEvent(QPaintEvent* event);
 
 signals:
 	void loginSuccessful();
