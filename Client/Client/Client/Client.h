@@ -5,7 +5,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QStackedWidget>
 #include "ui_Client.h"
-#include "loginpage.h"
+#include "LoginPage.h"
 #include "gamepage.h"
 
 

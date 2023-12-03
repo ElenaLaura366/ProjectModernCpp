@@ -1,20 +1,17 @@
-﻿#include "LoginPage.h"
+#include "LoginPage.h"
 
 LoginPage::LoginPage(QWidget *parent)
-	: QWidget{ parent }
+	: QWidget(parent)
+	, ui(new Ui::LoginPageClass())
+	, m_windowState(WindowState::LOGIN)
 {
-	this->setStyleSheet("background-color: red;");
-	this->show();
+	ui->setupUi(this);
+	//connect(ui->btnLogin, &QPushButton::clicked, this, &LoginPage::changeToLogin);
+	//connect(ui->btnRegister, &QPushButton::clicked, this, &LoginPage::changeToRegister);
 }
 
 LoginPage::~LoginPage()
 {
+	delete ui;
 }
 
-void LoginPage::paintEvent(QPaintEvent* event)
-{
-	QPainter painter(this);
-	painter.fillRect(rect(), Qt::red); // Umple widget-ul cu culoarea roșie
-
-	QWidget::paintEvent(event); // Ap
-}
