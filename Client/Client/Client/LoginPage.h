@@ -33,6 +33,6 @@ signals:
 private:
 	Ui::LoginPageClass* ui;
 	WindowState m_windowState;
-
+	void cleanTextFields();
 
 };
