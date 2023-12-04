@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>230</y>
+     <y>200</y>
      <width>101</width>
      <height>20</height>
     </rect>
@@ -52,7 +52,7 @@
     <string>Password</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="btnProceed">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -79,7 +79,7 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>230</y>
+     <y>200</y>
      <width>113</width>
      <height>21</height>
     </rect>
@@ -102,13 +102,36 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>90</y>
-     <width>171</width>
-     <height>16</height>
+     <y>80</y>
+     <width>371</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>Login in order to play</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_3">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>260</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>260</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Retype password</string>
    </property>
   </widget>
  </widget>

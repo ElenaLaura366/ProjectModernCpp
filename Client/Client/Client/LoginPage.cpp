@@ -18,6 +18,7 @@ LoginPage::~LoginPage()
 void LoginPage::changeToLogin()
 {
 	m_windowState = WindowState::LOGIN;
+
 }
 
 void LoginPage::changeToRegister()
@@ -25,3 +26,14 @@ void LoginPage::changeToRegister()
 	m_windowState = WindowState::REGISTER;
 }
 
+void LoginPage::paintEvent(QPaintEvent* event){
+	if (m_windowState == WindowState::LOGIN) {
+		ui->title->setText("Please Login in order to enter the game");
+		ui->btnProceed->setText("LOGIN");
+		// de adaugat linia
+	}
+	else {
+		ui->title->setText("Please Register in order to enter the game");
+		ui->btnProceed->setText("REGISTER");
+	}
+}
