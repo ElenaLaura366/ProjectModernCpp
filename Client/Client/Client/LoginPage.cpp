@@ -8,6 +8,7 @@ LoginPage::LoginPage(QWidget *parent)
 	ui->setupUi(this);
 	connect(ui->btnLogin, &QPushButton::clicked, this, &LoginPage::changeToLogin);
 	connect(ui->btnRegister, &QPushButton::clicked, this, &LoginPage::changeToRegister);
+	connect(ui->btnProceed, &QPushButton::clicked, this, &LoginPage::proceed);
 	ui->lineEdit_2->setEchoMode(QLineEdit::Password);
 	ui->lineEdit_3->setEchoMode(QLineEdit::Password);
 }
@@ -53,4 +54,8 @@ void LoginPage::cleanTextFields() {
 	ui->lineEdit->setText("");
 	ui->lineEdit_2->setText("");
 	ui->lineEdit_3->setText("");
+}
+
+void LoginPage::proceed() {
+	emit loginSuccessful();
 }

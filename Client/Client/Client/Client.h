@@ -6,7 +6,8 @@
 #include <QStackedWidget>
 #include "ui_Client.h"
 #include "LoginPage.h"
-#include "gamepage.h"
+#include "GamePage.h"
+#include "LobbyPage.h"
 
 
 class Client : public QMainWindow
@@ -20,12 +21,20 @@ public:
 private slots:
     void changeToLoginPage();
     void changeToGamePage();
+    void changeToLobbyPage();
+
+private:
+    bool validInput();
 
 private:
     Ui::ClientClass* ui;
     QStackedWidget* stackedWidget;
     LoginPage* loginPage;
     GamePage* gamePage;
+    LobbyPage* lobbyPage;
+
+signals:
+    void loginButtonClicked();
 };
 
 #endif

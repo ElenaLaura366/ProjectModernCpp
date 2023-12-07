@@ -40,23 +40,35 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LoginPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="GamePage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LoginPage.cpp">
+    <ClCompile Include="LobbyPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="LoginPage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="GamePage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="LoginPage.h">
+    <QtMoc Include="LobbyPage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="LoginPage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="GamePage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="LobbyPage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

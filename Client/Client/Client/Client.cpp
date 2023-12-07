@@ -12,11 +12,15 @@ Client::Client(QWidget *parent)
 
     loginPage = new LoginPage(this);
     gamePage = new GamePage(this);
+    lobbyPage = new LobbyPage(this);
 
     stackedWidget->addWidget(loginPage);
     stackedWidget->addWidget(gamePage);
+    stackedWidget->addWidget(lobbyPage);
     
     setCentralWidget(stackedWidget);
+    
+    connect(loginPage, &LoginPage::loginSuccessful, this, &Client::changeToLobbyPage);
 
     //connect(ui->btnLoginPage, &QPushButton::clicked, this, &Client::changeToLoginPage);
     //connect(ui->btnGamePage, &QPushButton::clicked, this, &Client::changeToGamePage);
@@ -33,4 +37,13 @@ void Client::changeToLoginPage() {
 
 void Client::changeToGamePage() {
     stackedWidget->setCurrentWidget(gamePage);
+}
+
+void Client::changeToLobbyPage()
+{
+    stackedWidget->setCurrentWidget(lobbyPage);
+}
+
+bool Client::validInput() {
+    return true;
 }

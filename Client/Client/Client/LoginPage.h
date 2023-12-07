@@ -26,6 +26,7 @@ protected:
 private slots:
 	void changeToLogin();
 	void changeToRegister();
+	void proceed();
 
 signals:
 	void loginSuccessful();
