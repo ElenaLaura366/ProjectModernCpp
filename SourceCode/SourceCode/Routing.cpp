@@ -4,6 +4,67 @@ using namespace skribbl;
 void skribbl::Routing::run()
 {
 	/*
+	-----------------------------------------------------------------------------------------------------------------
+	
+										-> HTTP RESPONSE STATUS CODES <-
+	
+		~This comment is provided for a better understanding of the standard/custom responses that the code uses~
+
+		~For the sake of easier reading, the template will look something like:~ 
+		Type of response:
+			[response status code]
+			*A small description.
+
+		_none_ is used for no code
+
+
+		Information: 
+		
+			_none_
+
+		Successful:
+		
+			200
+			*Ok. The request succeeded.
+			
+			201
+			*Created. The request succeded and a new resorce was created.
+
+		Redirection messages:
+
+			_none_
+
+		Client error:
+
+			404
+			*Not Found. The server cannot find the requested resource.
+
+			409
+			*Conflict. Request conflicts with the current state of the server. 
+			*(ex: a lobby is full)
+
+		Server error:
+
+			503:
+			*Service Unavailable. The server is not ready to handle the request.
+			*(ex: server full; maximum number of games that can hold is reached)
+
+		Custom:
+
+			_none_
+
+		
+		~For more you can go to: 
+		https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#browser_compatibility 
+		https://http.dev/status
+		~
+
+	-----------------------------------------------------------------------------------------------------------------
+	*/
+
+
+
+	/*
 	we need route for login/register
 	-route for creating the url for the game with game lobby code
 	-route for chat getting the words from users
@@ -23,67 +84,61 @@ void skribbl::Routing::run()
 		}
 		);
 
-	std::vector<uint16_t> lobbyCodes;
-	std::vector<IGame::IGamePtr> games;
+	std::unordered_map<uint16_t, IGame::IGamePtr> games; //the lobby code is the key and the game is the value;
 
 	CROW_ROUTE(m_app, "/create_lobby")(
-		[&games, &lobbyCodes](const crow::request& req)
+		[&games](const crow::request& req)
 		{
+			if (games.size() == (kMaxLobbyCode - kMinLobbyCode))
+				return crow::response(503, "Server full!");
+
 			std::random_device rd;
 			std::mt19937 eng(rd());
 			std::uniform_int_distribution<uint32_t> distr(kMinLobbyCode, kMaxLobbyCode);
 
 			uint16_t lobbyCode = distr(eng);
-			while (std::find(lobbyCodes.begin(), lobbyCodes.end(), lobbyCode) != lobbyCodes.end())
+			while (games.find(lobbyCode) != games.end())
 				lobbyCode = distr(eng);
 
-			IGame::IGamePtr game = IGame::Factory();
-			game->setLobbyUrl(lobbyCode);
-			lobbyCodes.push_back(lobbyCode);
-			games.push_back(game);
+			games[lobbyCode] = IGame::Factory();
 
 			crow::json::rvalue json = crow::json::load(req.body);
-			std::string playerName = json["playerName"].s(); //here i get the name from the json
-			game->addPlayer(playerName);
+			std::string playerName = json["playerName"].s();
+			games[lobbyCode]->addPlayer(playerName);
 
-			return crow::response(200);
+			return crow::response(201);
 		}
 		);
 
 	CROW_ROUTE(m_app, "/join_lobby")(
-		[&games, &lobbyCodes](const crow::request& req)
+		[&games](const crow::request& req)
 		{
 			crow::json::rvalue json = crow::json::load(req.body);
 			uint16_t lobbyCode = json["lobbyCode"].u();
 
-
-			auto lobbyit = std::find(lobbyCodes.begin(), lobbyCodes.end(), lobbyCode);
-			if (lobbyit == lobbyCodes.end())
-				return crow::response(400, "Lobby not found!");
+			if (games.find(lobbyCode) == games.end())
+				return crow::response(404, "Lobby not found!");
 
 			std::string playerName = json["playerName"].s();
-			games[std::distance(lobbyCodes.begin(), lobbyit)]->addPlayer(playerName);
-
-			return crow::response(200);
+			if (games[lobbyCode]->addPlayer(playerName))
+				return crow::response(201);
+			else
+				return crow::response(409, "Lobby full!");
 		}
 		);
 
 	CROW_ROUTE(m_app, "/start")(
-		[&games, &lobbyCodes](const crow::request& req)
+		[&games](const crow::request& req)
 		{
 			/* when you press the start button the game will start*/
 			crow::json::rvalue json = crow::json::load(req.body);
 			uint16_t lobbyCode = json["lobbyCode"].u();
 
-			auto lobbyit = std::find(lobbyCodes.begin(), lobbyCodes.end(), lobbyCode);
-			games[std::distance(lobbyCodes.begin(), lobbyit)]->start();
+			games[lobbyCode]->start();
 
 			return crow::response(200);
 		}
 		);
-
-
-
 
 	m_app.port(18080).multithreaded().run();
 }

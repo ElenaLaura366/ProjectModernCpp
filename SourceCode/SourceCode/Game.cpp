@@ -8,14 +8,13 @@ using skribbl::Turn;
 
 Game::Game() 
 	: m_turn{nullptr},
-	m_state{ Game::State::LOADING },
-	m_url{"/"}
+	m_state{ Game::State::WAITING }
 {
 }
 
 IGame::IGamePtr IGame::Factory()
 {
-	return std::make_shared<Game>();
+	return std::make_unique<Game>();
 }
 
 class CompareByScore
@@ -27,11 +26,11 @@ public:
 	}
 };
 
-std::vector < std::shared_ptr<Player>> Game::leaderboard()
+std::vector<std::shared_ptr<Player>> Game::leaderboard()
 {
-	std::vector < std::shared_ptr<Player>> leaderboard = m_players;
+	std::vector<std::shared_ptr<Player>> leaderboard = m_players;
 	std::sort(leaderboard.begin(), leaderboard.end(), CompareByScore());
-	return leaderboard;
+	return std::move(leaderboard);
 }
 
 void Game::start()
@@ -77,29 +76,36 @@ void Game::start()
 	}
 }
 
-void Game::addPlayer(const std::string& name)
+bool Game::addPlayer(const std::string& name)
 {
-	std::shared_ptr<Player> player = std::make_shared<Player>(name);
-
-	m_players.push_back(player);
+	if (m_players.size() < kMaxPlayersNumber)
+	{
+		m_players.push_back(std::make_shared<Player>(name));
+		return true;
+	}
+	return false;
 }
 
-bool Game::verifyGuess(const std::string& guess)
+std::string Game::getState() const
 {
-	return m_turn->verifyGuess(guess);
-}
+	switch (m_state)
+	{
+	case Game::State::WAITING:
+		return "Waiting";
 
-std::string Game::getUrl() const
-{
-	return m_url;
-}
+	case Game::State::FIRST_ROUND:
+		return "First Round";
 
-void skribbl::Game::setLobbyUrl(uint16_t lobbyCode)
-{
-	m_url += std::to_string(lobbyCode);
-}
+	case Game::State::SECOND_ROUND:
+		return "Second Round";
 
-uint16_t skribbl::Game::getLobbyCode() const
-{
-	return m_lobbyCode;
+	case Game::State::THIRD_ROUND:
+		return "Third Round";
+
+	case Game::State::FOURTH_ROUND:
+		return "Fourth Round";
+
+	case Game::State::GAME_OVER:
+		return "Game Over";
+	}
 }

@@ -1,6 +1,6 @@
 module wordhandler;
 using skribbl::WordHandler;
-#include "..\..\UniqueRandom\UniqueRandom.h";
+#include "..\..\UniqueRandom\UniqueRandom.h"
 
 void WordHandler::readFromFile()
 {
