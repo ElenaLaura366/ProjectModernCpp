@@ -17,9 +17,11 @@ public:
 
 private slots:
 	void changeToLoginPage();
+	void changeToGamePage();
 
 signals:
 	void goToLoginPage();
+	void goToGamePage();
 
 private:
 	Ui::LobbyClass *ui;

@@ -13,48 +13,77 @@
   <property name="windowTitle">
    <string>GamePage</string>
   </property>
-  <widget class="QScrollArea" name="chatScrollArea">
+  <widget class="QFrame" name="frameChat">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>80</y>
-     <width>161</width>
-     <height>161</height>
+     <x>30</x>
+     <y>60</y>
+     <width>211</width>
+     <height>231</height>
     </rect>
    </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
    </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QScrollArea" name="chatScrollArea">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>159</width>
-      <height>159</height>
+      <x>10</x>
+      <y>20</y>
+      <width>161</width>
+      <height>161</height>
      </rect>
     </property>
-    <widget class="QTextEdit" name="chatDisplay">
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>141</width>
-       <height>141</height>
+       <x>0</x>
+       <y>0</y>
+       <width>159</width>
+       <height>159</height>
       </rect>
      </property>
+     <widget class="QListWidget" name="answerList">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>161</width>
+        <height>161</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
-  </widget>
-  <widget class="QLineEdit" name="chatInput">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>250</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
+   <widget class="QLineEdit" name="chatInput">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sendAnswer">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>190</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>send</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

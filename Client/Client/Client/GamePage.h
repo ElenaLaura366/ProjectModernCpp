@@ -15,6 +15,11 @@ public:
 	GamePage(QWidget *parent = nullptr);
 	~GamePage();
 
+	void keyPressEvent(QKeyEvent* event);
+
+	void SendAnswer();
+	void UpdateChat(const QString& username, const QString& answer);
+
 private:
 	Ui::GamePageClass *ui;
 };

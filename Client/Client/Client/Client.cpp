@@ -22,6 +22,7 @@ Client::Client(QWidget *parent)
     
     connect(loginPage, &LoginPage::loginSuccessful, this, &Client::changeToLobbyPage);
     connect(lobbyPage, &LobbyPage::goToLoginPage, this, &Client::changeToLoginPage);
+    connect(lobbyPage, &LobbyPage::goToGamePage, this, &Client::changeToGamePage);
 
     //connect(ui->btnLoginPage, &QPushButton::clicked, this, &Client::changeToLoginPage);
     //connect(ui->btnGamePage, &QPushButton::clicked, this, &Client::changeToGamePage);
