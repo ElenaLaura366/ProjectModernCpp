@@ -26,7 +26,7 @@
     <string>Register</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="labelUserame">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -39,7 +39,7 @@
     <string>Username</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="labelPsw">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -65,7 +65,7 @@
     <string>PushButton</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="inputUsername">
    <property name="geometry">
     <rect>
      <x>330</x>
@@ -81,7 +81,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="inputPsw">
    <property name="geometry">
     <rect>
      <x>330</x>
@@ -117,7 +117,7 @@
     <string>Login in order to play</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLineEdit" name="inputPswConf">
    <property name="geometry">
     <rect>
      <x>330</x>
@@ -130,7 +130,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="labelPswConf">
    <property name="geometry">
     <rect>
      <x>170</x>

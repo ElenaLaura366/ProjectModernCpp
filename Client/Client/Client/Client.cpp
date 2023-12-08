@@ -3,48 +3,42 @@
 #include <QPushButton>
 
 Client::Client(QWidget *parent)
-    : QMainWindow(parent), 
-    ui(new Ui::ClientClass)
+    : QMainWindow{ parent },
+    ui{ new Ui::ClientClass }
 {
     ui->setupUi(this);
 
-    stackedWidget = ui->centralWidget->findChild<QStackedWidget*>("stackedWidget");
+    m_stackedWidget = ui->centralWidget->findChild<QStackedWidget*>("stackedWidget");
 
-    loginPage = new LoginPage(this);
-    gamePage = new GamePage(this);
-    lobbyPage = new LobbyPage(this);
+    m_loginPage = new LoginPage(this);
+    m_gamePage = new GamePage(this);
+    m_lobbyPage = new LobbyPage(this);
 
-    stackedWidget->addWidget(gamePage);
-    stackedWidget->addWidget(lobbyPage);
-    stackedWidget->addWidget(loginPage);
+    m_stackedWidget->addWidget(m_gamePage);
+    m_stackedWidget->addWidget(m_lobbyPage);
+    m_stackedWidget->addWidget(m_loginPage);
     
-    setCentralWidget(stackedWidget);
+    setCentralWidget(m_stackedWidget);
     
-    connect(loginPage, &LoginPage::loginSuccessful, this, &Client::changeToLobbyPage);
-    connect(lobbyPage, &LobbyPage::goToLoginPage, this, &Client::changeToLoginPage);
-    connect(lobbyPage, &LobbyPage::goToGamePage, this, &Client::changeToGamePage);
+    connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
+    connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
+    connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
 
-    //connect(ui->btnLoginPage, &QPushButton::clicked, this, &Client::changeToLoginPage);
-    //connect(ui->btnGamePage, &QPushButton::clicked, this, &Client::changeToGamePage);
-
-    changeToLoginPage();
+    ChangeToLoginPage();
 }
 
-Client::~Client()
-{}
-
-void Client::changeToLoginPage() {
-    stackedWidget->setCurrentWidget(loginPage);
+void Client::ChangeToLoginPage() {
+    m_stackedWidget->setCurrentWidget(m_loginPage);
 }
 
-void Client::changeToGamePage() {
-    stackedWidget->setCurrentWidget(gamePage);
+void Client::ChangeToGamePage() {
+    m_stackedWidget->setCurrentWidget(m_gamePage);
 }
 
-void Client::changeToLobbyPage(){
-    stackedWidget->setCurrentWidget(lobbyPage);
+void Client::ChangeToLobbyPage(){
+    m_stackedWidget->setCurrentWidget(m_lobbyPage);
 }
 
-bool Client::validInput() {
+bool Client::ValidInput() {
     return true;
 }

@@ -16,8 +16,8 @@ public:
 	~LobbyPage();
 
 private slots:
-	void changeToLoginPage();
-	void changeToGamePage();
+	void ChangeToLoginPage();
+	void ChangeToGamePage();
 
 signals:
 	void goToLoginPage();

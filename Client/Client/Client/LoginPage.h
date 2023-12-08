@@ -23,10 +23,13 @@ public:
 protected:     
 	void paintEvent(QPaintEvent* event) override;
 
+private:
+	void cleanTextFields();
+
 private slots:
-	void changeToLogin();
-	void changeToRegister();
-	void proceed();
+	void ChangeToLogin();
+	void ChangeToRegister();
+	void Proceed();
 
 signals:
 	void loginSuccessful();
@@ -34,5 +37,4 @@ signals:
 private:
 	Ui::LoginPageClass* ui;
 	WindowState m_windowState;
-	void cleanTextFields();
 };

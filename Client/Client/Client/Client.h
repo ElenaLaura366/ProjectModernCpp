@@ -16,22 +16,22 @@ class Client : public QMainWindow
 
 public:
     Client(QWidget *parent = nullptr);
-    ~Client();
+    ~Client() = default;
 
 private slots:
-    void changeToLoginPage();
-    void changeToGamePage();
-    void changeToLobbyPage();
+    void ChangeToLoginPage();
+    void ChangeToGamePage();
+    void ChangeToLobbyPage();
 
 private:
-    bool validInput();
+    bool ValidInput();
 
 private:
     Ui::ClientClass* ui;
-    QStackedWidget* stackedWidget;
-    LoginPage* loginPage;
-    GamePage* gamePage;
-    LobbyPage* lobbyPage;
+    QStackedWidget* m_stackedWidget;
+    LoginPage* m_loginPage;
+    GamePage* m_gamePage;
+    LobbyPage* m_lobbyPage;
 
 signals:
     void loginButtonClicked();

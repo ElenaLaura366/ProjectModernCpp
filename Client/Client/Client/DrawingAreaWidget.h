@@ -8,15 +8,17 @@ class DrawingAreaWidget : public QWidget {
 
 public:
     DrawingAreaWidget(QWidget* parent = nullptr);
+    void UndoLastLine();
 
-protected:
+private:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
 
 private:
-    QVector<QPoint> points;
-    bool isMousePressed;
+    QVector<QVector<QPoint>> m_drawing;
+    QVector<QPoint> m_line;
+    bool m_isMousePressed;
 };
 

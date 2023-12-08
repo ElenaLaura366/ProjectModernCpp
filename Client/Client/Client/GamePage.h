@@ -15,12 +15,15 @@ public:
 	GamePage(QWidget *parent = nullptr);
 	~GamePage();
 
-	void keyPressEvent(QKeyEvent* event);
-	void mouseEvent(QMouseEvent* event);
+	void KeyPressEvent(QKeyEvent* event);
 
 	void SendAnswer();
 	void UpdateChat(const QString& username, const QString& answer);
 
 private:
+	void OnUndoBtnClicked();
+
+private:
 	Ui::GamePageClass *ui;
+	DrawingAreaWidget* m_drawingArea;
 };

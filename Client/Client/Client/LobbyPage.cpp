@@ -1,14 +1,14 @@
 #include "LobbyPage.h"
 
 LobbyPage::LobbyPage(QWidget *parent)
-	: QWidget(parent)
-	, ui(new Ui::LobbyClass())
+	: QWidget{ parent }
+	, ui{ new Ui::LobbyClass() }
 {
 	ui->setupUi(this);
 
-	connect(ui->logoutBtn, &QPushButton::clicked, this, &LobbyPage::changeToLoginPage);
-	connect(ui->createLobbyBtn, &QPushButton::clicked, this, &LobbyPage::changeToGamePage);
-	connect(ui->joinLobbyBtn, &QPushButton::clicked, this, &LobbyPage::changeToGamePage);
+	connect(ui->logoutBtn, &QPushButton::clicked, this, &LobbyPage::ChangeToLoginPage);
+	connect(ui->createLobbyBtn, &QPushButton::clicked, this, &LobbyPage::ChangeToGamePage);
+	connect(ui->joinLobbyBtn, &QPushButton::clicked, this, &LobbyPage::ChangeToGamePage);
 
 }
 
@@ -17,12 +17,12 @@ LobbyPage::~LobbyPage()
 	delete ui;
 }
 
-void LobbyPage::changeToGamePage()
+void LobbyPage::ChangeToGamePage()
 {
 	emit goToGamePage();
 }
 
-void LobbyPage::changeToLoginPage()
+void LobbyPage::ChangeToLoginPage()
 {
 	emit goToLoginPage();
 }
