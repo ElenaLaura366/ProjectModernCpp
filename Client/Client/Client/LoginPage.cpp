@@ -24,6 +24,7 @@ void LoginPage::changeToLogin()
 		cleanTextFields();
 	}
 	m_windowState = WindowState::LOGIN;
+	update();
 }
 
 void LoginPage::changeToRegister()
@@ -32,6 +33,7 @@ void LoginPage::changeToRegister()
 		cleanTextFields();
 	}
 	m_windowState = WindowState::REGISTER;
+	update();
 }
 
 void LoginPage::paintEvent(QPaintEvent* event){

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_Lobby.h"
+#include "ui_LobbyPage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LobbyClass; };
@@ -14,6 +14,12 @@ class LobbyPage : public QWidget
 public:
 	LobbyPage(QWidget *parent = nullptr);
 	~LobbyPage();
+
+private slots:
+	void changeToLoginPage();
+
+signals:
+	void goToLoginPage();
 
 private:
 	Ui::LobbyClass *ui;

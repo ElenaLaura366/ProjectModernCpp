@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="createLobbyBtn">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -36,7 +36,7 @@
     <string>CREATE LOBBY</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="joinLobbyBtn">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -88,7 +88,7 @@
     <string>Username</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="logoutBtn">
    <property name="geometry">
     <rect>
      <x>240</x>

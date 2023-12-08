@@ -6,6 +6,8 @@ GamePage::GamePage(QWidget *parent)
 {
 	
 	ui->setupUi(this);
+
+	//ui->scrollArea;
 }
 
 GamePage::~GamePage()
