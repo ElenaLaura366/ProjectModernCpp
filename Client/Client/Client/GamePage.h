@@ -16,6 +16,7 @@ public:
 	~GamePage();
 
 	void keyPressEvent(QKeyEvent* event);
+	void mouseEvent(QMouseEvent* event);
 
 	void SendAnswer();
 	void UpdateChat(const QString& username, const QString& answer);

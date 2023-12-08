@@ -1,5 +1,6 @@
 #include "GamePage.h"
 #include <QKeyEvent>
+#include "DrawingAreaWidget.h"
 
 GamePage::GamePage(QWidget *parent)
 	: QWidget(parent)
@@ -7,6 +8,7 @@ GamePage::GamePage(QWidget *parent)
 {
 	
 	ui->setupUi(this);
+	DrawingAreaWidget* Dr = ui->drawingArea;
 
 	connect(ui->sendAnswer, &QPushButton::clicked, this, &GamePage::SendAnswer);
 }
@@ -22,6 +24,11 @@ void GamePage::keyPressEvent(QKeyEvent* event)
 	{
 		SendAnswer();
 	}
+}
+
+void GamePage::mouseEvent(QMouseEvent* event)
+{
+
 }
 
 void GamePage::SendAnswer()
