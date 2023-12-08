@@ -3,6 +3,7 @@ using skribbl::WordHandler;
 
 void WordHandler::readFromFile()
 {
+	
 	std::ifstream m_fin(m_fileName);
 	if (!m_fin.is_open()) {
 		throw std::exception("File was unable to be oppened");
@@ -21,6 +22,7 @@ int WordHandler::randomIndex(int size) const
 WordHandler::WordHandler(const std::string& fileName) : m_fileName{ fileName }
 {
 
+	ur = new UniqueRandom(100);
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	srand(seed); 
 	readFromFile();
@@ -42,21 +44,20 @@ std::string WordHandler::getWord() const
 }
 
 
-/*
+
 std::vector<std::pair<int, char>> skribbl::WordHandler::getHint() 
 {
 	if (m_currentWord.size() == 0) {
 		return {};
 	}
 	
-	UniqueRandom ur(m_currentWord.size());
 
+	ur = new UniqueRandom(m_currentWord.size());
 	std::vector<std::pair<int, char>> m_hint;
 	for (int i = 0; i < m_currentWord.size()/2; i++) {
-		int index = ur.getValue();
+		int index = ur->getValue();
 		m_hint.push_back({index, m_currentWord[index]});
 	}
 
 	return m_hint;
 }
-*/

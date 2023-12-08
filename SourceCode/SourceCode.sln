@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SourceCode", "SourceCode\SourceCode.vcxproj", "{60F963E4-2D4D-46CA-A06A-890AA30348CA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UniqueRandom", "..\UniqueRandom\UniqueRandom.vcxproj", "{2AAAD372-A886-4CD8-ADEE-A0B7B10AB4F1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UniqueRandom", "UniqueRandom\UniqueRandom.vcxproj", "{2AAAD372-A886-4CD8-ADEE-A0B7B10AB4F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

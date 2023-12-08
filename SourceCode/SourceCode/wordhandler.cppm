@@ -7,6 +7,7 @@ import <string>;
 import <chrono>;
 import <format>;
 import <memory>;
+import uniquerandom;
 
 namespace skribbl
 {
@@ -35,5 +36,6 @@ namespace skribbl
 		std::vector<std::string> m_words;
 		std::string m_currentWord;
 		std::string m_fileName;
+		UniqueRandom* ur;
 	};
 }

@@ -2,7 +2,8 @@
 #include <crow.h>
 import igame;
 import <vector>;
-import <random>;
+//import <random>;
+#include <random>
 import <unordered_map>;
 
 namespace skribbl
