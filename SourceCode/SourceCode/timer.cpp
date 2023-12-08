@@ -1,4 +1,4 @@
-/*module timer;
+module timer;
 
 using namespace skribbl;
 
@@ -6,9 +6,9 @@ static const milliseconds kRefreshingRate{ 10 };
 static const seconds kDuration{ 60 };
 
 Timer::Timer()
-	: m_isRunning{ false },
-	m_duration{ kDuration },
-	m_elapsedTime{ 0s }
+	: m_isRunning{ false }
+	, m_duration{ kDuration }
+	, m_elapsedTime{ 0s }
 {
 	// empty
 }
@@ -88,4 +88,3 @@ bool Timer::isTimeUp() const
 {
 	return m_elapsedTime.load().count() >= m_duration.load().count();
 }
-*/

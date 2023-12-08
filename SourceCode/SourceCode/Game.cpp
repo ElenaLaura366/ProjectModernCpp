@@ -33,6 +33,17 @@ std::vector<std::shared_ptr<Player>> Game::leaderboard()
 	return std::move(leaderboard);
 }
 
+Game::State Game::getNextState(State currentState) {
+
+	State nextState = currentState;
+
+	if (currentState != State::GAME_OVER && currentState != State::WAITING){
+		currentState = static_cast<State>(static_cast<int>(currentState) + 1);
+	}
+
+	return nextState;
+}
+
 void Game::start()
 {
 	m_turn = std::make_shared<Turn>();
@@ -47,29 +58,7 @@ void Game::start()
 			m_turn->reset(player);
 		}
 
-		switch (m_state)
-		{
-		case Game::State::FIRST_ROUND:
-		{
-			m_state = Game::State::SECOND_ROUND;
-			break;
-		}
-		case Game::State::SECOND_ROUND:
-		{
-			m_state = Game::State::THIRD_ROUND;
-			break;
-		}
-		case Game::State::THIRD_ROUND:
-		{
-			m_state = Game::State::FOURTH_ROUND;
-			break;
-		}
-		case Game::State::FOURTH_ROUND:
-		{
-			m_state = Game::State::GAME_OVER;
-			break;
-		}
-		}
+		m_state = getNextState(m_state);
 
 		if (m_players.size() == 0)
 			m_state = Game::State::GAME_OVER;

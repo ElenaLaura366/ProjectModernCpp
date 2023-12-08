@@ -23,6 +23,8 @@ namespace skribbl
 			THIRD_ROUND,
 			FOURTH_ROUND,
 			GAME_OVER
+
+
 		};
 
 	public:
@@ -41,6 +43,8 @@ namespace skribbl
 		
 		std::vector<std::shared_ptr<Player>> leaderboard() override;
 		std::string getState() const override;
+
+		State getNextState(State currentState);
 		
 	private:
 		std::vector<std::shared_ptr<Player>> m_players;

@@ -16,7 +16,6 @@ Turn::Turn(const std::shared_ptr<Player> player)
 {
 	m_playerDrawing = player;
 	m_wordHandler = std::make_shared<WordHandler>("wordsFile.txt");
-	// TO DO timer init
 }
 
 
@@ -52,12 +51,13 @@ void Turn::reset(std::shared_ptr<Player> player)
 {
 	m_playerDrawing = player;
 	m_wordHandler->update();
-	// TO DO reset timer
+	m_timer.pause();
 }
 
 int8_t Turn::scoreGuessingPlayer()
 {
-	uint8_t time = 16; // get curent time from class Timer
+	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.getElapsedTime());
+	uint8_t time = timeInSeconds.count();
 	return time < 30 ? kMaxScore : (60 - time) * 100 / 30;
 }
 
@@ -81,7 +81,8 @@ bool Turn::verifyGuess(const std::string& guess)
 {
 	if (guess == m_wordHandler->getWord())
 	{
-		uint8_t time = 1; // TO DO timer.getTime()
+		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.getElapsedTime());
+		uint8_t time = timeInSeconds.count();
 		m_answerTimestamps.push_back(time);
 		return true;
 	}
@@ -91,5 +92,5 @@ bool Turn::verifyGuess(const std::string& guess)
 
 bool Turn::isTurnOver() const
 {
-	return m_allGuessed /* OR time's up*/;
+	return m_allGuessed || m_timer.isTimeUp();
 }

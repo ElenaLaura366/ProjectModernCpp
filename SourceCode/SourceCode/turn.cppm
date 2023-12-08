@@ -3,6 +3,7 @@ export module turn;
 
 import wordhandler;
 import player;
+import timer;
 import <vector>;
 
 namespace skribbl
@@ -34,7 +35,7 @@ namespace skribbl
 	private:
 		std::shared_ptr<Player> m_playerDrawing;
 		std::shared_ptr<WordHandler> m_wordHandler;
-		// TO DO Timer m_timer;
+		Timer m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
 		bool m_allGuessed;
 	};
