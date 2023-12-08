@@ -28,7 +28,7 @@ namespace skribbl
 		void update();
 		std::string getWord() const;
 		//std::string getWordPattern() const; // displays only the number of characters the word has
-		//std::vector<std::pair<int, char>> getHint(); // displays the number of characters and several characters from the word
+		std::vector<std::pair<int, char>> getHint(); // displays the number of characters and several characters from the word
 		//std::vector<int> getWordPattern() const;
 
 	private:

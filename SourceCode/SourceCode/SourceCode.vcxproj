@@ -203,11 +203,6 @@
     <ClInclude Include="Register.h" />
     <ClInclude Include="Routing.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\UniqueRandom\UniqueRandom.vcxproj">
-      <Project>{2aaad372-a886-4cd8-adee-a0b7b10ab4f1}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
