@@ -23,6 +23,7 @@ Client::Client(QWidget *parent)
     connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
     connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
     connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
+    connect(m_gamePage, &GamePage::goToLobbyPage, this, &Client::ChangeToLobbyPage);
 
     ChangeToLoginPage();
 }

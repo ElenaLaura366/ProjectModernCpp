@@ -8,17 +8,19 @@ GamePage::GamePage(QWidget *parent)
 	ui->setupUi(this);
 	m_drawingArea = ui->drawingArea;
 
-	connect(ui->sendAnswer, &QPushButton::clicked, this, &GamePage::SendAnswer); 
-	connect(ui->undoLastLine, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
+	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked); 
+	connect(ui->undoLastLineBtn, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
+	connect(ui->exitGameBtn, &QPushButton::clicked, this, &GamePage::OnExitGameBtnClicked);
+	connect(ui->resetDrawingBtn, &QPushButton::clicked, this, &GamePage::OnResetDrawingBtnClicked);
 }
 
 GamePage::~GamePage(){
 	delete ui;
 }
 
-void GamePage::KeyPressEvent(QKeyEvent* event) {
+void GamePage::keyPressEvent(QKeyEvent* event) {
 	if (event->key() == Qt::Key_Return) {
-		SendAnswer();
+		OnSendAnswerBtnClicked();
 	}
 
 	if (event->key() == Qt::Key_Z && event->modifiers() & Qt::ControlModifier) {
@@ -26,7 +28,7 @@ void GamePage::KeyPressEvent(QKeyEvent* event) {
 	}
 }
 
-void GamePage::SendAnswer() {
+void GamePage::OnSendAnswerBtnClicked() {
 	QString answer = ui->chatInput->text();
 	if (answer.isEmpty())
 		return;
@@ -45,5 +47,16 @@ void GamePage::OnUndoBtnClicked() {
 	m_drawingArea->UndoLastLine();
 }
 
+void GamePage::OnResetDrawingBtnClicked() {
+	m_drawingArea->ResetDrawing();
+}
+
+void GamePage::OnExitGameBtnClicked(){
+
+	ui->answerList->clear();
+	m_drawingArea->ResetDrawing();
+
+	emit goToLobbyPage();
+}
 
 

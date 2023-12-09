@@ -16,8 +16,8 @@
   <widget class="QFrame" name="frameChat">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>80</y>
+     <x>40</x>
+     <y>130</y>
      <width>211</width>
      <height>231</height>
     </rect>
@@ -74,7 +74,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="sendAnswer">
+   <widget class="QPushButton" name="sendAnswerBtn">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -98,7 +98,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="labelWord">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -111,11 +111,11 @@
     <string>word</string>
    </property>
   </widget>
-  <widget class="QLabel" name="time">
+  <widget class="QLabel" name="labelTime">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>30</y>
+     <y>90</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -124,11 +124,11 @@
     <string>Time: </string>
    </property>
   </widget>
-  <widget class="QLabel" name="round">
+  <widget class="QLabel" name="labelRound">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>40</y>
+     <x>190</x>
+     <y>100</y>
      <width>49</width>
      <height>16</height>
     </rect>
@@ -137,17 +137,43 @@
     <string>Round</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="undoLastLine">
+  <widget class="QPushButton" name="undoLastLineBtn">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>594</x>
      <y>420</y>
-     <width>75</width>
+     <width>61</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
     <string>undo</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exitGameBtn">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>40</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit Game</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="resetDrawingBtn">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>420</y>
+     <width>61</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>reset</string>
    </property>
   </widget>
  </widget>

@@ -11,6 +11,13 @@ void DrawingAreaWidget::UndoLastLine()
 	}
 }
 
+void DrawingAreaWidget::ResetDrawing()
+{
+	m_drawing.clear();
+	m_line.clear();
+	update();
+}
+
 void DrawingAreaWidget::mousePressEvent(QMouseEvent* event) {
 	if (event->button() == Qt::LeftButton) {
 		m_line.clear();

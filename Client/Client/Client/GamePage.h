@@ -15,13 +15,17 @@ public:
 	GamePage(QWidget *parent = nullptr);
 	~GamePage();
 
-	void KeyPressEvent(QKeyEvent* event);
-
-	void SendAnswer();
+private:
 	void UpdateChat(const QString& username, const QString& answer);
 
-private:
+	void keyPressEvent(QKeyEvent* event) override;
+	void OnSendAnswerBtnClicked();
 	void OnUndoBtnClicked();
+	void OnResetDrawingBtnClicked();
+	void OnExitGameBtnClicked();
+
+signals:
+	void goToLobbyPage();
 
 private:
 	Ui::GamePageClass *ui;

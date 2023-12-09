@@ -9,6 +9,7 @@ class DrawingAreaWidget : public QWidget {
 public:
     DrawingAreaWidget(QWidget* parent = nullptr);
     void UndoLastLine();
+    void ResetDrawing();
 
 private:
     void mousePressEvent(QMouseEvent* event) override;
