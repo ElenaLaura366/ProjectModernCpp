@@ -8,7 +8,7 @@ using skribbl::Turn;
 
 Game::Game() 
 	: m_turn{nullptr},
-	m_state{ Game::State::WAITING }
+	m_state{ Game::State::WAITING }, m_url("/")
 {
 }
 
@@ -17,19 +17,14 @@ IGame::IGamePtr IGame::Factory()
 	return std::make_unique<Game>();
 }
 
-class CompareByScore
-{
-public:
-	bool operator() (const std::shared_ptr<const Player> firstPlayer, std::shared_ptr<const Player> secondPlayer) const
-	{
-		return firstPlayer->getScore() > secondPlayer->getScore();
-	}
-};
-
 std::vector<std::shared_ptr<Player>> Game::leaderboard()
 {
 	std::vector<std::shared_ptr<Player>> leaderboard = m_players;
-	std::sort(leaderboard.begin(), leaderboard.end(), CompareByScore());
+	std::ranges::sort(leaderboard, [](const std::shared_ptr<Player>& firstPlayer, std::shared_ptr<Player>& secondPlayer)
+		{
+			return firstPlayer->getScore() > secondPlayer->getScore();
+		}
+	);
 	return std::move(leaderboard);
 }
 
@@ -97,4 +92,17 @@ std::string Game::getState() const
 	case Game::State::GAME_OVER:
 		return "Game Over";
 	}
+}
+
+void Game::setUrl(std::string lobbyCode)
+{
+	m_url += lobbyCode;
+}
+
+void Game::removePlayer(const std::string& name)
+{
+	std::erase_if(m_players, [&name](const std::shared_ptr<Player>& player)
+		{
+			return player->getName() == name;
+		});
 }

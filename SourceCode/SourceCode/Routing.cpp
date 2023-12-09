@@ -106,7 +106,9 @@ void skribbl::Routing::run()
 			std::string playerName = json["playerName"].s();
 			games[lobbyCode]->addPlayer(playerName);
 
-			return crow::response(201);
+			crow::json::wvalue jsonResponse;
+			jsonResponse["lobbyCode"] = lobbyCode;
+			return crow::response(201, jsonResponse);
 		}
 		);
 
@@ -121,7 +123,11 @@ void skribbl::Routing::run()
 
 			std::string playerName = json["playerName"].s();
 			if (games[lobbyCode]->addPlayer(playerName))
-				return crow::response(201);
+			{
+				crow::json::wvalue jsonResponse;
+				jsonResponse["lobbyCode"] = lobbyCode;
+				return crow::response(201, jsonResponse);
+			}
 			else
 				return crow::response(409, "Lobby full!");
 		}
@@ -139,7 +145,7 @@ void skribbl::Routing::run()
 			return crow::response(200);
 		}
 		);
-
+	
 	m_app.port(18080).multithreaded().run();
 	
 }

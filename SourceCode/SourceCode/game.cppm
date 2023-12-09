@@ -8,6 +8,7 @@ import <string>;
 import <vector>;
 import <memory>;
 import <algorithm>;
+import <ranges>;
 
 namespace skribbl
 {
@@ -39,8 +40,10 @@ namespace skribbl
 		Game& operator=(Game&& otherGame) noexcept = default;
 
 		void start() override;
+		void setUrl(std::string lobbyCode);
+		void removePlayer(const std::string& name);
+
 		bool addPlayer(const std::string& name) override;
-		
 		std::vector<std::shared_ptr<Player>> leaderboard() override;
 		std::string getState() const override;
 
@@ -50,5 +53,6 @@ namespace skribbl
 		std::vector<std::shared_ptr<Player>> m_players;
 		std::shared_ptr<Turn> m_turn;
 		State m_state;
+		std::string m_url;
 	};
 }
