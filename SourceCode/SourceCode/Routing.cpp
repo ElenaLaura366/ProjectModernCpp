@@ -71,6 +71,7 @@ void skribbl::Routing::run()
 	-route for drowing
 	-route for displaying leaderboard in left of every player and players username with it to display 
 	*/
+
 	CROW_ROUTE(m_app, "/login")(
 		[/*get's database for users*/]()
 		{
@@ -89,7 +90,7 @@ void skribbl::Routing::run()
 	CROW_ROUTE(m_app, "/create_lobby")(
 		[&games](const crow::request& req)
 		{
-			if (games.size() == (kMaxLobbyCode - kMinLobbyCode))
+			if (games.size() == kmaxGamesSupported)
 				return crow::response(503, "Server full!");
 
 			std::random_device rd;
@@ -134,17 +135,17 @@ void skribbl::Routing::run()
 		);
 
 	CROW_ROUTE(m_app, "/start")(
-		[&games](const crow::request& req)
+		[&games, this](const crow::request& req)
 		{
 			/* when you press the start button the game will start*/
 			crow::json::rvalue json = crow::json::load(req.body);
 			uint16_t lobbyCode = json["lobbyCode"].u();
 
-			games[lobbyCode]->start();
+			games[lobbyCode]->start(this->m_app);
 
 			return crow::response(200);
 		}
-		);
+	);
 	
 	m_app.port(18080).multithreaded().run();
 	

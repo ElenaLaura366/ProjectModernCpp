@@ -1,10 +1,9 @@
 #pragma once
 #include <crow.h>
-import igame;
-import <vector>;
-//import <random>;
 #include <random>
-import <unordered_map>;
+#include <vector>
+#include <unordered_map>
+#include "IGame.h"
 
 namespace skribbl
 {
@@ -22,6 +21,7 @@ namespace skribbl
 
 		static const uint16_t kMinLobbyCode = 10000;
 		static const uint16_t kMaxLobbyCode = 65535;
+		static const uint16_t kmaxGamesSupported = 8;
 
 	private:
 		crow::SimpleApp m_app;

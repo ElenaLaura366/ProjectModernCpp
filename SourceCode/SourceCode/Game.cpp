@@ -1,14 +1,13 @@
-#include <crow.h>
-#include <cpr/cpr.h>
-module game;
+#include "Game.h"
+
 using skribbl::IGame;
 using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
 
-Game::Game() 
-	: m_turn{nullptr},
-	m_state{ Game::State::WAITING }, m_url("/")
+Game::Game()
+	: m_turn{ nullptr },
+	m_state{ Game::State::WAITING }, m_url{ "/" }
 {
 }
 
@@ -20,26 +19,20 @@ IGame::IGamePtr IGame::Factory()
 std::vector<std::shared_ptr<Player>> Game::leaderboard()
 {
 	std::vector<std::shared_ptr<Player>> leaderboard = m_players;
-	std::ranges::sort(leaderboard, [](const std::shared_ptr<Player>& firstPlayer, std::shared_ptr<Player>& secondPlayer)
+	std::ranges::sort(leaderboard, [](const std::shared_ptr<Player>& firstPlayer, const std::shared_ptr<Player>& secondPlayer)
 		{
 			return firstPlayer->getScore() > secondPlayer->getScore();
 		}
 	);
-	return std::move(leaderboard);
+	return leaderboard;
 }
 
-Game::State Game::getNextState(State currentState) {
-
-	State nextState = currentState;
-
-	if (currentState != State::GAME_OVER && currentState != State::WAITING){
-		currentState = static_cast<State>(static_cast<int>(currentState) + 1);
-	}
-
-	return nextState;
+Game::State Game::getNextState(State currentState)
+{
+	return static_cast<State>(static_cast<int>(currentState) + 1);
 }
 
-void Game::start()
+void Game::start(crow::SimpleApp& app)
 {
 	m_turn = std::make_shared<Turn>();
 
@@ -51,6 +44,16 @@ void Game::start()
 		for (std::shared_ptr<Player> player : m_players)
 		{
 			m_turn->reset(player);
+			app.route_dynamic(m_url + "/remove")(
+				[this](const crow::request& req)
+				{
+					crow::json::rvalue json = crow::json::load(req.body);
+					std::string playerName = json["playerName"].s();
+
+					this->removePlayer(playerName);
+					return crow::response(200);
+				}
+			);
 		}
 
 		m_state = getNextState(m_state);

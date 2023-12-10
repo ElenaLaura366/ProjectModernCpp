@@ -1,15 +1,16 @@
-module;
-export module igame;
+#pragma once
+
+#include <crow.h>
+#include <memory>
+#include <vector>
+#include <string>
 
 import player;
-import <memory>;
-import <vector>;
-import <string>;
 
 namespace skribbl
 {
 
-	export class IGame
+	class IGame
 	{
 	public:
 		using IGamePtr = std::unique_ptr<class IGame>;
@@ -19,7 +20,7 @@ namespace skribbl
 	public:
 		virtual ~IGame() = default;
 
-		virtual void start() = 0;
+		virtual void start(crow::SimpleApp& app) = 0;
 		virtual void setUrl(std::string lobbyCode) = 0;
 		virtual void removePlayer(const std::string& name) = 0;
 

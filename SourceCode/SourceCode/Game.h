@@ -1,19 +1,20 @@
-module;
-export module game;
+#pragma once
 
-import igame;
+#include <crow.h>
+#include <string>
+#include <vector>
+#include <memory>
+#include <algorithm>
+#include <ranges>
+#include "IGame.h"
+
 import player;
 import turn;
-import <string>;
-import <vector>;
-import <memory>;
-import <algorithm>;
-import <ranges>;
 
 namespace skribbl
 {
 
-	export class Game : public IGame
+	class Game : public IGame
 	{
 	public:
 		enum class State
@@ -39,16 +40,16 @@ namespace skribbl
 		Game(Game&& otherGame) noexcept = default;
 		Game& operator=(Game&& otherGame) noexcept = default;
 
-		void start() override;
-		void setUrl(std::string lobbyCode);
-		void removePlayer(const std::string& name);
+		void start(crow::SimpleApp& app) override;
+		void setUrl(std::string lobbyCode) override;
+		void removePlayer(const std::string& name) override;
 
 		bool addPlayer(const std::string& name) override;
 		std::vector<std::shared_ptr<Player>> leaderboard() override;
 		std::string getState() const override;
 
 		State getNextState(State currentState);
-		
+
 	private:
 		std::vector<std::shared_ptr<Player>> m_players;
 		std::shared_ptr<Turn> m_turn;

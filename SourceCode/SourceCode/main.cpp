@@ -1,12 +1,10 @@
 #include "Routing.h"
-import wordhandler;
-using skribbl::WordHandler;
+#include "Database.h"
 
 int main()
 {
 	skribbl::Routing r;
-	r.run();
-	
+	r.run();	
 
 	return 0;
 }

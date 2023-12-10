@@ -181,8 +181,6 @@
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="game.cppm" />
-    <ClCompile Include="igame.cppm" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player.cppm" />
@@ -199,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="IGame.h" />
     <ClInclude Include="Routing.h" />
   </ItemGroup>
   <ItemGroup>
