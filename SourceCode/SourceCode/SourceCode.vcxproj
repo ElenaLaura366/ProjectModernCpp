@@ -179,14 +179,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Database.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
     <ClCompile Include="igame.cppm" />
-    <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player.cppm" />
-    <ClCompile Include="Register.cpp" />
     <ClCompile Include="Routing.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="timer.cppm" />
@@ -199,8 +198,7 @@
     <Text Include="wordsFile.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Login.h" />
-    <ClInclude Include="Register.h" />
+    <ClInclude Include="Database.h" />
     <ClInclude Include="Routing.h" />
   </ItemGroup>
   <ItemGroup>

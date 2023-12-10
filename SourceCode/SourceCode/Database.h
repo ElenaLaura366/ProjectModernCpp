@@ -11,9 +11,11 @@ struct User {
 	int m_nrGamesPlayed;
 };
 
-struct Word {
+struct GameHistory {
 	int m_id;
-	std::string m_name;
+	int m_id_player;
+	int m_id_game;
+	int m_points;
 };
 
 inline auto createDatabase(const std::string& filename) 
@@ -28,9 +30,11 @@ inline auto createDatabase(const std::string& filename)
 			sql::make_column("nrGamesPlayed", &User::m_nrGamesPlayed)
 		),
 		sql::make_table(
-			"Words",
-			sql::make_column("id", &Word::m_id, sql::primary_key().autoincrement()),
-			sql::make_column("username", &Word::m_name)
+			"GameHistory",
+			sql::make_column("id", &GameHistory::m_id, sql::primary_key().autoincrement()),
+			sql::make_column("user", &GameHistory::m_id_player),
+			sql::make_column("game", &GameHistory::m_id_game),
+			sql::make_column("points", &GameHistory::m_points)
 		)
 	);
 }
@@ -44,6 +48,9 @@ namespace skribbl
 	public:
 		Database(Storage& db);
 		//~Database();
+		bool checkUserExists(const std::string& username);
+		void createNewUser(const std::string& username, const std::string& password);
+		std::optional<User> authenticateUser(const std::string& username, const std::string& password);
 	private:
 		Storage& m_db;
 	};
