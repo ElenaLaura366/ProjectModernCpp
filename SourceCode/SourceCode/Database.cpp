@@ -34,7 +34,7 @@ std::optional<User> skribbl::Database::authenticateUser(const std::string& usern
     return std::nullopt;
 }
 
-void skribbl::Database::addGameHistory(int id, int gameId, int poits)
+void skribbl::Database::addGameHistory(int playerId, int gameId, int points)
 {
-    m_db.insert(GameHistory{ -1, id, gameId, poits });
+	m_db.insert(GameHistory{ -1, playerId, gameId, points });
 }

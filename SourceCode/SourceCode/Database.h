@@ -18,6 +18,11 @@ struct GameHistory {
 	int m_points;
 };
 
+struct Games {
+	int m_id;
+	std::string m_date; //TODO: change to date
+};
+
 inline auto createDatabase(const std::string& filename) 
 {
 	return sql::make_storage(
@@ -30,11 +35,18 @@ inline auto createDatabase(const std::string& filename)
 			sql::make_column("nrGamesPlayed", &User::m_nrGamesPlayed)
 		),
 		sql::make_table(
-			"GameHistory",
+			"Game",
+			sql::make_column("id", &Games::m_id, sql::primary_key().autoincrement()),
+			sql::make_column("date", &Games::m_date)
+		),
+		sql::make_table(
+			"GamesHistory",
 			sql::make_column("id", &GameHistory::m_id, sql::primary_key().autoincrement()),
 			sql::make_column("user", &GameHistory::m_id_player),
 			sql::make_column("game", &GameHistory::m_id_game),
-			sql::make_column("points", &GameHistory::m_points)
+			sql::make_column("points", &GameHistory::m_points),
+			sql::foreign_key(&GameHistory::m_id_player).references(&User::m_id),
+			sql::foreign_key(&GameHistory::m_id_game).references(&Games::m_id)
 		)
 	);
 }
@@ -53,7 +65,8 @@ namespace skribbl
 		bool checkUserExists(const std::string& username);
 		void createNewUser(const std::string& username, const std::string& password);
 		std::optional<User> authenticateUser(const std::string& username, const std::string& password);
-		void addGameHistory(int id,int gameId, int poits);
+		void addGameHistory(int playerId, int gameId, int points);
+
 	private:
 		Storage& m_db;
 	};
