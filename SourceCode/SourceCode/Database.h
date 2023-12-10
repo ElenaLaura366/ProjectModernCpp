@@ -48,9 +48,12 @@ namespace skribbl
 	public:
 		Database(Storage& db);
 		//~Database();
+
+		void syncSchema();
 		bool checkUserExists(const std::string& username);
 		void createNewUser(const std::string& username, const std::string& password);
 		std::optional<User> authenticateUser(const std::string& username, const std::string& password);
+		void addGameHistory(int id,int gameId, int poits);
 	private:
 		Storage& m_db;
 	};
