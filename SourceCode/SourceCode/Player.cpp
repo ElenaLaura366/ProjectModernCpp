@@ -14,9 +14,9 @@ Player::Player(const std::string& username)
 {}
 
 Player::Player(const Player& player)
-	: m_username{ player.getName() },
-	m_score{ player.getScore() },
-	m_guessed{ player.getGuessed() }
+	: m_username{ player.GetName() },
+	m_score{ player.GetScore() },
+	m_guessed{ player.GetGuessed() }
 {}
 
 Player& skribbl::Player::operator=(const Player & other)
@@ -30,32 +30,32 @@ Player& skribbl::Player::operator=(const Player & other)
 	return *this;
 }
 
-int16_t Player::getScore() const
+int16_t Player::GetScore() const
 {
 	return this->m_score;
 }
 
-std::string Player::getName() const
+std::string Player::GetName() const
 {
 	return this->m_username;
 }
 
-bool Player::getGuessed() const
+bool Player::GetGuessed() const
 {
 	return m_guessed;
 }
 
-void Player::setUsername(const std::string& username)
+void Player::SetUsername(const std::string& username)
 {
 	this->m_username = std::move(username);
 }
 
-void Player::setGuessed()
+void Player::SetGuessed()
 {
 	this->m_guessed = true;
 }
 
-void Player::setScore(int16_t score)
+void Player::SetScore(int16_t score)
 {
 	this->m_score = score;
 };

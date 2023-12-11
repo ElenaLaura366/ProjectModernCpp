@@ -4,23 +4,23 @@ skribbl::Database::Database(Storage& db)
 	: m_db{ db }
 {}
 
-void skribbl::Database::syncSchema()
+void skribbl::Database::SyncSchema()
 {
 	m_db.sync_schema();
 }
 
-bool skribbl::Database::checkUserExists(const std::string& username)
+bool skribbl::Database::CheckUserExists(const std::string& username)
 {
 	auto user = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
 	return !user.empty();
 }
 
-void skribbl::Database::createNewUser(const std::string& username, const std::string& password)
+void skribbl::Database::CreateNewUser(const std::string& username, const std::string& password)
 {
 	m_db.insert(User{ -1, username, password, 0 });
 }
 
-std::optional<User> skribbl::Database::authenticateUser(const std::string& username, const std::string& password)
+std::optional<User> skribbl::Database::AuthenticateUser(const std::string& username, const std::string& password)
 {
     auto users = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
     if (!users.empty())
@@ -34,7 +34,7 @@ std::optional<User> skribbl::Database::authenticateUser(const std::string& usern
     return std::nullopt;
 }
 
-void skribbl::Database::addGameHistory(int playerId, int gameId, int points)
+void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
 {
 	m_db.insert(GameHistory{ -1, playerId, gameId, points });
 }

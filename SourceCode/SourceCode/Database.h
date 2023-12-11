@@ -23,7 +23,7 @@ struct Games {
 	std::string m_date; //TODO: change to date
 };
 
-inline auto createDatabase(const std::string& filename) 
+inline auto CreateDatabase(const std::string& filename) 
 {
 	return sql::make_storage(
 		filename,
@@ -51,7 +51,7 @@ inline auto createDatabase(const std::string& filename)
 	);
 }
 
-using Storage = decltype(createDatabase(""));
+using Storage = decltype(CreateDatabase(""));
 
 namespace skribbl
 {
@@ -61,11 +61,11 @@ namespace skribbl
 		Database(Storage& db);
 		//~Database();
 
-		void syncSchema();
-		bool checkUserExists(const std::string& username);
-		void createNewUser(const std::string& username, const std::string& password);
-		std::optional<User> authenticateUser(const std::string& username, const std::string& password);
-		void addGameHistory(int playerId, int gameId, int points);
+		void SyncSchema();
+		bool CheckUserExists(const std::string& username);
+		void CreateNewUser(const std::string& username, const std::string& password);
+		std::optional<User> AuthenticateUser(const std::string& username, const std::string& password);
+		void AddGameHistory(int playerId, int gameId, int points);
 
 	private:
 		Storage& m_db;

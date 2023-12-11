@@ -15,10 +15,10 @@ Timer::Timer()
 
 Timer::~Timer()
 {
-	stop();
+	Stop();
 }
 
-void Timer::start()
+void Timer::Start()
 {
 	if (m_isRunning)
 		return;
@@ -34,7 +34,7 @@ void Timer::start()
 				m_condition.wait_for(lock, kRefreshingRate, [&] {return !m_isRunning || m_isPaused; });
 				time_point<steady_clock> endLock = steady_clock::now();
 
-				if (isTimeUp() & !m_isPaused)
+				if (IsTimeUp() & !m_isPaused)
 				{
 					m_isPaused = true;
 					m_condition.notify_one();
@@ -47,7 +47,7 @@ void Timer::start()
 		});
 }
 
-void Timer::pause()
+void Timer::Pause()
 {
 	if (m_isRunning && !m_isPaused)
 	{
@@ -56,14 +56,14 @@ void Timer::pause()
 	}
 }
 
-void Timer::restart()
+void Timer::Restart()
 {
 	m_elapsedTime.store(0s);
 	m_isPaused = false;
 	m_condition.notify_all();
 }
 
-void Timer::stop()
+void Timer::Stop()
 {
 	if (!m_isRunning)
 		return; // exception?
@@ -74,17 +74,17 @@ void Timer::stop()
 		m_timerThread.join();
 }
 
-milliseconds Timer::getElapsedTime() const
+milliseconds Timer::GetElapsedTime() const
 {
 	return m_elapsedTime.load();
 }
 
-milliseconds Timer::getRemainingTime() const
+milliseconds Timer::GetRemainingTime() const
 {
 	return m_duration.load() - m_elapsedTime.load();
 }
 
-bool Timer::isTimeUp() const
+bool Timer::IsTimeUp() const
 {
 	return m_elapsedTime.load().count() >= m_duration.load().count();
 }

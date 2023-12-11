@@ -14,11 +14,11 @@ namespace skribbl
 	export class WordHandler
 	{
 	private:
-		void readFromFile();
-		int randomIndex(int size) const;
+		void ReadFromFile();
+		int RandomIndex(int size) const;
 
 	public:
-		WordHandler();
+		WordHandler() = default;
 		WordHandler(const std::string& fileName);
 		~WordHandler() = default; 
 		WordHandler(const WordHandler& wg)=delete; 
@@ -26,10 +26,10 @@ namespace skribbl
 		WordHandler(WordHandler&& wg)noexcept = default;
 		WordHandler& operator=(WordHandler&&)noexcept = default;
 
-		void update();
-		std::string getWord() const;
+		void Update();
+		std::string GetWord() const;
 		//std::string getWordPattern() const; // displays only the number of characters the word has
-		std::vector<std::pair<int, char>> getHint(); // displays the number of characters and several characters from the word
+		std::vector<std::pair<int, char>> GetHint(); // displays the number of characters and several characters from the word
 		//std::vector<int> getWordPattern() const;
 
 	private:

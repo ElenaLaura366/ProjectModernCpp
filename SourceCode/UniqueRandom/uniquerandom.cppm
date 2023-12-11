@@ -8,8 +8,8 @@ export class __declspec(dllexport) UniqueRandom
 public:
 	UniqueRandom();
 	UniqueRandom(int number);
-	int getValue();
-	void reset();
+	int GetValue();
+	void Reset();
 
 private:
 	std::random_device m_rand;
