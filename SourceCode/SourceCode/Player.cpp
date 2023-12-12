@@ -55,8 +55,8 @@ void Player::SetGuessed()
 	this->m_guessed = true;
 }
 
-void Player::SetScore(int16_t score)
+void Player::UpdateScore(int8_t score)
 {
-	this->m_score = score;
+	this->m_score += score;
 };
 

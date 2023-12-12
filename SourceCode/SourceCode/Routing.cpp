@@ -108,6 +108,14 @@ void skribbl::Routing::Run()
 			return StartGame(req);
 		}
 	);
+
+	CROW_ROUTE(m_app, "/answer")(
+		[this](const crow::request& req)
+		{
+			return ProcessAnswer(req);
+		}
+		);
+
 	CROW_ROUTE(m_app, "/remove")(
 		[this](const crow::request& req)
 		{
@@ -196,4 +204,16 @@ crow::response skribbl::Routing::RemovePlayer(const crow::request& req)
 
 	m_games[lobbyCode]->RemovePlayer(playerName);
 	return crow::response(204);
+}
+
+crow::response skribbl::Routing::ProcessAnswer(const crow::request& req)
+{
+	crow::json::rvalue json = crow::json::load(req.body);
+	uint16_t lobbyCode = json["lobbyCode"].u();
+	std::string playerName = json["playerName"].s();
+	std::string answeer = json["answer"].s();
+
+	m_games[lobbyCode]->VerifyAnswer(playerName, answeer);
+	// send to the other players
+	return crow::response(200);
 }

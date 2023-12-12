@@ -101,3 +101,11 @@ void Game::RemovePlayer(const std::string& name)
 			return player->GetName() == name;
 		});
 }
+
+void skribbl::Game::VerifyAnswer(const std::string& name, const std::string& answer)
+{
+	if (m_turn->VerifyGuess(answer)) {
+		m_players[0]->UpdateScore(m_turn->ScoreGuessingPlayer());
+		m_players[0]->SetGuessed();
+	}
+}

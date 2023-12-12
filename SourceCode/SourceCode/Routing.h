@@ -29,6 +29,7 @@ namespace skribbl
 		crow::response CreateLobby(const crow::request& req);
 		crow::response GetGameLeaderboard(const crow::request& req);
 		crow::response RemovePlayer(const crow::request& req);
+		crow::response ProcessAnswer(const crow::request& req);
 
 	private:
 		crow::SimpleApp m_app;

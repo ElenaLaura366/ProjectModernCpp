@@ -37,6 +37,7 @@ void Client::ChangeToGamePage() {
 }
 
 void Client::ChangeToLobbyPage(){
+    
     m_stackedWidget->setCurrentWidget(m_lobbyPage);
 }
 
