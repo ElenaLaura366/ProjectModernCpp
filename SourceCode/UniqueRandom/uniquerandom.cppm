@@ -9,7 +9,7 @@ public:
 	UniqueRandom();
 	UniqueRandom(int number);
 	int getValue();
-	void reset();
+	void Reset();
 
 private:
 	std::random_device m_rand;
