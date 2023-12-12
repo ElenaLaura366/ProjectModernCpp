@@ -2,8 +2,6 @@ module turn;
 using skribbl::Turn;
 using skribbl::WordHandler;
 
-import <numeric>;
-
 Turn::Turn()
 	: 
 	m_wordHandler{ nullptr }

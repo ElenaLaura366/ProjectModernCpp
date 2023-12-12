@@ -46,6 +46,7 @@ namespace skribbl
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() override;
 		std::string GetState() const override;
 
+		uint8_t PlayerPosition(const std::string& name) const;
 		State GetNextState(State currentState);
 
 	private:

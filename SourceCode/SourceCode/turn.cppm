@@ -5,6 +5,7 @@ import wordhandler;
 import timer;
 import <vector>;
 import <memory>;
+import <numeric>;
 
 namespace skribbl
 {

@@ -80,27 +80,27 @@ void skribbl::Routing::Run()
 		{
 			return crow::response(200);
 		}
-		);
+	);
 	CROW_ROUTE(m_app, "/register")(
 		[/*get's database for users*/]()
 		{
 			return crow::response(200);
 		}
-		);
+	);
 
 	CROW_ROUTE(m_app, "/create_lobby")(
 		[this](const crow::request& req)
 		{
 			return CreateLobby(req);
 		}
-		);
+	);
 
 	CROW_ROUTE(m_app, "/join_lobby")(
 		[this](const crow::request& req)
 		{
 			return JoinLobby(req);
 		}
-		);
+	);
 
 	CROW_ROUTE(m_app, "/start")(
 		[this](const crow::request& req)
@@ -109,12 +109,13 @@ void skribbl::Routing::Run()
 		}
 	);
 
-	CROW_ROUTE(m_app, "/answer")(
-		[this](const crow::request& req)
-		{
-			return ProcessAnswer(req);
-		}
-		);
+	CROW_ROUTE(m_app, "/answer")
+		.methods(crow::HTTPMethod::PUT)(
+			[this](const crow::request& req)
+			{
+				return ProcessAnswer(req);
+			}
+	);
 
 	CROW_ROUTE(m_app, "/remove")(
 		[this](const crow::request& req)
@@ -129,6 +130,14 @@ void skribbl::Routing::Run()
 			return GetGameLeaderboard(req);
 		}
 	);
+
+	CROW_ROUTE(m_app, "/game_state")
+		.methods(crow::HTTPMethod::PUT)(
+			[this](const crow::request& req)
+			{
+				return GetGameState(req);
+			}
+			);
 	
 	m_app.port(18080).multithreaded().run();
 	
@@ -216,4 +225,12 @@ crow::response skribbl::Routing::ProcessAnswer(const crow::request& req)
 	m_games[lobbyCode]->VerifyAnswer(playerName, answeer);
 	// send to the other players
 	return crow::response(200);
+}
+
+crow::response skribbl::Routing::GetGameState(const crow::request& req)
+{
+	crow::json::rvalue json = crow::json::load(req.body);
+	uint16_t lobbyCode = json["lobbyCode"].u();
+
+	return crow::response(200, m_games[lobbyCode]->GetState());
 }

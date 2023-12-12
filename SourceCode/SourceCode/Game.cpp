@@ -34,6 +34,13 @@ std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard()
 	return leaderboard;
 }
 
+uint8_t skribbl::Game::PlayerPosition(const std::string& name) const
+{
+	for (uint8_t pos = 0; pos < m_players.size(); pos++)
+		if (m_players[pos]->GetName() == name)
+			return pos;
+}
+
 Game::State Game::GetNextState(State currentState)
 {
 	return static_cast<State>(static_cast<int>(currentState) + 1);
