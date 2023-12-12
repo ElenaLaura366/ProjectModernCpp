@@ -4,10 +4,10 @@ module uniquerandom;
 UniqueRandom::UniqueRandom(int number) : m_rand(),  m_dist(0, static_cast<int>(number)-1)
 {
 	m_dist = std::uniform_int_distribution<int>(0, number-1);
-	Reset();
+	reset();
 }
 
-void UniqueRandom::Reset()
+void UniqueRandom::reset()
 {
 	do
 	{
@@ -18,10 +18,10 @@ void UniqueRandom::Reset()
 
 }
 
-int UniqueRandom::GetValue()
+int UniqueRandom::getValue()
 {
 	int current = m_currentValue;
-	Reset();
+	reset();
 	return current;
 }
 

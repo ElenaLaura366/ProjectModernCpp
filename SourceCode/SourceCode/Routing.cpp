@@ -1,7 +1,7 @@
 #include "Routing.h"
 using namespace skribbl;
 
-void skribbl::Routing::Run()
+void skribbl::Routing::run()
 {
 	/*
 	-----------------------------------------------------------------------------------------------------------------
@@ -29,9 +29,6 @@ void skribbl::Routing::Run()
 			
 			201
 			*Created. The request succeded and a new resorce was created.
-
-			204
-			*There is no content to send for this request, but the headers may be usefull.
 
 		Redirection messages:
 
@@ -88,113 +85,68 @@ void skribbl::Routing::Run()
 		}
 		);
 
+	std::unordered_map<uint16_t, IGame::IGamePtr> games; //the lobby code is the key and the game is the value;
+
 	CROW_ROUTE(m_app, "/create_lobby")(
-		[this](const crow::request& req)
+		[&games](const crow::request& req)
 		{
-			return CreateLobby(req);
+			if (games.size() == kmaxGamesSupported)
+				return crow::response(503, "Server full!");
+
+			std::random_device rd;
+			std::mt19937 eng(rd());
+			std::uniform_int_distribution<uint32_t> distr(kMinLobbyCode, kMaxLobbyCode);
+
+			uint16_t lobbyCode = distr(eng);
+			while (games.find(lobbyCode) != games.end())
+				lobbyCode = distr(eng);
+
+			games[lobbyCode] = IGame::Factory();
+
+			crow::json::rvalue json = crow::json::load(req.body);
+			std::string playerName = json["playerName"].s();
+			games[lobbyCode]->addPlayer(playerName);
+
+			crow::json::wvalue jsonResponse;
+			jsonResponse["lobbyCode"] = lobbyCode;
+			return crow::response(201, jsonResponse);
 		}
 		);
 
 	CROW_ROUTE(m_app, "/join_lobby")(
-		[this](const crow::request& req)
+		[&games](const crow::request& req)
 		{
-			return JoinLobby(req);
+			crow::json::rvalue json = crow::json::load(req.body);
+			uint16_t lobbyCode = json["lobbyCode"].u();
+
+			if (games.find(lobbyCode) == games.end())
+				return crow::response(404, "Lobby not found!");
+
+			std::string playerName = json["playerName"].s();
+			if (games[lobbyCode]->addPlayer(playerName))
+			{
+				crow::json::wvalue jsonResponse;
+				jsonResponse["lobbyCode"] = lobbyCode;
+				return crow::response(201, jsonResponse);
+			}
+			else
+				return crow::response(409, "Lobby full!");
 		}
 		);
 
 	CROW_ROUTE(m_app, "/start")(
-		[this](const crow::request& req)
+		[&games, this](const crow::request& req)
 		{
-			return StartGame(req);
+			/* when you press the start button the game will start*/
+			crow::json::rvalue json = crow::json::load(req.body);
+			uint16_t lobbyCode = json["lobbyCode"].u();
+
+			games[lobbyCode]->start(this->m_app);
+
+			return crow::response(200);
 		}
 	);
-
-	CROW_ROUTE(m_app, "/remove")(
-		[this](const crow::request& req)
-		{
-			return RemovePlayer(req);
-		}
-		);
-
-	CROW_ROUTE(m_app, "/leaderboard")(
-		[this](const crow::request& req)
-		{
-			return GetGameLeaderboard(req);
-		}
-		);
 	
 	m_app.port(18080).multithreaded().run();
 	
-}
-
-crow::response skribbl::Routing::JoinLobby(const crow::request& req)
-{
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
-
-	if (m_games.find(lobbyCode) == m_games.end())
-		return crow::response(404, "Lobby not found!");
-
-	std::string playerName = json["playerName"].s();
-	if (m_games[lobbyCode]->AddPlayer(playerName))
-	{
-		crow::json::wvalue jsonResponse;
-		jsonResponse["lobbyCode"] = lobbyCode;
-		return crow::response(201, jsonResponse);
-	}
-	else
-		return crow::response(409, "Lobby full!");
-}
-
-crow::response skribbl::Routing::StartGame(const crow::request& req)
-{
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
-
-	m_games[lobbyCode]->Start();
-
-	return crow::response(204);
-}
-
-crow::response skribbl::Routing::CreateLobby(const crow::request& req)
-{
-	if (m_games.size() == kmaxGamesSupported)
-		return crow::response(503, "Server full!");
-
-	std::random_device rd;
-	std::mt19937 eng(rd());
-	std::uniform_int_distribution<uint32_t> distr(kMinLobbyCode, kMaxLobbyCode);
-
-	uint16_t lobbyCode = distr(eng);
-	while (m_games.find(lobbyCode) != m_games.end())
-		lobbyCode = distr(eng);
-
-	m_games[lobbyCode] = IGame::Factory();
-
-	crow::json::rvalue json = crow::json::load(req.body);
-	std::string playerName = json["playerName"].s();
-	m_games[lobbyCode]->AddPlayer(playerName);
-
-	crow::json::wvalue jsonResponse;
-	jsonResponse["lobbyCode"] = lobbyCode;
-	return crow::response(201, jsonResponse);
-}
-
-crow::response skribbl::Routing::GetGameLeaderboard(const crow::request& req)
-{
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
-	std::vector<std::pair<std::string, int16_t>> leaderboard = m_games[lobbyCode]->GetLeaderboard();
-
-	return crow::response(200);
-}
-
-crow::response skribbl::Routing::RemovePlayer(const crow::request& req)
-{
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
-	std::string playerName = json["playerName"].s();
-
-	m_games[lobbyCode]->RemovePlayer(playerName);
-	return crow::response(204);
 }

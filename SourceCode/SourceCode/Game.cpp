@@ -7,9 +7,8 @@ using skribbl::Turn;
 
 Game::Game()
 	: m_turn{ nullptr },
-	m_state{ Game::State::WAITING }
+	m_state{ Game::State::WAITING }, m_url{ "/" }
 {
-	m_players.reserve(kMaxPlayersNumber);
 }
 
 IGame::IGamePtr IGame::Factory()
@@ -17,22 +16,14 @@ IGame::IGamePtr IGame::Factory()
 	return std::make_unique<Game>();
 }
 
-std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard()
+std::vector<std::shared_ptr<Player>> Game::leaderboard()
 {
-	std::vector<std::pair<std::string, int16_t>> leaderboard;
-	leaderboard.reserve(m_players.size());
-	
-	for (const auto& player : m_players)
-	{
-		leaderboard.push_back({player->GetName(), player->GetScore()});
-	}
-
-	std::ranges::sort(leaderboard, [](const std::pair<std::string, int16_t>& firstPlayer, const std::pair<std::string, int16_t>& secondPlayer)
+	std::vector<std::shared_ptr<Player>> leaderboard = m_players;
+	std::ranges::sort(leaderboard, [](const std::shared_ptr<Player>& firstPlayer, const std::shared_ptr<Player>& secondPlayer)
 		{
-			return firstPlayer.second > secondPlayer.second;
+			return firstPlayer->getScore() > secondPlayer->getScore();
 		}
 	);
-
 	return leaderboard;
 }
 
@@ -41,18 +32,28 @@ Game::State Game::getNextState(State currentState)
 	return static_cast<State>(static_cast<int>(currentState) + 1);
 }
 
-void Game::Start()
+void Game::start(crow::SimpleApp& app)
 {
-	m_turn = std::make_unique<Turn>();
+	m_turn = std::make_shared<Turn>();
 
 	m_state = Game::State::FIRST_ROUND;
 
 	while (m_state != Game::State::GAME_OVER)
 	{
 
-		for (Player::PlayerPtr& player : m_players)
+		for (std::shared_ptr<Player> player : m_players)
 		{
-			m_turn->Reset();
+			m_turn->reset(player);
+			app.route_dynamic(m_url + "/remove")(
+				[this](const crow::request& req)
+				{
+					crow::json::rvalue json = crow::json::load(req.body);
+					std::string playerName = json["playerName"].s();
+
+					this->removePlayer(playerName);
+					return crow::response(200);
+				}
+			);
 		}
 
 		m_state = getNextState(m_state);
@@ -62,17 +63,17 @@ void Game::Start()
 	}
 }
 
-bool Game::AddPlayer(const std::string& name)
+bool Game::addPlayer(const std::string& name)
 {
 	if (m_players.size() < kMaxPlayersNumber)
 	{
-		m_players.push_back(std::make_unique<Player>(name));
+		m_players.push_back(std::make_shared<Player>(name));
 		return true;
 	}
 	return false;
 }
 
-std::string Game::GetState() const
+std::string Game::getState() const
 {
 	switch (m_state)
 	{
@@ -96,10 +97,15 @@ std::string Game::GetState() const
 	}
 }
 
-void Game::RemovePlayer(const std::string& name)
+void Game::setUrl(std::string lobbyCode)
 {
-	std::erase_if(m_players, [&name](const std::unique_ptr<Player>& player)
+	m_url += lobbyCode;
+}
+
+void Game::removePlayer(const std::string& name)
+{
+	std::erase_if(m_players, [&name](const std::shared_ptr<Player>& player)
 		{
-			return player->GetName() == name;
+			return player->getName() == name;
 		});
 }

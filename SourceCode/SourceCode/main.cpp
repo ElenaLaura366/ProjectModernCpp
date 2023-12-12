@@ -4,7 +4,7 @@
 int main()
 {
 	skribbl::Routing r;
-	r.Run();	
+	r.run();	
 
 	return 0;
 }

@@ -1,7 +1,7 @@
 module wordhandler;
 using skribbl::WordHandler;
 
-void WordHandler::ReadFromFile()
+void WordHandler::readFromFile()
 {
 	
 	std::ifstream m_fin(m_fileName);
@@ -14,7 +14,7 @@ void WordHandler::ReadFromFile()
 	m_fin.close();
 }
 
-int WordHandler::RandomIndex(int size) const
+int WordHandler::randomIndex(int size) const
 {
 	return (rand() % (size));
 }
@@ -25,27 +25,27 @@ WordHandler::WordHandler(const std::string& fileName) : m_fileName{ fileName }
 	ur = new UniqueRandom(100);
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	srand(seed); 
-	ReadFromFile();
-	Update();
+	readFromFile();
+	update();
 }
 
 
-void WordHandler::Update()
+void WordHandler::update()
 {
 	if (m_words.size() == 0)
 		std::exception("There are no words left");
 	std::erase(m_words, m_currentWord);
-	m_currentWord = m_words[RandomIndex(m_words.size())];
+	m_currentWord = m_words[randomIndex(m_words.size())];
 }
 
-std::string WordHandler::GetWord() const
+std::string WordHandler::getWord() const
 {
 	return m_currentWord;
 }
 
 
 
-std::vector<std::pair<int, char>> skribbl::WordHandler::GetHint() 
+std::vector<std::pair<int, char>> skribbl::WordHandler::getHint() 
 {
 	if (m_currentWord.size() == 0) {
 		return {};
@@ -55,7 +55,7 @@ std::vector<std::pair<int, char>> skribbl::WordHandler::GetHint()
 	ur = new UniqueRandom(m_currentWord.size());
 	std::vector<std::pair<int, char>> m_hint;
 	for (int i = 0; i < m_currentWord.size()/2; i++) {
-		int index = ur->GetValue();
+		int index = ur->getValue();
 		m_hint.push_back({index, m_currentWord[index]});
 	}
 

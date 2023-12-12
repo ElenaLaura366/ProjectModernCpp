@@ -1,5 +1,6 @@
 #pragma once
 
+#include <crow.h>
 #include <memory>
 #include <vector>
 #include <string>
@@ -19,11 +20,12 @@ namespace skribbl
 	public:
 		virtual ~IGame() = default;
 
-		virtual void Start() = 0;
-		virtual void RemovePlayer(const std::string& name) = 0;
+		virtual void start(crow::SimpleApp& app) = 0;
+		virtual void setUrl(std::string lobbyCode) = 0;
+		virtual void removePlayer(const std::string& name) = 0;
 
-		virtual bool AddPlayer(const std::string& name) = 0;
-		virtual std::vector<std::pair<std::string, int16_t>> GetLeaderboard() = 0;
-		virtual std::string GetState() const = 0;
+		virtual bool addPlayer(const std::string& name) = 0;
+		virtual std::vector<std::shared_ptr<Player>> leaderboard() = 0;
+		virtual std::string getState() const = 0;
 	};
 }

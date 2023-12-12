@@ -24,15 +24,15 @@ namespace skribbl
 
 		~Timer();
 
-		void Start();
-		void Pause();
-		void Restart();
-		void Stop();
+		void start();
+		void pause();
+		void restart();
+		void stop();
 
-		milliseconds GetElapsedTime() const;
-		milliseconds GetRemainingTime() const;
+		milliseconds getElapsedTime() const;
+		milliseconds getRemainingTime() const;
 
-		bool IsTimeUp() const;
+		bool isTimeUp() const;
 
 	private:
 		std::thread m_timerThread;

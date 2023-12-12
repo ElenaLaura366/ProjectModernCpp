@@ -11,9 +11,6 @@ namespace skribbl
 	export class Player
 	{
 	public:
-		using PlayerPtr = std::unique_ptr<Player>;
-
-	public:
 		Player();
 		Player(const std::string& username);
 		Player(const Player& player);
@@ -21,12 +18,12 @@ namespace skribbl
 		Player(Player&& player) noexcept = default;
 		Player& operator=(Player&& player) noexcept = default;
 
-		int16_t GetScore() const;
-		std::string GetName() const;
-		bool GetGuessed() const;
-		void SetUsername(const std::string& username);
-		void SetGuessed();
-		void SetScore(int16_t score);
+		int16_t getScore() const;
+		std::string getName() const;
+		bool getGuessed() const;
+		void setUsername(const std::string& username);
+		void setGuessed();
+		void setScore(int16_t score);
 
 	private:
 		std::string m_username;
