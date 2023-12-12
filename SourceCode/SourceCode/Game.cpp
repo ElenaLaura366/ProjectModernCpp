@@ -105,7 +105,12 @@ void Game::RemovePlayer(const std::string& name)
 void skribbl::Game::VerifyAnswer(const std::string& name, const std::string& answer)
 {
 	if (m_turn->VerifyGuess(answer)) {
-		m_players[0]->UpdateScore(m_turn->ScoreGuessingPlayer());
-		m_players[0]->SetGuessed();
+		for (auto& player : m_players)
+		{
+			if (player->GetName() == name) {
+				player->UpdateScore(m_turn->ScoreGuessingPlayer());
+				player->SetGuessed();
+			}
+		}
 	}
 }

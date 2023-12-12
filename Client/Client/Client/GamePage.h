@@ -25,7 +25,8 @@ private:
 	void OnExitGameBtnClicked();
 
 signals:
-	void goToLobbyPage();
+	void ExitGame();
+	void SendAnswerToServer(const std::string& answer);
 
 private:
 	Ui::GamePageClass *ui;

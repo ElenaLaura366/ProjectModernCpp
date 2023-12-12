@@ -23,7 +23,9 @@ Client::Client(QWidget *parent)
     connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
     connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
     connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
-    connect(m_gamePage, &GamePage::goToLobbyPage, this, &Client::ChangeToLobbyPage);
+    connect(m_gamePage, &GamePage::ExitGame, this, &Client::ChangeToLobbyPage);
+    connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
+    connect(m_gamePage, SIGNAL(GamePage::SendAnswerToServer(const std::string&)), this, SLOT(Client::HandleAnswer(const std::string&)));
 
     ChangeToLoginPage();
 }
@@ -39,6 +41,16 @@ void Client::ChangeToGamePage() {
 void Client::ChangeToLobbyPage(){
     
     m_stackedWidget->setCurrentWidget(m_lobbyPage);
+}
+
+void Client::HandleAnswer(const std::string& answer)
+{
+    m_rt.SendAnswer(answer);
+}
+
+void Client::ExitGame()
+{
+    m_rt.ExitGame();
 }
 
 bool Client::ValidInput() {

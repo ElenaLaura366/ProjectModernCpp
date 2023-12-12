@@ -9,6 +9,7 @@
 #include "GamePage.h"
 #include "LobbyPage.h"
 
+#include "Routing.h"
 
 class Client : public QMainWindow
 {
@@ -23,6 +24,9 @@ private slots:
     void ChangeToGamePage();
     void ChangeToLobbyPage();
 
+    void HandleAnswer(const std::string& answer);
+    void ExitGame();
+
 private:
     bool ValidInput();
 
@@ -32,9 +36,11 @@ private:
     LoginPage* m_loginPage;
     GamePage* m_gamePage;
     LobbyPage* m_lobbyPage;
+    Routing m_rt;
 
 signals:
     void loginButtonClicked();
+
 };
 
 #endif

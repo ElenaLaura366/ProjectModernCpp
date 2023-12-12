@@ -7,7 +7,7 @@
 #include <string>
 
 Routing::Routing()
-	: m_url{ "http://localhost:18080" },
+	: m_url{ "http://localhoast:18080" },
 	m_playerName{ "" },
 	m_lobbyCode{ 0 }
 {
@@ -43,22 +43,30 @@ void Routing::SendAnswer(const std::string& answer)
 
 void Routing::SendDrawing(const DrawingConfig& drawing)
 {
-
+	std::vector<int> dr{ {1, 2, 3}};
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/drawing" },
+		cpr::Payload{
+			{ "lobbyCode", std::to_string(m_lobbyCode) },
+			{ "playerName", m_playerName },
+			//{ "drawing", std::to_string(dr)}
+		}
+	);
 }
 
 void Routing::ExitGame()
 {
 	auto response = cpr::Put(
-	    cpr::Url{ "http://localhost:18080/remove" },
-	    cpr::Payload{
-	        {"lobbyCode",  std::to_string(m_lobbyCode) },
-	        { "playerName", m_playerName }
-	    }
+		cpr::Url{ m_url + "/remove" },
+		cpr::Payload{
+			{"lobbyCode",  std::to_string(m_lobbyCode) },
+			{ "playerName", m_playerName }
+		}
 	);
 	if (response.status_code == 200 || response.status_code == 201) {
-	    std::cout << "exited :)\n";
+		std::cout << "exited :)\n";
 	}
 	else {
-	    std::cout << "no exited the answer :(\n";
+		std::cout << "no exited the answer :(\n";
 	}
 }

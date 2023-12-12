@@ -34,6 +34,7 @@ void GamePage::OnSendAnswerBtnClicked() {
 		return;
 	ui->chatInput->clear();
 	UpdateChat("client", answer);
+	emit SendAnswerToServer(answer.toStdString());
 }
 
 void GamePage::UpdateChat(const QString& username, const QString& answer) {
@@ -56,7 +57,7 @@ void GamePage::OnExitGameBtnClicked(){
 	ui->answerList->clear();
 	m_drawingArea->ResetDrawing();
 
-	emit goToLobbyPage();
+	emit ExitGame();
 }
 
 
