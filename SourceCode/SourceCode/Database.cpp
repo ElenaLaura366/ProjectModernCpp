@@ -1,12 +1,18 @@
 #include "Database.h"
 
-skribbl::Database::Database(Storage& db)
+/*skribbl::Database::Database(Storage& db)
 	: m_db{ db }
-{}
+{}*/
 
-void skribbl::Database::SyncSchema()
+bool skribbl::Database::Initialize(const std::string& fileName)
 {
 	m_db.sync_schema();
+	auto initWordsCount = m_db.count<Words>();
+	if (initWordsCount == 0)
+		PopulateStorage(fileName);
+
+	auto wordsCount = m_db.count<Words>();
+	return wordsCount != 0;
 }
 
 bool skribbl::Database::CheckUserExists(const std::string& username)
@@ -39,18 +45,27 @@ void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
 	m_db.insert(GameHistory{ -1, playerId, gameId, points });
 }
 
+std::vector<int> skribbl::Database::GetIdWords()
+{
+	return m_db.select(&Words::m_id);
+}
+
 void skribbl::Database::PopulateStorage(const std::string& fileName)
 {
 	std::vector <Words> words;
 	std::ifstream fin(fileName);
-	if (!fin.is_open()) {
-		throw std::exception("File was unable to be oppened");
-	}
-	std::string word;
-	while (fin >> word)
+	if (!fin.is_open()) 
 	{
-		words.push_back({ -1, word });
+		throw std::exception("File was unable to be oppened"); // TODO: treat this exception
 	}
-	fin.close();
-    m_db.insert_range(words.begin(), words.end());
+	else 
+	{
+		std::string word;
+		while (fin >> word)
+		{
+			words.push_back({ -1, word });
+		}
+		fin.close();
+		m_db.insert_range(words.begin(), words.end());
+	}
 }
