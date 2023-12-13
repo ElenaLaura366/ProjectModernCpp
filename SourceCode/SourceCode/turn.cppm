@@ -24,19 +24,16 @@ namespace skribbl
 		Turn& operator=(Turn&& other) noexcept;
 		~Turn() = default;
 
-		void SetAllGuessed(bool value);
-
 		void Reset();
 		int8_t ScoreGuessingPlayer();
 		int8_t ScoreDrawingPlayer();
 		bool VerifyGuess(const std::string& guess);
 		uint8_t AvrageAnswerTime();
-		bool IsTurnOver() const;
+		bool IsOver() const;
 
 	private:
-		std::shared_ptr<WordHandler> m_wordHandler;
+		WordHandler::WordHandlerPtr m_wordHandler;
 		Timer m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
-		bool m_allGuessed;
 	};
 }

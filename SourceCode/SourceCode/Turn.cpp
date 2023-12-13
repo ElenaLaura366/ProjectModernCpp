@@ -9,8 +9,6 @@ Turn::Turn()
 
 }
 
-
-
 Turn::Turn(Turn&& other) noexcept
 	:
 	m_wordHandler{ std::move(other.m_wordHandler) },
@@ -27,13 +25,6 @@ Turn& Turn::operator=(Turn&& other) noexcept
 		m_answerTimestamps = std::move(other.m_answerTimestamps);
 	}
 	return *this;
-}
-
-
-
-void Turn::SetAllGuessed(bool value)
-{
-	m_allGuessed = value;
 }
 
 void Turn::Reset()
@@ -77,7 +68,7 @@ bool Turn::VerifyGuess(const std::string& guess)
 		return false;
 }
 
-bool Turn::IsTurnOver() const
+bool Turn::IsOver() const
 {
-	return m_allGuessed || m_timer.IsTimeUp();
+	return m_timer.IsTimeUp();
 }

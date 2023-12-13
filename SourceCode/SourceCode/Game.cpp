@@ -8,6 +8,7 @@ using skribbl::Turn;
 Game::Game()
 	: m_turn{ nullptr }
 {
+	m_players.reserve(kMaxPlayersNumber);
 }
 
 IGame::IGamePtr IGame::Factory()
@@ -22,7 +23,7 @@ std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard()
 
 	for (const auto& player : m_players)
 	{
-		leaderboard.push_back({ player->GetName(), player->GetScore() });
+		leaderboard.push_back({ player->GetUsername(), player->GetScore() });
 	}
 
 	std::ranges::sort(leaderboard, [](const std::pair<std::string, int16_t>& firstPlayer, const std::pair<std::string, int16_t>& secondPlayer)
@@ -51,6 +52,11 @@ void Game::Start()
 		for (Player::PlayerPtr& player : m_players)
 		{
 			m_turn->Reset();
+			while (!m_turn->IsOver())
+			{
+
+			}
+			player->UpdateScore(m_turn->ScoreDrawingPlayer());
 		}
 
 		m_state = GetNextState(m_state);
@@ -98,7 +104,7 @@ void Game::RemovePlayer(const std::string& name)
 {
 	std::erase_if(m_players, [&name](const Player::PlayerPtr& player)
 		{
-			return player->GetName() == name;
+			return player->GetUsername() == name;
 		});
 }
 
@@ -108,9 +114,8 @@ bool skribbl::Game::VerifyAnswer(const std::string& name, const std::string& ans
 	{
 		for (auto& player : m_players)
 		{
-			if (player->GetName() == name) {
+			if (player->GetUsername() == name) {
 				player->UpdateScore(m_turn->ScoreGuessingPlayer());
-				player->SetGuessed();
 				return true;
 			}
 		}

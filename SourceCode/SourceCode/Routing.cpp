@@ -199,7 +199,15 @@ crow::response skribbl::Routing::GetGameLeaderboard(const crow::request& req)
 	uint16_t lobbyCode = json["lobbyCode"].u();
 	std::vector<std::pair<std::string, int16_t>> leaderboard = m_games[lobbyCode]->GetLeaderboard();
 
-	return crow::response(200);
+	std::vector<crow::json::wvalue> results;
+	for (const auto& comp : leaderboard)
+	{
+		results.push_back(crow::json::wvalue{
+			{"playerName", comp.first},
+			{"score", comp.second}
+			});
+	}
+	return crow::json::wvalue{ results };
 }
 
 crow::response skribbl::Routing::RemovePlayer(const crow::request& req)
