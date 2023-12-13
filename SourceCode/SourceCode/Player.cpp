@@ -44,5 +44,16 @@ void Player::SetUsername(const std::string& username)
 void Player::UpdateScore(int8_t score)
 {
 	this->m_score += score;
-};
+}
+
+void skribbl::Player::setGuessed(bool guessed)
+{
+	m_guessed = guessed;
+}
+
+bool Player::HasGuessed() const
+{
+	return m_guessed;
+}
+;
 

@@ -41,6 +41,7 @@ namespace skribbl
 
 		void Start() override;
 		void RemovePlayer(const std::string& name) override;
+		void ResetPlayersGuessed();
 		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
 		bool AddPlayer(const std::string& name) override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() override;
@@ -52,5 +53,6 @@ namespace skribbl
 		std::vector<Player::PlayerPtr> m_players;
 		Turn::TurnPtr m_turn;
 		State m_state;
+		uint8_t m_playerGuessCount;
 	};
 }

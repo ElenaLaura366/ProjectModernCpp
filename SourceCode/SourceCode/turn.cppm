@@ -30,10 +30,12 @@ namespace skribbl
 		bool VerifyGuess(const std::string& guess);
 		uint8_t AvrageAnswerTime();
 		bool IsOver() const;
+		void AllPlayersGuessed();
 
 	private:
 		WordHandler::WordHandlerPtr m_wordHandler;
 		Timer m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
+		bool m_allPlayersGuessed;
 	};
 }

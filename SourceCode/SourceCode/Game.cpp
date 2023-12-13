@@ -6,7 +6,8 @@ using skribbl::Player;
 using skribbl::Turn;
 
 Game::Game()
-	: m_turn{ nullptr }
+	: m_turn{ nullptr },
+	m_playerGuessCount{0}
 {
 	m_players.reserve(kMaxPlayersNumber);
 }
@@ -48,15 +49,17 @@ void Game::Start()
 
 	while (m_state != Game::State::GAME_OVER)
 	{
-
 		for (Player::PlayerPtr& player : m_players)
 		{
+			m_playerGuessCount = 0;
 			m_turn->Reset();
 			while (!m_turn->IsOver())
 			{
-
+				if (m_players.size() - 1 == m_playerGuessCount)
+					m_turn->AllPlayersGuessed();
 			}
 			player->UpdateScore(m_turn->ScoreDrawingPlayer());
+			ResetPlayersGuessed();
 		}
 
 		m_state = GetNextState(m_state);
@@ -102,10 +105,24 @@ std::string Game::GetState() const
 
 void Game::RemovePlayer(const std::string& name)
 {
-	std::erase_if(m_players, [&name](const Player::PlayerPtr& player)
+	std::erase_if(m_players, [&name, this](const Player::PlayerPtr& player)
 		{
-			return player->GetUsername() == name;
+			if (player->GetUsername() == name)
+			{
+				if (player->HasGuessed())
+					m_playerGuessCount--;
+				return true;
+			}
+			return false;
 		});
+}
+
+void skribbl::Game::ResetPlayersGuessed()
+{
+	for (auto& player : m_players)
+	{
+		player->setGuessed(false);
+	}
 }
 
 bool skribbl::Game::VerifyAnswer(const std::string& name, const std::string& answer)
@@ -114,8 +131,10 @@ bool skribbl::Game::VerifyAnswer(const std::string& name, const std::string& ans
 	{
 		for (auto& player : m_players)
 		{
-			if (player->GetUsername() == name) {
+			if (player->GetUsername() == name) 
+			{
 				player->UpdateScore(m_turn->ScoreGuessingPlayer());
+				m_playerGuessCount++;
 				return true;
 			}
 		}

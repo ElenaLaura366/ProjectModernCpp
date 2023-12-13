@@ -137,7 +137,6 @@ void skribbl::Routing::Run()
 	);
 	
 	m_app.port(18080).multithreaded().run();
-	
 }
 
 crow::response skribbl::Routing::JoinLobby(const crow::request& req)

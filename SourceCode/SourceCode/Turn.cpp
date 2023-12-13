@@ -4,7 +4,8 @@ using skribbl::WordHandler;
 
 Turn::Turn()
 	: 
-	m_wordHandler{ nullptr }
+	m_wordHandler{ nullptr },
+	m_allPlayersGuessed{ false }
 {
 
 }
@@ -12,7 +13,8 @@ Turn::Turn()
 Turn::Turn(Turn&& other) noexcept
 	:
 	m_wordHandler{ std::move(other.m_wordHandler) },
-	m_answerTimestamps{ std::move(other.m_answerTimestamps) }
+	m_answerTimestamps{ std::move(other.m_answerTimestamps) },
+	m_allPlayersGuessed{ std::move(other.m_allPlayersGuessed) }
 {
 }
 
@@ -23,12 +25,14 @@ Turn& Turn::operator=(Turn&& other) noexcept
 		
 		m_wordHandler = std::move(other.m_wordHandler);
 		m_answerTimestamps = std::move(other.m_answerTimestamps);
+		m_allPlayersGuessed = std::move(other.m_allPlayersGuessed);
 	}
 	return *this;
 }
 
 void Turn::Reset()
 {
+	m_allPlayersGuessed = false;
 	m_timer.Pause();
 }
 
@@ -70,5 +74,10 @@ bool Turn::VerifyGuess(const std::string& guess)
 
 bool Turn::IsOver() const
 {
-	return m_timer.IsTimeUp();
+	return m_allPlayersGuessed || m_timer.IsTimeUp();
+}
+
+void skribbl::Turn::AllPlayersGuessed()
+{
+	m_allPlayersGuessed = true;
 }
