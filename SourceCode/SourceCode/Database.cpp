@@ -28,16 +28,16 @@ void skribbl::Database::CreateNewUser(const std::string& username, const std::st
 
 std::optional<User> skribbl::Database::AuthenticateUser(const std::string& username, const std::string& password)
 {
-    auto users = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
-    if (!users.empty())
-    {
-        const auto& user = users.front();
-        if (user.m_password == password)
-        {
-            return user;
-        }
-    }
-    return std::nullopt;
+	auto users = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
+	if (!users.empty())
+	{
+		const auto& user = users.front();
+		if (user.m_password == password)
+		{
+			return user;
+		}
+	}
+	return std::nullopt;
 }
 
 void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
@@ -55,15 +55,25 @@ std::string skribbl::Database::GetWord(int id)
 	return m_db.select(&Words::m_word, sql::where(sql::c(&Words::m_id) == id)).front();
 }
 
+void skribbl::Database::AddGames(year_month_day date)
+{
+	m_db.insert(Games{ -1, date });
+}
+
+std::vector<Games> skribbl::Database::GetGames()
+{
+	return m_db.get_all<Games>();
+}
+
 void skribbl::Database::PopulateStorage(const std::string& fileName)
 {
 	std::vector <Words> words;
 	std::ifstream fin(fileName);
-	if (!fin.is_open()) 
+	if (!fin.is_open())
 	{
 		throw std::exception("File was unable to be oppened"); // TODO: treat this exception
 	}
-	else 
+	else
 	{
 		std::string word;
 		while (fin >> word)
