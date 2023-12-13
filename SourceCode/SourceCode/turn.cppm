@@ -14,7 +14,6 @@ namespace skribbl
 	public:
 		using TurnPtr = std::unique_ptr<Turn>;
 
-	public:
 		static const uint8_t kMaxScore = 100;
 
 	public:

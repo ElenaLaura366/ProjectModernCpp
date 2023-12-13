@@ -41,12 +41,11 @@ namespace skribbl
 
 		void Start() override;
 		void RemovePlayer(const std::string& name) override;
-		void VerifyAnswer(const std::string& name,const std::string& answer) override;
+		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
 		bool AddPlayer(const std::string& name) override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() override;
 		std::string GetState() const override;
 
-		uint8_t PlayerPosition(const std::string& name) const;
 		State GetNextState(State currentState);
 
 	private:

@@ -1,5 +1,8 @@
 module uniquerandom;
 
+UniqueRandom::UniqueRandom()
+{
+}
 
 UniqueRandom::UniqueRandom(int number) : m_rand(),  m_dist(0, static_cast<int>(number)-1)
 {

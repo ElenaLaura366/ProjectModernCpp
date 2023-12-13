@@ -22,7 +22,7 @@ namespace skribbl
 
 		virtual void Start() = 0;
 		virtual void RemovePlayer(const std::string& name) = 0;
-		virtual void VerifyAnswer(const std::string& name, const std::string& answer) = 0;
+		virtual bool VerifyAnswer(const std::string& name, const std::string& answer) = 0;
 		virtual bool AddPlayer(const std::string& name) = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetLeaderboard() = 0;
 		virtual std::string GetState() const = 0;

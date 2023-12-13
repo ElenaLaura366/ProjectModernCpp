@@ -1,11 +1,8 @@
 module;
 export module wordhandler;
 
-import <fstream>;
 import <vector>;
 import <string>;
-import <chrono>;
-import <format>;
 import <memory>;
 import uniquerandom;
 
@@ -13,6 +10,9 @@ namespace skribbl
 {
 	export class WordHandler
 	{
+	public:
+		using WordHandlerPtr = std::unique_ptr<WordHandler>;
+
 	public:
 		WordHandler() = default;
 		~WordHandler() = default; 
@@ -29,6 +29,6 @@ namespace skribbl
 
 	private:
 		std::string m_currentWord;
-		UniqueRandom* ur;
+		UniqueRandom::UniqueRandomPtr m_ur;
 	};
 }

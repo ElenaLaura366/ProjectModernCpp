@@ -65,44 +65,39 @@ void skribbl::Routing::Run()
 	-----------------------------------------------------------------------------------------------------------------
 	*/
 
-
-
-	/*
-	we need route for login/register
-	-route for creating the url for the game with game lobby code
-	-route for chat getting the words from users
-	-route for drowing
-	-route for displaying leaderboard in left of every player and players username with it to display 
-	*/
-
-	CROW_ROUTE(m_app, "/login")(
+	CROW_ROUTE(m_app, "/login")
+		.methods(crow::HTTPMethod::PUT)(
 		[/*get's database for users*/]()
 		{
 			return crow::response(200);
 		}
 	);
-	CROW_ROUTE(m_app, "/register")(
+	CROW_ROUTE(m_app, "/register")
+		.methods(crow::HTTPMethod::PUT)(
 		[/*get's database for users*/]()
 		{
 			return crow::response(200);
 		}
 	);
 
-	CROW_ROUTE(m_app, "/create_lobby")(
+	CROW_ROUTE(m_app, "/create_lobby")
+		.methods(crow::HTTPMethod::PUT)(
 		[this](const crow::request& req)
 		{
 			return CreateLobby(req);
 		}
 	);
 
-	CROW_ROUTE(m_app, "/join_lobby")(
+	CROW_ROUTE(m_app, "/join_lobby")
+		.methods(crow::HTTPMethod::PUT)(
 		[this](const crow::request& req)
 		{
 			return JoinLobby(req);
 		}
 	);
 
-	CROW_ROUTE(m_app, "/start")(
+	CROW_ROUTE(m_app, "/start")
+		.methods(crow::HTTPMethod::PUT)(
 		[this](const crow::request& req)
 		{
 			return StartGame(req);
@@ -117,14 +112,16 @@ void skribbl::Routing::Run()
 			}
 	);
 
-	CROW_ROUTE(m_app, "/remove")(
+	CROW_ROUTE(m_app, "/remove")
+		.methods(crow::HTTPMethod::PUT)(
 		[this](const crow::request& req)
 		{
 			return RemovePlayer(req);
 		}
 	);
 
-	CROW_ROUTE(m_app, "/leaderboard")(
+	CROW_ROUTE(m_app, "/leaderboard")
+		.methods(crow::HTTPMethod::GET)(
 		[this](const crow::request& req)
 		{
 			return GetGameLeaderboard(req);
@@ -137,7 +134,7 @@ void skribbl::Routing::Run()
 			{
 				return GetGameState(req);
 			}
-			);
+	);
 	
 	m_app.port(18080).multithreaded().run();
 	
@@ -220,11 +217,16 @@ crow::response skribbl::Routing::ProcessAnswer(const crow::request& req)
 	crow::json::rvalue json = crow::json::load(req.body);
 	uint16_t lobbyCode = json["lobbyCode"].u();
 	std::string playerName = json["playerName"].s();
-	std::string answeer = json["answer"].s();
+	std::string answer = json["answer"].s();
 
-	m_games[lobbyCode]->VerifyAnswer(playerName, answeer);
-	// send to the other players
-	return crow::response(200);
+	crow::json::wvalue jsonResponse;
+	jsonResponse["playerName"] = playerName;
+	jsonResponse["answer"] = answer;
+	if (m_games[lobbyCode]->VerifyAnswer(playerName, answer))
+		jsonResponse["hasGuessed"] = true;
+	else
+		jsonResponse["hasGuessed"] = false;
+	return crow::response(200, jsonResponse);
 }
 
 crow::response skribbl::Routing::GetGameState(const crow::request& req)

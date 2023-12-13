@@ -6,6 +6,9 @@ import <set>;
 export class __declspec(dllexport) UniqueRandom
 {
 public:
+	using UniqueRandomPtr = std::unique_ptr<UniqueRandom>;
+
+public:
 	UniqueRandom();
 	UniqueRandom(int number);
 	int getValue();
@@ -16,9 +19,4 @@ private:
 	std::uniform_int_distribution<int> m_dist;
 	std::set<size_t> m_usedNumber;
 	size_t m_currentValue = 0;
-
 };
-
-UniqueRandom::UniqueRandom()
-{
-}

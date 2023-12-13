@@ -14,10 +14,10 @@ std::vector<std::pair<int, char>> skribbl::WordHandler::GetHint()
 		return {};
 	}
 
-	ur = new UniqueRandom(m_currentWord.size());
+	m_ur = std::make_unique<UniqueRandom>(m_currentWord.size());
 	std::vector<std::pair<int, char>> m_hint;
 	for (int i = 0; i < m_currentWord.size()/2; i++) {
-		int index = ur->getValue();
+		int index = m_ur->getValue();
 		m_hint.push_back({index, m_currentWord[index]});
 	}
 
