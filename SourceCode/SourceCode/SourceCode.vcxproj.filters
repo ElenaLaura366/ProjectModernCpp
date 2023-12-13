@@ -53,7 +53,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="wordsFile.txt">
+    <Text Include="WordsFile.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

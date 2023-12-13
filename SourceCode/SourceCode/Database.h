@@ -79,10 +79,12 @@ namespace skribbl
 
 		bool CheckUserExists(const std::string& username);
 		void CreateNewUser(const std::string& username, const std::string& password);
+
 		std::optional<User> AuthenticateUser(const std::string& username, const std::string& password);
 		void AddGameHistory(int playerId, int gameId, int points);
 
 		std::vector<int> GetIdWords();
+		std::string GetWord(int id);
 
 	private:
 		void PopulateStorage(const std::string& fileName);

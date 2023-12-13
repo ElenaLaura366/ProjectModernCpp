@@ -50,6 +50,11 @@ std::vector<int> skribbl::Database::GetIdWords()
 	return m_db.select(&Words::m_id);
 }
 
+std::string skribbl::Database::GetWord(int id)
+{
+	return m_db.select(&Words::m_word, sql::where(sql::c(&Words::m_id) == id)).front();
+}
+
 void skribbl::Database::PopulateStorage(const std::string& fileName)
 {
 	std::vector <Words> words;

@@ -193,7 +193,7 @@
     <ClCompile Include="wordhandler.cppm" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="wordsFile.txt" />
+    <Text Include="WordsFile.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
