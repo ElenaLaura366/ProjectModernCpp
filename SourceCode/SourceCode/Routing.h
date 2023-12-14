@@ -31,6 +31,7 @@ namespace skribbl
 		crow::response RemovePlayer(const crow::request& req);
 		crow::response ProcessAnswer(const crow::request& req);
 		crow::response GetGameState(const crow::request& req);
+		crow::response GetLogin(const crow::request& req);
 
 	private:
 		crow::SimpleApp m_app;

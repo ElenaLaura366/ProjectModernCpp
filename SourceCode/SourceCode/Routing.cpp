@@ -65,13 +65,24 @@ void skribbl::Routing::Run()
 	-----------------------------------------------------------------------------------------------------------------
 	*/
 
+	//CROW_ROUTE(m_app, "/login")
+	//	.methods(crow::HTTPMethod::PUT)(
+	//	[/*get's database for users*/]()
+	//	{
+	//		return crow::response(200);
+	//	}
+	//);
+
+
 	CROW_ROUTE(m_app, "/login")
 		.methods(crow::HTTPMethod::PUT)(
-		[/*get's database for users*/]()
-		{
-			return crow::response(200);
-		}
+			[this](const crow::request& req)
+			{
+				return GetLogin(req);
+			}
 	);
+
+
 	CROW_ROUTE(m_app, "/register")
 		.methods(crow::HTTPMethod::PUT)(
 		[/*get's database for users*/]()
@@ -242,4 +253,14 @@ crow::response skribbl::Routing::GetGameState(const crow::request& req)
 	uint16_t lobbyCode = json["lobbyCode"].u();
 
 	return crow::response(200, m_games[lobbyCode]->GetState());
+}
+
+crow::response skribbl::Routing::GetLogin(const crow::request& req)
+{
+	crow::json::rvalue json = crow::json::load(req.body);
+	std::string password = json["password"].s();
+	std::string username = json["username"].s();
+	if (username == "admin" && password == "123")
+		return crow::response(200);
+	return crow::response(503);
 }

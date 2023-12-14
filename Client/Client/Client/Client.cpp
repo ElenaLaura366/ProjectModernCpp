@@ -26,8 +26,8 @@ Client::Client(QWidget *parent)
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ChangeToLobbyPage);
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
     connect(m_gamePage, SIGNAL(GamePage::SendAnswerToServer(const std::string&)), this, SLOT(Client::HandleAnswer(const std::string&)));
-    connect(m_loginPage, SIGNAL(GamePage::SendLogin(const std::string&, const std::string&)), this, SLOT(Client::HandleLogin(const std::string&, const std::string&)));
-    connect(m_loginPage, SIGNAL(GamePage::SendRegister(const std::string&, const std::string&)), this, SLOT(Client::HandleRegister(const std::string&, const std::string&)));
+    connect(m_loginPage, SIGNAL(LoginPage::SendLoginToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleLogin(const std::string&, const std::string&)));
+    connect(m_loginPage, SIGNAL(LoginPage::SendRegisterToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleRegister(const std::string&, const std::string&)));
 
 
 
