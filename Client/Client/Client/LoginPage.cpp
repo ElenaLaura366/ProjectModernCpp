@@ -66,7 +66,7 @@ void LoginPage::Proceed() {
 	else {
 		emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
 	}
-	//emit loginSuccessful();
+	emit loginSuccessful();
 }
 
 

@@ -29,8 +29,8 @@ Client::Client(QWidget *parent)
     connect(m_loginPage, SIGNAL(LoginPage::SendLoginToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleLogin(const std::string&, const std::string&)));
     connect(m_loginPage, SIGNAL(LoginPage::SendRegisterToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleRegister(const std::string&, const std::string&)));
 
-
-
+    m_rt.SendLogin("admin", "123");
+    
     ChangeToLoginPage();
 }
 

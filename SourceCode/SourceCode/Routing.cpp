@@ -260,7 +260,5 @@ crow::response skribbl::Routing::GetLogin(const crow::request& req)
 	crow::json::rvalue json = crow::json::load(req.body);
 	std::string password = json["password"].s();
 	std::string username = json["username"].s();
-	if (username == "admin" && password == "123")
-		return crow::response(200);
-	return crow::response(503);
+	return crow::response(200);
 }

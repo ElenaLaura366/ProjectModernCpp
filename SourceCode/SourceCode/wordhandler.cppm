@@ -29,6 +29,6 @@ namespace skribbl
 
 	private:
 		std::string m_currentWord;
-		UniqueRandom::UniqueRandomPtr m_ur;
+		UniqueRandom<int>::UniqueRandomPtr m_ur;
 	};
 }

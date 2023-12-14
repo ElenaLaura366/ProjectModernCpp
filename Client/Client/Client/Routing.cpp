@@ -80,12 +80,6 @@ void Routing::SendLogin(const std::string& username, const std::string& password
 		}
 	);
 	
-	if (response.status_code == 200 || response.status_code == 201) {
-		std::cout << "User found :)\n";
-	}
-	else {
-		std::cout << "No user :(\n";
-	}
 }
 
 void Routing::SendRegister(const std::string& username, const std::string& password) {
