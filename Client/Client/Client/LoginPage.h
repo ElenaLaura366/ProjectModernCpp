@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_LoginPage.h"
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginPageClass; };
@@ -25,6 +26,8 @@ protected:
 
 private:
 	void cleanTextFields();
+	void OnLogin();
+	void OnRegister();
 
 private slots:
 	void ChangeToLogin();

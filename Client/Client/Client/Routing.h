@@ -18,13 +18,15 @@ public:
 	void SetPlayerName(const std::string& playerName);
 	void SetLobbyCode(uint16_t lobbyCode);
 	
-	void SendLogin(const std::string& username, const std::string& password);
+	bool SendLogin(const std::string& username, const std::string& password);
 	void SendRegister(const std::string& username, const std::string& password);
 
 
 	void SendAnswer(const std::string& answer);
 	void SendDrawing(const DrawingConfig& drawing);
 	void ExitGame();
+
+
 
 private:
 	std::string m_url;

@@ -18,6 +18,7 @@ public:
 
 	UniqueRandom<T>(int lnumber, int rnumber): m_mt(m_rand()) {
 		m_dist = std::uniform_int_distribution<int>(lnumber, rnumber);
+		Reset();
 	}
 
 	T getValue() {

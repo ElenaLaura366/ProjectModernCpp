@@ -4,6 +4,8 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QStackedWidget>
+#include <QMessageBox>
+
 #include "ui_Client.h"
 #include "LoginPage.h"
 #include "GamePage.h"

@@ -61,12 +61,37 @@ void LoginPage::cleanTextFields() {
 void LoginPage::Proceed() {
 
 	if (m_windowState == WindowState::LOGIN) {
-	emit SendLoginToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+		OnLogin();
 	}
 	else {
 		emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
 	}
-	emit loginSuccessful();
+	//emit loginSuccessful();
 }
 
 
+void LoginPage::OnLogin() {
+	if (ui->inputUsername->text().isEmpty() || ui->inputPsw->text().isEmpty())
+	{
+		QMessageBox::warning(nullptr, "Title", "One or more of the fields are null");
+		return;
+	}
+	emit SendLoginToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+}
+
+
+void LoginPage::OnRegister() {
+	if (ui->inputUsername->text().isEmpty() || ui->inputPsw->text().isEmpty() || ui->inputPswConf->text().isEmpty())
+	{
+		QMessageBox::warning(nullptr, "Title", "One or more of the fields are null");
+		return;
+	}
+
+	if (ui->inputPsw->text() != ui->inputPswConf->text()) {
+		QMessageBox::warning(nullptr, "Register error", "The two passwords are not the same");
+		return;
+	}
+
+	emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+
+}
