@@ -26,6 +26,10 @@ Client::Client(QWidget *parent)
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ChangeToLobbyPage);
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
     connect(m_gamePage, SIGNAL(GamePage::SendAnswerToServer(const std::string&)), this, SLOT(Client::HandleAnswer(const std::string&)));
+    connect(m_loginPage, SIGNAL(GamePage::SendLogin(const std::string&, const std::string&)), this, SLOT(Client::HandleLogin(const std::string&, const std::string&)));
+    connect(m_loginPage, SIGNAL(GamePage::SendRegister(const std::string&, const std::string&)), this, SLOT(Client::HandleRegister(const std::string&, const std::string&)));
+
+
 
     ChangeToLoginPage();
 }
@@ -55,4 +59,13 @@ void Client::ExitGame()
 
 bool Client::ValidInput() {
     return true;
+}
+
+void Client::HandleLogin(const std::string& username, const std::string& password) {
+    m_rt.SendLogin(username, password);
+}
+
+
+void Client::HandleRegister(const std::string& username, const std::string& password) {
+    m_rt.SendRegister(username, password);
 }

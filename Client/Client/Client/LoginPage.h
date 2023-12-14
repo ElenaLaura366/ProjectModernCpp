@@ -33,6 +33,8 @@ private slots:
 
 signals:
 	void loginSuccessful();
+	void SendLoginToServer(const std::string& username, const std::string& password);
+	void SendRegisterToServer(const std::string& username, const std::string& password);
 
 private:
 	Ui::LoginPageClass* ui;

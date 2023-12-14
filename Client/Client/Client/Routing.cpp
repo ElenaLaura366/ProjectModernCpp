@@ -7,7 +7,7 @@
 #include <string>
 
 Routing::Routing()
-	: m_url{ "http://localhoast:18080" },
+	: m_url{ "http://localhost:18080" },
 	m_playerName{ "" },
 	m_lobbyCode{ 0 }
 {
@@ -68,5 +68,39 @@ void Routing::ExitGame()
 	}
 	else {
 		std::cout << "no exited the answer :(\n";
+	}
+}
+
+void Routing::SendLogin(const std::string& username, const std::string& password) {
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/login" },
+		cpr::Payload{
+			{"username", username},
+			{"password", password}
+		}
+	);
+	
+	if (response.status_code == 200 || response.status_code == 201) {
+		std::cout << "User found :)\n";
+	}
+	else {
+		std::cout << "No user :(\n";
+	}
+}
+
+void Routing::SendRegister(const std::string& username, const std::string& password) {
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/register" },
+		cpr::Payload{
+			{"username", username},
+			{"password", password}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201) {
+		std::cout << "User registered :)\n";
+	}
+	else {
+		std::cout << "No register possible :(\n";
 	}
 }

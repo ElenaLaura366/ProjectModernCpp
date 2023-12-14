@@ -59,5 +59,14 @@ void LoginPage::cleanTextFields() {
 }
 
 void LoginPage::Proceed() {
+
+	if (m_windowState == WindowState::LOGIN) {
+	emit SendLoginToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+	}
+	else {
+		emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+	}
 	emit loginSuccessful();
 }
+
+

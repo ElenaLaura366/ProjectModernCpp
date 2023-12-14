@@ -2,6 +2,9 @@ module timer;
 
 using namespace skribbl;
 
+using namespace std::chrono;
+using namespace std::chrono_literals;
+
 static const milliseconds kRefreshingRate{ 10 };
 static const seconds kDuration{ 60 };
 
