@@ -26,7 +26,7 @@ private slots:
     void ChangeToGamePage();
     void ChangeToLobbyPage();
 
-    void HandleAnswer(const std::string& answer);
+    void HandleAnswer();
     void HandleLogin(const std::string& username, const std::string& password);
     void HandleRegister(const std::string& username, const std::string& password);
     void ExitGame();

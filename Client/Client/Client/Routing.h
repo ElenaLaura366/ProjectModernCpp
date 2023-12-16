@@ -21,10 +21,9 @@ public:
 	bool SendLogin(const std::string& username, const std::string& password);
 	void SendRegister(const std::string& username, const std::string& password);
 
-
-	void SendAnswer(const std::string& answer);
+	bool SendAnswer(const std::string& answer);
 	void SendDrawing(const DrawingConfig& drawing);
-	void ExitGame();
+	bool ExitGame();
 
 
 

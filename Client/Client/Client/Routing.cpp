@@ -5,6 +5,7 @@
 #include <sstream>
 #include <regex>
 #include <string>
+#include <QDebug>
 
 Routing::Routing()
 	: m_url{ "http://localhost:18080" },
@@ -23,11 +24,11 @@ void Routing::SetLobbyCode(uint16_t lobbyCode)
 	m_lobbyCode = lobbyCode;
 }
 
-void Routing::SendAnswer(const std::string& answer)
+bool Routing::SendAnswer(const std::string& answer)
 {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/answer" },
-		cpr::Payload{
+		cpr::Parameters{
 			{ "lobbyCode",  std::to_string(m_lobbyCode)},
 			{ "playerName", m_playerName },
 			{ "answer", answer }
@@ -35,15 +36,17 @@ void Routing::SendAnswer(const std::string& answer)
 	);
 	if (response.status_code == 200 || response.status_code == 201) {
 		std::cout << "Submited answer :)\n";
+		auto resp = crow::json::load(response.text);
+		auto our = response.text.find("true") != response.text.npos;
+
+		return true;
 	}
-	else {
-		std::cout << "There was a problem submiting the answer :(\n";
-	}
+	return false;
 }
 
 void Routing::SendDrawing(const DrawingConfig& drawing)
 {
-	std::vector<int> dr{ {1, 2, 3}};
+	std::vector<int> dr{ {1, 2, 3} };
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/drawing" },
 		cpr::Payload{
@@ -54,21 +57,19 @@ void Routing::SendDrawing(const DrawingConfig& drawing)
 	);
 }
 
-void Routing::ExitGame()
+bool Routing::ExitGame()
 {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/remove" },
-		cpr::Payload{
-			{"lobbyCode",  std::to_string(m_lobbyCode) },
-			{ "playerName", m_playerName }
+		cpr::Parameters{
+			{ "lobbyCode",  std::to_string(m_lobbyCode)},
+			{ "playerName", m_playerName },
 		}
 	);
 	if (response.status_code == 200 || response.status_code == 201) {
-		std::cout << "exited :)\n";
+		return true;
 	}
-	else {
-		std::cout << "no exited the answer :(\n";
-	}
+	return false;
 }
 
 bool Routing::SendLogin(const std::string& username, const std::string& password) {
@@ -79,14 +80,12 @@ bool Routing::SendLogin(const std::string& username, const std::string& password
 			{"password", password}
 		}
 	);
-	
+
 	if (response.status_code == 200 || response.status_code == 201) {
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
+
 }
 
 void Routing::SendRegister(const std::string& username, const std::string& password) {

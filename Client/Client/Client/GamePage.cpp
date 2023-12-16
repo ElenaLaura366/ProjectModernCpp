@@ -18,6 +18,11 @@ GamePage::~GamePage(){
 	delete ui;
 }
 
+Ui::GamePageClass* GamePage::GetUi()
+{
+	return ui;
+}
+
 void GamePage::keyPressEvent(QKeyEvent* event) {
 	if (event->key() == Qt::Key_Return) {
 		OnSendAnswerBtnClicked();
@@ -32,9 +37,8 @@ void GamePage::OnSendAnswerBtnClicked() {
 	QString answer = ui->chatInput->text();
 	if (answer.isEmpty())
 		return;
-	ui->chatInput->clear();
 	UpdateChat("client", answer);
-	emit SendAnswerToServer(answer.toStdString());
+	emit SendAnswerToServer();
 }
 
 void GamePage::UpdateChat(const QString& username, const QString& answer) {

@@ -115,7 +115,7 @@ void skribbl::Routing::Run()
 		}
 	);
 
-	CROW_ROUTE(m_app, "/answer")
+	CROW_ROUTE(m_app, "/sendanswer")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
 			{
@@ -150,7 +150,7 @@ void skribbl::Routing::Run()
 	m_app.port(18080).multithreaded().run();
 }
 
-crow::response skribbl::Routing::JoinLobby(const crow::request& req)
+crow::response Routing::JoinLobby(const crow::request& req)
 {
 	crow::json::rvalue json = crow::json::load(req.body);
 	uint16_t lobbyCode = json["lobbyCode"].u();
@@ -169,7 +169,7 @@ crow::response skribbl::Routing::JoinLobby(const crow::request& req)
 		return crow::response(409, "Lobby full!");
 }
 
-crow::response skribbl::Routing::StartGame(const crow::request& req)
+crow::response Routing::StartGame(const crow::request& req)
 {
 	crow::json::rvalue json = crow::json::load(req.body);
 	uint16_t lobbyCode = json["lobbyCode"].u();
@@ -179,7 +179,7 @@ crow::response skribbl::Routing::StartGame(const crow::request& req)
 	return crow::response(204);
 }
 
-crow::response skribbl::Routing::CreateLobby(const crow::request& req)
+crow::response Routing::CreateLobby(const crow::request& req)
 {
 	if (m_games.size() == kmaxGamesSupported)
 		return crow::response(503, "Server full!");
@@ -203,7 +203,7 @@ crow::response skribbl::Routing::CreateLobby(const crow::request& req)
 	return crow::response(201, jsonResponse);
 }
 
-crow::response skribbl::Routing::GetGameLeaderboard(const crow::request& req)
+crow::response Routing::GetGameLeaderboard(const crow::request& req)
 {
 	crow::json::rvalue json = crow::json::load(req.body);
 	uint16_t lobbyCode = json["lobbyCode"].u();
@@ -220,34 +220,41 @@ crow::response skribbl::Routing::GetGameLeaderboard(const crow::request& req)
 	return crow::json::wvalue{ results };
 }
 
-crow::response skribbl::Routing::RemovePlayer(const crow::request& req)
+crow::response Routing::RemovePlayer(const crow::request& req)
 {
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
-	std::string playerName = json["playerName"].s();
+	//crow::json::rvalue json = crow::json::load(req.body);
+	//uint16_t lobbyCode = json["lobbyCode"].u();
+	//std::string playerName = json["playerName"].s();
+
+	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string playerName = req.url_params.get("playerName");
 
 	m_games[lobbyCode]->RemovePlayer(playerName);
 	return crow::response(204);
 }
 
-crow::response skribbl::Routing::ProcessAnswer(const crow::request& req)
+crow::response Routing::ProcessAnswer(const crow::request& req)
 {
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
-	std::string playerName = json["playerName"].s();
-	std::string answer = json["answer"].s();
+	//crow::json::rvalue json = crow::json::load(req.body);
+	//uint16_t lobbyCode = json["lobbyCode"].u();
+	//std::string playerName = json["playerName"].s();
+	//std::string answer = json["answer"].s();
+
+	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string playerName = req.url_params.get("playerName");
+	std::string answer = req.url_params.get("answer");
 
 	crow::json::wvalue jsonResponse;
 	jsonResponse["playerName"] = playerName;
 	jsonResponse["answer"] = answer;
-	if (m_games[lobbyCode]->VerifyAnswer(playerName, answer))
+	if (true/*m_games[lobbyCode]->VerifyAnswer(playerName, answer)*/)
 		jsonResponse["hasGuessed"] = true;
 	else
 		jsonResponse["hasGuessed"] = false;
 	return crow::response(200, jsonResponse);
 }
 
-crow::response skribbl::Routing::GetGameState(const crow::request& req)
+crow::response Routing::GetGameState(const crow::request& req)
 {
 	crow::json::rvalue json = crow::json::load(req.body);
 	uint16_t lobbyCode = json["lobbyCode"].u();
@@ -255,7 +262,7 @@ crow::response skribbl::Routing::GetGameState(const crow::request& req)
 	return crow::response(200, m_games[lobbyCode]->GetState());
 }
 
-crow::response skribbl::Routing::GetLogin(const crow::request& req)
+crow::response Routing::GetLogin(const crow::request& req)
 {
 	crow::json::rvalue json = crow::json::load(req.body);
 	std::string password = json["password"].s();

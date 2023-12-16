@@ -20,16 +20,13 @@ Client::Client(QWidget *parent)
     
     setCentralWidget(m_stackedWidget);
     
-    connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
     connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
-    
-    
     connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
-    connect(m_gamePage, &GamePage::ExitGame, this, &Client::ChangeToLobbyPage);
+     
+    connect(m_gamePage, &GamePage::SendAnswerToServer, this, &Client::HandleAnswer);
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
-   
-    connect(m_gamePage, SIGNAL(GamePage::SendAnswerToServer(const std::string&)), this, SLOT(Client::HandleAnswer(const std::string&)));
     
+    connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
     connect(m_loginPage, SIGNAL(LoginPage::SendLoginToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleLogin(const std::string&, const std::string&)));
     connect(m_loginPage, SIGNAL(LoginPage::SendRegisterToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleRegister(const std::string&, const std::string&)));
     
@@ -49,14 +46,23 @@ void Client::ChangeToLobbyPage(){
     m_stackedWidget->setCurrentWidget(m_lobbyPage);
 }
 
-void Client::HandleAnswer(const std::string& answer)
+void Client::HandleAnswer()
 {
-    m_rt.SendAnswer(answer);
+    auto gameUi = m_gamePage->GetUi();
+    std::string answer = gameUi->chatInput->text().toUtf8().constData();
+    gameUi->chatInput->clear();
+
+    if (!m_rt.SendAnswer(answer))
+        QMessageBox::information(nullptr, "Server Conection Problem", "Answert not sent.");
+
 }
 
 void Client::ExitGame()
 {
-    m_rt.ExitGame();
+    if(!m_rt.ExitGame())
+        QMessageBox::information(nullptr, "Server Conection Problem", "Player did not exit game.");
+    else
+        ChangeToLobbyPage();
 }
 
 bool Client::ValidInput() {
@@ -72,9 +78,7 @@ void Client::HandleLogin(const std::string& username, const std::string& passwor
         QMessageBox::information(nullptr, "Title", "Wrong credentials.");
 
     }
-
 }
-
 
 void Client::HandleRegister(const std::string& username, const std::string& password) {
     m_rt.SendRegister(username, password);

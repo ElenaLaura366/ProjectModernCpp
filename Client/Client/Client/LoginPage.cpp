@@ -66,7 +66,7 @@ void LoginPage::Proceed() {
 	else {
 		emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
 	}
-	//emit loginSuccessful();
+	emit loginSuccessful();
 }
 
 
@@ -76,7 +76,7 @@ void LoginPage::OnLogin() {
 		QMessageBox::warning(nullptr, "Title", "One or more of the fields are null");
 		return;
 	}
-	emit SendLoginToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+	//emit SendLoginToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
 }
 
 

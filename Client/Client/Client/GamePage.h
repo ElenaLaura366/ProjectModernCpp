@@ -15,6 +15,8 @@ public:
 	GamePage(QWidget *parent = nullptr);
 	~GamePage();
 
+	Ui::GamePageClass* GetUi();
+
 private:
 	void UpdateChat(const QString& username, const QString& answer);
 
@@ -26,7 +28,7 @@ private:
 
 signals:
 	void ExitGame();
-	void SendAnswerToServer(const std::string& answer);
+	void SendAnswerToServer();
 
 private:
 	Ui::GamePageClass *ui;
