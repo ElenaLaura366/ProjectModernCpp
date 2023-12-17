@@ -16,6 +16,7 @@ namespace skribbl
 	class Game : public IGame
 	{
 	public:
+
 		enum class State
 		{
 			WAITING,
@@ -44,7 +45,9 @@ namespace skribbl
 		void ResetPlayersGuessed();
 		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
 		bool AddPlayer(const std::string& name) override;
-		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() override;
+		void AddAnswer(const std::string& name, const std::string& answer) override;
+		std::vector <Answer> GetAnswers() const override;
+		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;
 
 		State GetNextState(State currentState);
@@ -54,5 +57,6 @@ namespace skribbl
 		Turn::TurnPtr m_turn;
 		State m_state;
 		uint8_t m_playerGuessCount;
+		std::vector<Answer> m_answers;
 	};
 }

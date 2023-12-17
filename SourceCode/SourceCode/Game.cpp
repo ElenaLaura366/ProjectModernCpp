@@ -4,10 +4,11 @@ using skribbl::IGame;
 using skribbl::Game;
 using skribbl::Player;
 using skribbl::Turn;
+using skribbl::Answer;
 
 Game::Game()
 	: m_turn{ nullptr },
-	m_playerGuessCount{0}
+	m_playerGuessCount{ 0 }
 {
 	m_players.reserve(kMaxPlayersNumber);
 }
@@ -17,7 +18,7 @@ IGame::IGamePtr IGame::Factory()
 	return std::make_unique<Game>();
 }
 
-std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard()
+std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard() const
 {
 	std::vector<std::pair<std::string, int16_t>> leaderboard;
 	leaderboard.reserve(m_players.size());
@@ -79,28 +80,20 @@ bool Game::AddPlayer(const std::string& name)
 	return false;
 }
 
+void Game::AddAnswer(const std::string& name, const std::string& answer)
+{
+	m_answers.emplace_back(name, answer);
+}
+
+std::vector<Answer> Game::GetAnswers() const
+{
+	return m_answers;
+}
+
 std::string Game::GetState() const
 {
-	switch (m_state)
-	{
-	case Game::State::WAITING:
-		return "Waiting";
-
-	case Game::State::FIRST_ROUND:
-		return "First Round";
-
-	case Game::State::SECOND_ROUND:
-		return "Second Round";
-
-	case Game::State::THIRD_ROUND:
-		return "Third Round";
-
-	case Game::State::FOURTH_ROUND:
-		return "Fourth Round";
-
-	case Game::State::GAME_OVER:
-		return "Game Over";
-	}
+	std::vector<std::string> states{ "Waiting" , "First Round","Second Round", "Third Round" , "Fourth Round", "Game Over" };
+	return states[static_cast<int>(m_state)];
 }
 
 void Game::RemovePlayer(const std::string& name)
@@ -117,7 +110,7 @@ void Game::RemovePlayer(const std::string& name)
 		});
 }
 
-void skribbl::Game::ResetPlayersGuessed()
+void Game::ResetPlayersGuessed()
 {
 	for (auto& player : m_players)
 	{
@@ -125,13 +118,13 @@ void skribbl::Game::ResetPlayersGuessed()
 	}
 }
 
-bool skribbl::Game::VerifyAnswer(const std::string& name, const std::string& answer)
+bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
 {
-	if (m_turn->VerifyGuess(answer)) 
+	if (m_turn->VerifyGuess(answer))
 	{
 		for (auto& player : m_players)
 		{
-			if (player->GetUsername() == name) 
+			if (player->GetUsername() == name)
 			{
 				player->UpdateScore(m_turn->ScoreGuessingPlayer());
 				m_playerGuessCount++;

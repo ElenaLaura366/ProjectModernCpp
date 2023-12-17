@@ -21,6 +21,8 @@ public:
     Client(QWidget *parent = nullptr);
     ~Client() = default;
 
+    void paintEvent(QPaintEvent* e) override;
+
 private slots:
     void ChangeToLoginPage();
     void ChangeToGamePage();

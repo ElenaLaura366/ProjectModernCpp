@@ -11,7 +11,7 @@ Client::Client(QWidget *parent)
     m_stackedWidget = ui->centralWidget->findChild<QStackedWidget*>("stackedWidget");
 
     m_loginPage = new LoginPage(this);
-    m_gamePage = new GamePage(this);
+    m_gamePage = new GamePage(this, &m_rt);
     m_lobbyPage = new LobbyPage(this);
 
     m_stackedWidget->addWidget(m_gamePage);
@@ -31,6 +31,11 @@ Client::Client(QWidget *parent)
     connect(m_loginPage, &LoginPage::SendRegisterToServer, this, &Client::HandleRegister);
     
     ChangeToLoginPage();
+}
+
+void Client::paintEvent(QPaintEvent* e)
+{
+    auto ceva = 0;
 }
 
 void Client::ChangeToLoginPage() {

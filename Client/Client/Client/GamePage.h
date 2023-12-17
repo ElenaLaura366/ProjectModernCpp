@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_GamePage.h"
+#include "Routing.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class GamePageClass; };
@@ -12,10 +13,11 @@ class GamePage : public QWidget
 	Q_OBJECT
 
 public:
-	GamePage(QWidget *parent = nullptr);
+	GamePage(QWidget *parent = nullptr, Routing* m_rt = nullptr);
 	~GamePage();
 
 	Ui::GamePageClass* GetUi();
+	void paintEvent(QPaintEvent* e) override;
 
 private:
 	void UpdateChat(const QString& username, const QString& answer);
@@ -33,4 +35,5 @@ signals:
 private:
 	Ui::GamePageClass *ui;
 	DrawingAreaWidget* m_drawingArea;
+	Routing* m_rt;
 };

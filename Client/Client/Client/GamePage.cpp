@@ -1,9 +1,10 @@
 #include "GamePage.h"
 #include <QKeyEvent>
 
-GamePage::GamePage(QWidget *parent)
+GamePage::GamePage(QWidget *parent, Routing* rt)
 	: QWidget{ parent }
 	, ui{ new Ui::GamePageClass() }
+	, m_rt{ rt }
 {
 	ui->setupUi(this);
 	m_drawingArea = ui->drawingArea;
@@ -21,6 +22,12 @@ GamePage::~GamePage(){
 Ui::GamePageClass* GamePage::GetUi()
 {
 	return ui;
+}
+
+void GamePage::paintEvent(QPaintEvent* e)
+{
+	m_rt->GetAnswers();
+	//m_rt->GetDrawing();
 }
 
 void GamePage::keyPressEvent(QKeyEvent* event) {

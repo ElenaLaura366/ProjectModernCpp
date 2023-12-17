@@ -44,6 +44,23 @@ bool Routing::SendAnswer(const std::string& answer)
 	return false;
 }
 
+std::vector<QString> Routing::GetAnswers()
+{
+	cpr::Response response = cpr::Get(
+		cpr::Url{ m_url + "/getanswers" }, 
+		cpr::Parameters{ { {"lobbyCode"}, std::to_string(m_lobbyCode) } }
+	);
+
+	std::vector<QString> answerList;
+	auto answers = crow::json::load(response.text);
+	for (auto answer : answers)
+	{
+		QString text = QString::fromStdString(answer["playerName"].s()); + ": " + QString::fromStdString(answer["answer"].s());
+		answerList.push_back(text);
+	}
+	return answerList;
+}
+
 void Routing::SendDrawing(const DrawingConfig& drawing)
 {
 	std::vector<int> dr{ {1, 2, 3} };
@@ -81,7 +98,7 @@ bool Routing::SendLogin(const std::string& username, const std::string& password
 		}
 	);
 
-	if (response.status_code == 200 || response.status_code == 201) 
+	if (response.status_code == 200 || response.status_code == 201)
 		return true;
 
 	return false;
@@ -99,6 +116,6 @@ bool Routing::SendRegister(const std::string& username, const std::string& passw
 
 	if (response.status_code == 200 || response.status_code == 201)
 		return true;
-	
+
 	return false;
 }

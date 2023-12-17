@@ -30,6 +30,7 @@ namespace skribbl
 		crow::response GetGameLeaderboard(const crow::request& req);
 		crow::response RemovePlayer(const crow::request& req);
 		crow::response ProcessAnswer(const crow::request& req);
+		crow::response GetAnswers(const crow::request& req);
 		crow::response GetGameState(const crow::request& req);
 		crow::response GetLogin(const crow::request& req);
 		crow::response GetRegister(const crow::request& req);

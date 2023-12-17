@@ -22,6 +22,8 @@ public:
 	bool SendRegister(const std::string& username, const std::string& password);
 
 	bool SendAnswer(const std::string& answer);
+	std::vector<QString> GetAnswers();
+	bool GetDrawing();
 	void SendDrawing(const DrawingConfig& drawing);
 	bool ExitGame();
 

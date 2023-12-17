@@ -42,7 +42,10 @@ void DrawingAreaWidget::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void DrawingAreaWidget::paintEvent(QPaintEvent* event) {
-	Q_UNUSED(event);
+	//Q_UNUSED(event);
+
+	// routing to get drawing
+
 	QPainter painter(this);
 	painter.fillRect(rect(), QColor(255, 255, 255));
 

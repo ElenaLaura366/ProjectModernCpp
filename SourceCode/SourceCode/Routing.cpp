@@ -79,31 +79,31 @@ void skribbl::Routing::Run()
 			[this](const crow::request& req)
 			{
 				return GetRegister(req);
-		}
+			}
 	);
 
 	CROW_ROUTE(m_app, "/create_lobby")
 		.methods(crow::HTTPMethod::PUT)(
-		[this](const crow::request& req)
-		{
-			return CreateLobby(req);
-		}
+			[this](const crow::request& req)
+			{
+				return CreateLobby(req);
+			}
 	);
 
 	CROW_ROUTE(m_app, "/join_lobby")
 		.methods(crow::HTTPMethod::PUT)(
-		[this](const crow::request& req)
-		{
-			return JoinLobby(req);
-		}
+			[this](const crow::request& req)
+			{
+				return JoinLobby(req);
+			}
 	);
 
 	CROW_ROUTE(m_app, "/start")
 		.methods(crow::HTTPMethod::PUT)(
-		[this](const crow::request& req)
-		{
-			return StartGame(req);
-		}
+			[this](const crow::request& req)
+			{
+				return StartGame(req);
+			}
 	);
 
 	CROW_ROUTE(m_app, "/sendanswer")
@@ -114,20 +114,28 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/getanswers")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetAnswers(req);
+			}
+	);
+
 	CROW_ROUTE(m_app, "/remove")
 		.methods(crow::HTTPMethod::PUT)(
-		[this](const crow::request& req)
-		{
-			return RemovePlayer(req);
-		}
+			[this](const crow::request& req)
+			{
+				return RemovePlayer(req);
+			}
 	);
 
 	CROW_ROUTE(m_app, "/leaderboard")
 		.methods(crow::HTTPMethod::GET)(
-		[this](const crow::request& req)
-		{
-			return GetGameLeaderboard(req);
-		}
+			[this](const crow::request& req)
+			{
+				return GetGameLeaderboard(req);
+			}
 	);
 
 	CROW_ROUTE(m_app, "/game_state")
@@ -137,7 +145,7 @@ void skribbl::Routing::Run()
 				return GetGameState(req);
 			}
 	);
-	
+
 	m_app.port(18080).multithreaded().run();
 }
 
@@ -235,6 +243,8 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 	std::string playerName = req.url_params.get("playerName");
 	std::string answer = req.url_params.get("answer");
 
+	m_games[lobbyCode]->AddAnswer(playerName, answer);
+
 	crow::json::wvalue jsonResponse;
 	jsonResponse["playerName"] = playerName;
 	jsonResponse["answer"] = answer;
@@ -243,6 +253,22 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 	else
 		jsonResponse["hasGuessed"] = false;
 	return crow::response(200, jsonResponse);
+}
+
+crow::response skribbl::Routing::GetAnswers(const crow::request& req)
+{
+	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+
+	std::vector<crow::json::wvalue> answers_json;
+	//auto answers = m_games[lobbyCode]->GetAnswers();
+	//for (const auto& answer : answers)
+	//{
+	//	answers_json.push_back(crow::json::wvalue{
+	//		{"playerName", answer.playerName},
+	//		{"answer", answer.answer}
+	//		});
+	//}
+	return crow::json::wvalue{ answers_json };
 }
 
 crow::response Routing::GetGameState(const crow::request& req)
@@ -258,7 +284,7 @@ crow::response Routing::GetLogin(const crow::request& req)
 
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
-	if(username == "admin" && password=="123")
+	if (username == "admin" && password == "123")
 		return crow::response(200);
 	return crow::response(400);
 }
