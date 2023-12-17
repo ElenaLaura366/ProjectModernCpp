@@ -19,7 +19,7 @@ public:
 	void SetLobbyCode(uint16_t lobbyCode);
 	
 	bool SendLogin(const std::string& username, const std::string& password);
-	void SendRegister(const std::string& username, const std::string& password);
+	bool SendRegister(const std::string& username, const std::string& password);
 
 	bool SendAnswer(const std::string& answer);
 	void SendDrawing(const DrawingConfig& drawing);

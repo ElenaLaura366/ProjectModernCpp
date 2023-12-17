@@ -18,6 +18,11 @@ LoginPage::~LoginPage()
 	delete ui;
 }
 
+Ui::LoginPageClass* LoginPage::GetUi()
+{
+	return ui;
+}
+
 void LoginPage::ChangeToLogin()
 {
 	if (m_windowState != WindowState::LOGIN) {
@@ -64,7 +69,7 @@ void LoginPage::Proceed() {
 		OnLogin();
 	}
 	else {
-		emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+		OnRegister();
 	}
 	emit loginSuccessful();
 }
@@ -76,7 +81,7 @@ void LoginPage::OnLogin() {
 		QMessageBox::warning(nullptr, "Title", "One or more of the fields are null");
 		return;
 	}
-	//emit SendLoginToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
+	emit SendLoginToServer();
 }
 
 
@@ -89,9 +94,7 @@ void LoginPage::OnRegister() {
 
 	if (ui->inputPsw->text() != ui->inputPswConf->text()) {
 		QMessageBox::warning(nullptr, "Register error", "The two passwords are not the same");
-		return;
+		emit SendRegisterToServer();
+
 	}
-
-	emit SendRegisterToServer(ui->inputUsername->text().toStdString(), ui->inputPsw->text().toStdString());
-
 }

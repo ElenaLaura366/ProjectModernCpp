@@ -75,32 +75,30 @@ bool Routing::ExitGame()
 bool Routing::SendLogin(const std::string& username, const std::string& password) {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/login" },
-		cpr::Payload{
+		cpr::Parameters{
 			{"username", username},
 			{"password", password}
 		}
 	);
 
-	if (response.status_code == 200 || response.status_code == 201) {
+	if (response.status_code == 200 || response.status_code == 201) 
 		return true;
-	}
+
 	return false;
 
 }
 
-void Routing::SendRegister(const std::string& username, const std::string& password) {
+bool Routing::SendRegister(const std::string& username, const std::string& password) {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/register" },
-		cpr::Payload{
+		cpr::Parameters{
 			{"username", username},
 			{"password", password}
 		}
 	);
 
-	if (response.status_code == 200 || response.status_code == 201) {
-		std::cout << "User registered :)\n";
-	}
-	else {
-		std::cout << "No register possible :(\n";
-	}
+	if (response.status_code == 200 || response.status_code == 201)
+		return true;
+	
+	return false;
 }

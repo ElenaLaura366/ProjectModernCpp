@@ -27,8 +27,8 @@ Client::Client(QWidget *parent)
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
     
     connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
-    connect(m_loginPage, SIGNAL(LoginPage::SendLoginToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleLogin(const std::string&, const std::string&)));
-    connect(m_loginPage, SIGNAL(LoginPage::SendRegisterToServer(const std::string&, const std::string&)), this, SLOT(Client::HandleRegister(const std::string&, const std::string&)));
+    connect(m_loginPage, &LoginPage::SendLoginToServer, this, &Client::HandleLogin);
+    connect(m_loginPage, &LoginPage::SendRegisterToServer, this, &Client::HandleRegister);
     
     ChangeToLoginPage();
 }
@@ -69,17 +69,35 @@ bool Client::ValidInput() {
     return true;
 }
 
-void Client::HandleLogin(const std::string& username, const std::string& password) {
+void Client::HandleLogin(){
+    
+    auto loginUi = m_loginPage->GetUi();
+
+    std::string username = loginUi->inputUsername->text().toUtf8().constData();
+    std::string password = loginUi->inputPsw->text().toUtf8().constData();
+ 
     if (m_rt.SendLogin(username, password) == true) {
         QMessageBox::information(nullptr, "Title", "This is a simple message box.");
         emit loginButtonClicked();
     }
     else {
         QMessageBox::information(nullptr, "Title", "Wrong credentials.");
-
     }
 }
 
-void Client::HandleRegister(const std::string& username, const std::string& password) {
-    m_rt.SendRegister(username, password);
+void Client::HandleRegister() {
+
+    auto loginUi = m_loginPage->GetUi();
+
+    std::string username = loginUi->inputUsername->text().toUtf8().constData();
+    std::string password = loginUi->inputPsw->text().toUtf8().constData();
+
+
+    if (m_rt.SendRegister(username, password) == true) {
+        QMessageBox::information(nullptr, "Title", "Your account has been registered successfully");
+        emit loginButtonClicked();
+    }
+    else {
+        QMessageBox::information(nullptr, "Title", "Something went wrong");
+    }
 }

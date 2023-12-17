@@ -65,15 +65,6 @@ void skribbl::Routing::Run()
 	-----------------------------------------------------------------------------------------------------------------
 	*/
 
-	//CROW_ROUTE(m_app, "/login")
-	//	.methods(crow::HTTPMethod::PUT)(
-	//	[/*get's database for users*/]()
-	//	{
-	//		return crow::response(200);
-	//	}
-	//);
-
-
 	CROW_ROUTE(m_app, "/login")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
@@ -85,9 +76,9 @@ void skribbl::Routing::Run()
 
 	CROW_ROUTE(m_app, "/register")
 		.methods(crow::HTTPMethod::PUT)(
-		[/*get's database for users*/]()
-		{
-			return crow::response(200);
+			[this](const crow::request& req)
+			{
+				return GetRegister(req);
 		}
 	);
 
@@ -264,10 +255,21 @@ crow::response Routing::GetGameState(const crow::request& req)
 
 crow::response Routing::GetLogin(const crow::request& req)
 {
-	crow::json::rvalue json = crow::json::load(req.body);
-	std::string password = json["password"].s();
-	std::string username = json["username"].s();
+
+	std::string password = req.url_params.get("password");
+	std::string username = req.url_params.get("username");
 	if(username == "admin" && password=="123")
 		return crow::response(200);
 	return crow::response(400);
+}
+
+crow::response skribbl::Routing::GetRegister(const crow::request& req)
+{
+	std::string password = req.url_params.get("password");
+	std::string username = req.url_params.get("username");
+
+	// check if there is any other person with the same username in database
+	// add to the database
+
+	return crow::response(200);
 }

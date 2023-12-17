@@ -21,6 +21,8 @@ public:
 	LoginPage(QWidget* parent = nullptr);
 	~LoginPage();
 
+	Ui::LoginPageClass* GetUi();
+
 protected:     
 	void paintEvent(QPaintEvent* event) override;
 
@@ -36,8 +38,8 @@ private slots:
 
 signals:
 	void loginSuccessful();
-	void SendLoginToServer(const std::string& username, const std::string& password);
-	void SendRegisterToServer(const std::string& username, const std::string& password);
+	void SendLoginToServer();
+	void SendRegisterToServer();
 
 private:
 	Ui::LoginPageClass* ui;
