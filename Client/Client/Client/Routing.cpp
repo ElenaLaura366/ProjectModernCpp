@@ -119,3 +119,37 @@ bool Routing::SendRegister(const std::string& username, const std::string& passw
 
 	return false;
 }
+
+bool Routing::SendJoinLobby(std::string lobbyCode)
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/joinlobby" },
+		cpr::Parameters{
+			{"lobbyCode", lobbyCode},
+			{"playerName", m_playerName}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201)
+		return true;
+
+	std::string code = response.text;
+	//std::cout << code << std::endl;
+
+	return false;
+}
+
+bool Routing::SendCreateLobby(std::string& username)
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/createlobby" },
+		cpr::Parameters{
+			{"playerName", username}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201)
+		return true;
+
+	return false;
+}

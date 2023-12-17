@@ -7,14 +7,18 @@ LobbyPage::LobbyPage(QWidget *parent)
 	ui->setupUi(this);
 
 	connect(ui->logoutBtn, &QPushButton::clicked, this, &LobbyPage::ChangeToLoginPage);
-	connect(ui->createLobbyBtn, &QPushButton::clicked, this, &LobbyPage::ChangeToGamePage);
-	connect(ui->joinLobbyBtn, &QPushButton::clicked, this, &LobbyPage::ChangeToGamePage);
-
+	connect(ui->joinLobbyBtn, &QPushButton::clicked, this, &LobbyPage::OnJoinLobbyClicked);
+	connect(ui->createLobbyBtn, &QPushButton::clicked, this, &LobbyPage::OnCreateLobbyClicked);
 }
 
 LobbyPage::~LobbyPage()
 {
 	delete ui;
+}
+
+Ui::LobbyClass* LobbyPage::GetUi()
+{
+	return ui;
 }
 
 void LobbyPage::ChangeToGamePage()
@@ -25,4 +29,14 @@ void LobbyPage::ChangeToGamePage()
 void LobbyPage::ChangeToLoginPage()
 {
 	emit goToLoginPage();
+}
+
+void LobbyPage::OnJoinLobbyClicked()
+{
+	emit SendJoinLobbyToServer();
+}
+
+void LobbyPage::OnCreateLobbyClicked()
+{
+	emit SendCreateLobbyToServer();
 }

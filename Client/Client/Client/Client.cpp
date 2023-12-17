@@ -22,6 +22,8 @@ Client::Client(QWidget *parent)
     
     connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
     connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
+    connect(m_lobbyPage, &LobbyPage::SendCreateLobbyToServer, this, &Client::HandleCreateLobby);
+	connect(m_lobbyPage, &LobbyPage::SendJoinLobbyToServer, this, &Client::HandleJoinLobby);
      
     connect(m_gamePage, &GamePage::SendAnswerToServer, this, &Client::HandleAnswer);
     connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
@@ -105,4 +107,22 @@ void Client::HandleRegister() {
     else {
         QMessageBox::information(nullptr, "Title", "Something went wrong");
     }
+}
+
+void Client::HandleCreateLobby()
+{
+	auto lobbyUiUser = m_loginPage->GetUi();
+
+    std::string lobbyName = lobbyUiUser->inputUsername->text().toUtf8().constData();
+
+	if (!m_rt.SendCreateLobby(lobbyName))
+		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not created."); //de revizuit
+}
+
+void Client::HandleJoinLobby()
+{
+    auto lobbyUi = m_lobbyPage->GetUi();
+	std::string lobbyName = lobbyUi->lobbyCode->text().toUtf8().constData();
+	if (!m_rt.SendJoinLobby(lobbyName))
+		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not joined.");
 }

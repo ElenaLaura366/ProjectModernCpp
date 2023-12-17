@@ -31,6 +31,8 @@ private slots:
     void HandleAnswer();
     void HandleLogin();
     void HandleRegister();
+    void HandleCreateLobby();
+    void HandleJoinLobby();
     void ExitGame();
 
 private:

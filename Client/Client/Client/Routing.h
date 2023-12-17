@@ -20,6 +20,8 @@ public:
 	
 	bool SendLogin(const std::string& username, const std::string& password);
 	bool SendRegister(const std::string& username, const std::string& password);
+	bool SendJoinLobby(std::string lobbyCode);
+	bool SendCreateLobby(std::string& username);
 
 	bool SendAnswer(const std::string& answer);
 	std::vector<QString> GetAnswers();
