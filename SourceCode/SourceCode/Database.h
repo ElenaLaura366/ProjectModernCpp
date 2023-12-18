@@ -187,6 +187,7 @@ namespace skribbl
 
 		void AddGames(year_month_day date);
 		std::vector<Games> GetGames();
+		year_month_day CurrentDate();
 
 	private:
 		void PopulateStorage(const std::string& fileName);
