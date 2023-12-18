@@ -26,7 +26,16 @@ Ui::GamePageClass* GamePage::GetUi()
 
 void GamePage::paintEvent(QPaintEvent* e)
 {
-	m_rt->GetAnswers();
+	auto answers = m_rt->GetAnswers();
+
+	if (answers.size()!=0 && answers.size() > m_answers.size())
+	{
+		m_answers.clear();
+		m_answers = answers;
+	}
+
+	UpdateChat();
+
 	//m_rt->GetDrawing();
 }
 
@@ -44,15 +53,19 @@ void GamePage::OnSendAnswerBtnClicked() {
 	QString answer = ui->chatInput->text();
 	if (answer.isEmpty())
 		return;
-	UpdateChat("client", answer);
+	//UpdateChat("client", answer);
 	emit SendAnswerToServer();
 }
 
-void GamePage::UpdateChat(const QString& username, const QString& answer) {
-	QString text = username + ": " + answer;
-	QListWidgetItem* answerItem = new QListWidgetItem(text);
-	ui->answerList->addItem(answerItem);
-	update();
+void GamePage::UpdateChat() {
+
+	ui->answerList->clear();
+	for (const auto& text : m_answers)
+	{
+		QListWidgetItem* answerItem = new QListWidgetItem(text);
+		answerItem->setFlags(answerItem->flags() & ~Qt::ItemIsSelectable);
+		ui->answerList->addItem(answerItem);
+	}
 }
 
 void GamePage::OnUndoBtnClicked() {

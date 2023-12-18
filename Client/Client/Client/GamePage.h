@@ -20,7 +20,7 @@ public:
 	void paintEvent(QPaintEvent* e) override;
 
 private:
-	void UpdateChat(const QString& username, const QString& answer);
+	void UpdateChat();
 
 	void keyPressEvent(QKeyEvent* event) override;
 	void OnSendAnswerBtnClicked();
@@ -36,4 +36,5 @@ private:
 	Ui::GamePageClass *ui;
 	DrawingAreaWidget* m_drawingArea;
 	Routing* m_rt;
+	std::vector<QString> m_answers;
 };

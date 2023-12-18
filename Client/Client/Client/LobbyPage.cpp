@@ -1,4 +1,5 @@
 #include "LobbyPage.h"
+#include <QMessageBox>
 
 LobbyPage::LobbyPage(QWidget *parent)
 	: QWidget{ parent }
@@ -33,6 +34,11 @@ void LobbyPage::ChangeToLoginPage()
 
 void LobbyPage::OnJoinLobbyClicked()
 {
+	if (ui->lobbyCode->text().isEmpty())
+	{
+		QMessageBox::warning(nullptr, "Title", "LobbyCode field is null");
+		return;
+	}
 	emit SendJoinLobbyToServer();
 }
 
