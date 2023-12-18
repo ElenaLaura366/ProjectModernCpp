@@ -8,7 +8,7 @@
 #include <chrono>
 #include <format>
 #include <sstream>
-#include <regex>
+#include <memory>
 
 static std::string sysDaysToString(std::chrono::sys_days pt) {
 	auto r = std::format("{:%F}", pt);
@@ -114,8 +114,8 @@ struct User {
 
 struct GameHistory {
 	int m_id;
-	int m_id_player;
-	int m_id_game;
+	std::unique_ptr<int> m_id_player;
+	std::unique_ptr<int> m_id_game;
 	int m_points;
 };
 
@@ -180,7 +180,6 @@ namespace skribbl
 		void CreateNewUser(const std::string& username, const std::string& password);
 
 		std::optional<User> AuthenticateUser(const std::string& username, const std::string& password);
-		void AddGameHistory(int playerId, int gameId, int points);
 
 		std::vector<int> GetIdWords();
 		std::string GetWord(int id);
@@ -188,6 +187,11 @@ namespace skribbl
 		void AddGames(year_month_day date);
 		std::vector<Games> GetGames();
 		year_month_day CurrentDate();
+
+		void AddGameHistory(int playerId, int gameId, int points);
+		bool UserExists(int userId);
+		bool GameExists(int gameId);
+		std::vector<GameHistory> GetGameHistory(int userId);
 
 	private:
 		void PopulateStorage(const std::string& fileName);

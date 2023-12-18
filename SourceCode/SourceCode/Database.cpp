@@ -40,11 +40,6 @@ std::optional<User> skribbl::Database::AuthenticateUser(const std::string& usern
 	return std::nullopt;
 }
 
-void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
-{
-	m_db.insert(GameHistory{ -1, playerId, gameId, points });
-}
-
 std::vector<int> skribbl::Database::GetIdWords()
 {
 	return m_db.select(&Words::m_id);
@@ -104,4 +99,37 @@ void skribbl::Database::PopulateStorage(const std::string& fileName)
 		fin.close();
 		m_db.insert_range(words.begin(), words.end());
 	}
+}
+
+void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
+{
+	if (!UserExists(playerId)) {
+		throw std::exception("User ID does not exist.");
+	}
+
+	if (!GameExists(gameId)) {
+		throw std::exception("Game ID does not exist.");
+	}
+
+	try {
+		m_db.insert(GameHistory{-1,std::make_unique<int>(playerId) ,std::make_unique<int>(gameId) ,points });
+	}
+	catch (const std::exception& e) {
+		throw std::exception("Error adding game history");
+	}
+}
+
+bool skribbl::Database::UserExists(int userId)
+{
+	return m_db.count<User>(sqlite_orm::where(sqlite_orm::c(&User::m_id) == userId)) > 0;
+}
+
+bool skribbl::Database::GameExists(int gameId)
+{
+	return m_db.count<Games>(sqlite_orm::where(sqlite_orm::c(&Games::m_id) == gameId)) > 0;
+}
+
+std::vector<GameHistory> skribbl::Database::GetGameHistory(int userId)
+{
+	return m_db.get_all<GameHistory>(sqlite_orm::where(sqlite_orm::c(&GameHistory::m_id_player) == userId));
 }
