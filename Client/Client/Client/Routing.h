@@ -20,11 +20,12 @@ public:
 	bool SendJoinLobby(std::string lobbyCode);
 	bool SendCreateLobby(std::string& username);
 	bool SendAnswer(const std::string& answer);
+	void SendDrawing(const DrawingConfig& drawing);
 	uint8_t GetTime(const std::string& answer);
 	std::vector<QString> GetAnswers();
 	bool GetDrawing();
+	QString GetWord() const;
 	bool IsDrawingPlayer();
-	void SendDrawing(const DrawingConfig& drawing);
 	bool ExitGame();
 
 

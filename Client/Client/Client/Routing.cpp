@@ -85,6 +85,20 @@ bool Routing::GetDrawing()
 	return true;
 }
 
+QString Routing::GetWord() const
+{
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/get_drawing" },
+		cpr::Parameters{
+			{ "lobbyCode", std::to_string(m_lobbyCode) },
+		}
+	);
+
+	auto resp = crow::json::load(response.text);
+	std::string strWord = std::string(resp["word"]);
+	return QString::fromStdString(strWord);
+}
+
 bool Routing::IsDrawingPlayer()
 {
 	auto response = cpr::Get(
@@ -101,8 +115,6 @@ bool Routing::IsDrawingPlayer()
 	return false;
 
 }
-
-
 
 void Routing::SendDrawing(const DrawingConfig& drawing)
 {

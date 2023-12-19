@@ -25,12 +25,14 @@ namespace skribbl
 		~Turn() = default;
 
 		void Reset();
-		int8_t ScoreGuessingPlayer();
-		int8_t ScoreDrawingPlayer();
 		bool VerifyGuess(const std::string& guess);
-		uint8_t AvrageAnswerTime();
+		int8_t ScoreGuessingPlayer() const;
+		int8_t ScoreDrawingPlayer() const;
+		uint8_t AvrageAnswerTime() const;
 		bool IsOver() const;
-		void AllPlayersGuessed();
+		uint8_t GetRemainingTime() const;
+
+		void SetAllPlayersGuessed();
 
 	private:
 		WordHandler::WordHandlerPtr m_wordHandler;

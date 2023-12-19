@@ -5,16 +5,19 @@ DrawingAreaWidget::DrawingAreaWidget(QWidget* parent) : QWidget{ parent }, m_isM
 void DrawingAreaWidget::UndoLastLine()
 {
 	if (!m_drawing.isEmpty()) {
-		m_drawing.pop_back();
-		m_line.clear();
+		m_drawing.remove(m_drawing.size() - 1);
+		if (!m_line.isEmpty())
+			m_line.clear();
 		update();
 	}
 }
 
 void DrawingAreaWidget::ResetDrawing()
 {
-	m_drawing.clear();
-	m_line.clear();
+	if (!m_drawing.isEmpty())
+		m_drawing.clear();
+	if (!m_line.isEmpty())
+		m_line.clear();
 	update();
 }
 
@@ -42,7 +45,7 @@ void DrawingAreaWidget::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void DrawingAreaWidget::paintEvent(QPaintEvent* event) {
-	//Q_UNUSED(event);
+	Q_UNUSED(event);
 
 	// routing to get drawing?
 

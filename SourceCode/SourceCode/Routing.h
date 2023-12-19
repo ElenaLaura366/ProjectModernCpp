@@ -31,6 +31,9 @@ namespace skribbl
 		crow::response RemovePlayer(const crow::request& req);
 		crow::response ProcessAnswer(const crow::request& req);
 		crow::response ProcessDrawing(const crow::request& req);
+		
+
+		crow::response GetWord(const crow::request& req);
 		crow::response GetDrawing(const crow::request& req);
 		crow::response GetAnswers(const crow::request& req);
 		crow::response GetDrawingPlayer(const crow::request& req);

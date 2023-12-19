@@ -36,19 +36,19 @@ void Turn::Reset()
 	m_timer.Pause();
 }
 
-int8_t Turn::ScoreGuessingPlayer()
+int8_t Turn::ScoreGuessingPlayer() const
 {
 	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.GetElapsedTime());
 	uint8_t time = timeInSeconds.count();
 	return time < 30 ? kMaxScore : (60 - time) * 100 / 30;
 }
 
-uint8_t Turn::AvrageAnswerTime()
+uint8_t Turn::AvrageAnswerTime() const
 {
 	return std::accumulate(m_answerTimestamps.begin(), m_answerTimestamps.end(), 0.0) / m_answerTimestamps.size();
 }
 
-int8_t Turn::ScoreDrawingPlayer()
+int8_t Turn::ScoreDrawingPlayer() const
 {
 	if (m_answerTimestamps.size() != 0)
 	{
@@ -77,7 +77,12 @@ bool Turn::IsOver() const
 	return m_allPlayersGuessed || m_timer.IsTimeUp();
 }
 
-void skribbl::Turn::AllPlayersGuessed()
+uint8_t skribbl::Turn::GetRemainingTime() const
+{
+	return m_timer.GetRemainingTime();
+}
+
+void Turn::SetAllPlayersGuessed()
 {
 	m_allPlayersGuessed = true;
 }

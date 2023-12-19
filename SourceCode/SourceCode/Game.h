@@ -46,6 +46,10 @@ namespace skribbl
 		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
 		bool AddPlayer(const std::string& name) override;
 		void AddAnswer(const std::string& name, const std::string& answer) override;
+		
+		std::string GetWord() const override;
+		std::string GetDrawingPlayer()const override;
+		uint8_t GetTime() const override;
 		std::vector <Answer> GetAnswers() const override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;

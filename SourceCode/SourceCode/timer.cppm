@@ -30,7 +30,7 @@ namespace skribbl
 		void Stop();
 
 		milliseconds GetElapsedTime() const;
-		milliseconds GetRemainingTime() const;
+		uint8_t GetRemainingTime() const;
 
 		bool IsTimeUp() const;
 

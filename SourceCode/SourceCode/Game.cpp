@@ -57,7 +57,7 @@ void Game::Start()
 			while (!m_turn->IsOver())
 			{
 				if (m_players.size() - 1 == m_playerGuessCount)
-					m_turn->AllPlayersGuessed();
+					m_turn->SetAllPlayersGuessed();
 			}
 			player->UpdateScore(m_turn->ScoreDrawingPlayer());
 			ResetPlayersGuessed();
@@ -83,6 +83,21 @@ bool Game::AddPlayer(const std::string& name)
 void Game::AddAnswer(const std::string& name, const std::string& answer)
 {
 	m_answers.emplace_back(name, answer);
+}
+
+std::string Game::GetWord() const
+{
+	return std::string();
+}
+
+std::string Game::GetDrawingPlayer() const
+{
+	return std::string();
+}
+
+uint8_t Game::GetTime() const
+{
+	return m_turn->GetRemainingTime();
 }
 
 std::vector<Answer> Game::GetAnswers() const

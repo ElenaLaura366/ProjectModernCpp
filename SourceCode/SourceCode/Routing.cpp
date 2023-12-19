@@ -114,6 +114,14 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/get_word")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetWord(req);
+			}
+	);
+
 	CROW_ROUTE(m_app, "/send_answer")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
@@ -281,6 +289,17 @@ crow::response skribbl::Routing::ProcessDrawing(const crow::request& req)
 	return crow::response();
 }
 
+crow::response skribbl::Routing::GetWord(const crow::request& req)
+{
+	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+
+	std::string word = "mere";// m_games[lobbyCode]->GetWord();
+	
+	crow::json::wvalue jsonResp;
+	jsonResp["word"] = word;
+	return crow::response(200, jsonResp);
+}
+
 crow::response skribbl::Routing::GetDrawing(const crow::request& req)
 {
 	return crow::response();
@@ -348,7 +367,7 @@ crow::response skribbl::Routing::GetTime(const crow::request& req)
 {
 	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
 
-	uint8_t seconds = 3; //m_games[lobbyCode]->GetTime();
+	uint8_t seconds = m_games[lobbyCode]->GetTime();
 
 	crow::json::wvalue jsonResp;
 	jsonResp["seconds"] = seconds;

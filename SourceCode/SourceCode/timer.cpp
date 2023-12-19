@@ -82,9 +82,12 @@ milliseconds Timer::GetElapsedTime() const
 	return m_elapsedTime.load();
 }
 
-milliseconds Timer::GetRemainingTime() const
+uint8_t Timer::GetRemainingTime() const
 {
-	return m_duration.load() - m_elapsedTime.load();
+	auto millisecondsRemaining = m_duration.load() - m_elapsedTime.load();
+	auto secondsRemaining = duration_cast<seconds>(millisecondsRemaining);
+
+	return static_cast<uint8_t>(secondsRemaining.count());
 }
 
 bool Timer::IsTimeUp() const
