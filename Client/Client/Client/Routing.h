@@ -15,16 +15,15 @@ public:
 	Routing(Routing&& other) noexcept = delete;
 	Routing& operator=(Routing&& other) noexcept = delete;
 
-	void SetPlayerName(const std::string& playerName);
-	void SetLobbyCode(uint16_t lobbyCode);
-	
 	bool SendLogin(const std::string& username, const std::string& password);
 	bool SendRegister(const std::string& username, const std::string& password);
 	bool SendJoinLobby(std::string lobbyCode);
 	bool SendCreateLobby(std::string& username);
 	bool SendAnswer(const std::string& answer);
+	uint8_t GetTime(const std::string& answer);
 	std::vector<QString> GetAnswers();
 	bool GetDrawing();
+	bool IsDrawingPlayer();
 	void SendDrawing(const DrawingConfig& drawing);
 	bool ExitGame();
 

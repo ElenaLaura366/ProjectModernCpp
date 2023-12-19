@@ -106,6 +106,14 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/drawing_player")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetDrawingPlayer(req);
+			}
+	);
+
 	CROW_ROUTE(m_app, "/send_answer")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
@@ -123,7 +131,7 @@ void skribbl::Routing::Run()
 	);
 
 	CROW_ROUTE(m_app, "/send_drawing")
-		.methods(crow::HTTPMethod::Put)(
+		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
 			{
 				return ProcessDrawing(req);
@@ -131,10 +139,18 @@ void skribbl::Routing::Run()
 	);
 
 	CROW_ROUTE(m_app, "/get_drawing")
-		.methods(crow::HTTPMethod::Put)(
+		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
 			{
 				return GetDrawing(req);
+			}
+	);
+
+	CROW_ROUTE(m_app, "/get_time")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetTime(req);
 			}
 	);
 
@@ -288,6 +304,17 @@ crow::response skribbl::Routing::GetAnswers(const crow::request& req)
 	return crow::json::wvalue{ answers_json };
 }
 
+crow::response skribbl::Routing::GetDrawingPlayer(const crow::request& req)
+{
+	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+
+	auto drawingPlayer = "player"; // m_games[lobbyCode].GetDrawingPlayer();
+
+	crow::json::wvalue jsonResp;
+	jsonResp["playerName"] = drawingPlayer;
+	return crow::response(200, jsonResp);
+}
+
 crow::response Routing::GetGameState(const crow::request& req)
 {
 	crow::json::rvalue json = crow::json::load(req.body);
@@ -315,4 +342,16 @@ crow::response skribbl::Routing::GetRegister(const crow::request& req)
 	// add to the database
 
 	return crow::response(200);
+}
+
+crow::response skribbl::Routing::GetTime(const crow::request& req)
+{
+	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+
+	uint8_t seconds = 3; //m_games[lobbyCode]->GetTime();
+
+	crow::json::wvalue jsonResp;
+	jsonResp["seconds"] = seconds;
+
+	return crow::response(200, jsonResp);
 }

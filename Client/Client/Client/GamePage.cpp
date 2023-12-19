@@ -4,6 +4,7 @@
 GamePage::GamePage(QWidget *parent, Routing* rt)
 	: QWidget{ parent }
 	, ui{ new Ui::GamePageClass() }
+	, m_refreshCount{0}
 	, m_rt{ rt }
 {
 	ui->setupUi(this);
@@ -26,16 +27,19 @@ Ui::GamePageClass* GamePage::GetUi()
 
 void GamePage::paintEvent(QPaintEvent* e)
 {
-	auto answers = m_rt->GetAnswers();
-
-	if (answers.size()!=0 && answers.size() > m_answers.size())
+	if(m_refreshCount % kRefreshRate == 0)
 	{
-		m_answers.clear();
-		m_answers = answers;
+		auto answers = m_rt->GetAnswers();
+
+		if (answers.size() != 0 && answers.size() > m_answers.size())
+		{
+			m_answers.clear();
+			m_answers = answers;
+		}
+		UpdateChat();
 	}
 
-	UpdateChat();
-
+	m_refreshCount++;
 	//m_rt->GetDrawing();
 }
 
@@ -53,7 +57,6 @@ void GamePage::OnSendAnswerBtnClicked() {
 	QString answer = ui->chatInput->text();
 	if (answer.isEmpty())
 		return;
-	//UpdateChat("client", answer);
 	emit SendAnswerToServer();
 }
 

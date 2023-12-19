@@ -15,15 +15,6 @@ Routing::Routing()
 {
 }
 
-void Routing::SetPlayerName(const std::string& playerName)
-{
-	m_playerName = playerName;
-}
-
-void Routing::SetLobbyCode(uint16_t lobbyCode)
-{
-	m_lobbyCode = lobbyCode;
-}
 
 bool Routing::SendAnswer(const std::string& answer)
 {
@@ -43,6 +34,17 @@ bool Routing::SendAnswer(const std::string& answer)
 		return true;
 	}
 	return false;
+}
+
+uint8_t Routing::GetTime(const std::string& answer)
+{
+	cpr::Response response = cpr::Get(
+		cpr::Url{ m_url + "/get_time" },
+		cpr::Parameters{ { {"lobbyCode"}, std::to_string(m_lobbyCode) } }
+	);
+
+	auto resp = crow::json::load(response.text);
+	return resp["seconds"].u();
 }
 
 std::vector<QString> Routing::GetAnswers()
@@ -82,6 +84,25 @@ bool Routing::GetDrawing()
 
 	return true;
 }
+
+bool Routing::IsDrawingPlayer()
+{
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/drawing_player" },
+		cpr::Parameters{
+			{ "lobbyCode", std::to_string(m_lobbyCode) },
+		}
+	);
+
+	auto resp = crow::json::load(response.text);
+	if (std::string(resp["playerName"]) == m_playerName)
+		return true;
+
+	return false;
+
+}
+
+
 
 void Routing::SendDrawing(const DrawingConfig& drawing)
 {

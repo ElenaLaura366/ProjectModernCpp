@@ -37,4 +37,7 @@ private:
 	DrawingAreaWidget* m_drawingArea;
 	Routing* m_rt;
 	std::vector<QString> m_answers;
+	uint m_refreshCount;
+
+	static const uint8_t kRefreshRate = 5;
 };
