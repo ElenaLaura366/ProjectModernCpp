@@ -17,21 +17,24 @@ Client::Client(QWidget* parent)
 	m_loginPage = new LoginPage(this);
 	m_gamePage = new GamePage(this, &m_rt);
 	m_lobbyPage = new LobbyPage(this);
+	m_waitingRoom = new WaitingRoom(this);
 	m_userInfo = new UserInfo();
 
 	m_stackedWidget->addWidget(m_gamePage);
 	m_stackedWidget->addWidget(m_lobbyPage);
 	m_stackedWidget->addWidget(m_loginPage);
+	m_stackedWidget->addWidget(m_waitingRoom);
 
 	setCentralWidget(m_stackedWidget);
 
 	connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
-	connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
+	//connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
 	connect(m_lobbyPage, &LobbyPage::SendCreateLobbyToServer, this, &Client::HandleCreateLobby);
 	connect(m_lobbyPage, &LobbyPage::SendJoinLobbyToServer, this, &Client::HandleJoinLobby);
-
 	connect(m_gamePage, &GamePage::SendAnswerToServer, this, &Client::HandleAnswer);
 	connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
+	
+	connect(m_waitingRoom, &WaitingRoom::goToGame, this, &Client::ChangeToGamePage);
 
 	connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
 	connect(m_loginPage, &LoginPage::SendLoginToServer, this, &Client::HandleLogin);
@@ -64,9 +67,15 @@ void Client::ChangeToLobbyPage() {
 	m_stackedWidget->setCurrentWidget(m_lobbyPage);
 }
 
+void Client::ChangeToWaitingRoom()
+{
+	//m_waitingRoom->SetRoomCode(user.getLobbyCode().value());
+	m_stackedWidget->setCurrentWidget(m_waitingRoom);
+}
+
 void Client::ShowUserInfo()
 {
-	m_userInfo->setWindowTitle(m_username + "'s game history");
+	m_userInfo->setWindowTitle(user.getUsername() + "'s game history");
 	m_userInfo->show();
 }
 
@@ -101,10 +110,10 @@ void Client::HandleLogin() {
 	std::string password = loginUi->inputPsw->text().toUtf8().constData();
 
 	if (m_rt.SendLogin(username, password) == true) {
-		m_username = QString::fromUtf8(username.c_str());
-		QMessageBox::information(nullptr, "Title", "Hello " + m_username);
+		user.setUsername(username);
+		QMessageBox::information(nullptr, "Title", "Hello " + user.getUsername());
 		emit loginButtonClicked();
-		ui->menuUsername->setTitle(m_username);
+		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
 		ui->menuBar->show();
 	}
@@ -122,10 +131,11 @@ void Client::HandleRegister() {
 
 
 	if (m_rt.SendRegister(username, password) == true) {
-		m_username = QString::fromUtf8(username.c_str());
-		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully, " + m_username);
+		user.setUsername(username);
+
+		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully, " + user.getUsername());
 		emit loginButtonClicked(); 
-		ui->menuUsername->setTitle(m_username);
+		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
 		ui->menuBar->show();
 	}
@@ -137,23 +147,29 @@ void Client::HandleRegister() {
 void Client::HandleCreateLobby()
 {
 	auto lobbyUiUser = m_loginPage->GetUi();
+	user.setAdmin();
 
 	std::string lobbyName = lobbyUiUser->inputUsername->text().toUtf8().constData();
+	//user.setLobbyCode(lobbyName);
 
 	if (!m_rt.SendCreateLobby(lobbyName)) {
 		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not created."); //de revizuit
 	}
-	ChangeToGamePage();
+	//ChangeToGamePage();
+	ChangeToWaitingRoom();
 }
 
 void Client::HandleJoinLobby()
 {
 	auto lobbyUi = m_lobbyPage->GetUi();
 	std::string lobbyName = lobbyUi->lobbyCode->text().toUtf8().constData();
+	user.setLobbyCode(lobbyName);
+
 	if (!m_rt.SendJoinLobby(lobbyName)) {
 		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not joined.");
 		return;
 	}
-	ChangeToGamePage();
+	ChangeToWaitingRoom();
+	//ChangeToGamePage();
 }
 
