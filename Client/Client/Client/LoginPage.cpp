@@ -94,7 +94,7 @@ void LoginPage::OnRegister() {
 
 	if (ui->inputPsw->text() != ui->inputPswConf->text()) {
 		QMessageBox::warning(nullptr, "Register error", "The two passwords are not the same");
-		emit SendRegisterToServer();
-
 	}
+	
+	emit SendRegisterToServer();
 }

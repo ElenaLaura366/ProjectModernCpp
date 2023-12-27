@@ -84,7 +84,7 @@ void Client::HandleLogin() {
 	std::string password = loginUi->inputPsw->text().toUtf8().constData();
 
 	if (m_rt.SendLogin(username, password) == true) {
-		QMessageBox::information(nullptr, "Title", "This is a simple message box.");
+		QMessageBox::information(nullptr, "Title", "Hello username");
 		emit loginButtonClicked();
 	}
 	else {
@@ -102,10 +102,10 @@ void Client::HandleRegister() {
 
 	if (m_rt.SendRegister(username, password) == true) {
 		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully");
-		emit loginButtonClicked();
+		emit loginButtonClicked(); // ce este asta
 	}
 	else {
-		QMessageBox::information(nullptr, "Title", "Something went wrong");
+		QMessageBox::information(nullptr, "Title", "An account with this username already exist");
 	}
 }
 

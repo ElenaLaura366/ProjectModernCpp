@@ -1,6 +1,10 @@
 #include "Routing.h"
 using namespace skribbl;
 
+skribbl::Routing::Routing(std::shared_ptr<skribbl::Database> db): m_db(db)
+{
+}
+
 void skribbl::Routing::Run()
 {
 	/*
@@ -347,6 +351,17 @@ crow::response Routing::GetLogin(const crow::request& req)
 
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
+
+	std::optional<skribbl::User> user = m_db->AuthenticateUser(username, password);
+	if (user.has_value()) {
+		return crow::response(200);
+		// am putea returna si date despre user
+	}
+	else {
+		return crow::response(400);
+	}
+
+
 	if (username == "admin" && password == "123")
 		return crow::response(200);
 	return crow::response(400);
@@ -357,8 +372,9 @@ crow::response skribbl::Routing::GetRegister(const crow::request& req)
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
 
-	// check if there is any other person with the same username in database
-	// add to the database
+	if (m_db->CheckUserExists(username))
+		return crow::response(400);
+	m_db->CreateNewUser(username, password);
 
 	return crow::response(200);
 }

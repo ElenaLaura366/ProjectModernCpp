@@ -26,7 +26,7 @@ void skribbl::Database::CreateNewUser(const std::string& username, const std::st
 	m_db.insert(User{ -1, username, password, 0 });
 }
 
-std::optional<User> skribbl::Database::AuthenticateUser(const std::string& username, const std::string& password)
+std::optional<skribbl::User> skribbl::Database::AuthenticateUser(const std::string& username, const std::string& password)
 {
 	auto users = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
 	if (!users.empty())
@@ -55,7 +55,7 @@ void skribbl::Database::AddGames(year_month_day date)
 	m_db.insert(Games{ -1, date });
 }
 
-std::vector<Games> skribbl::Database::GetGames()
+std::vector<skribbl::Games> skribbl::Database::GetGames()
 {
 	return m_db.get_all<Games>();
 }
@@ -129,7 +129,7 @@ bool skribbl::Database::GameExists(int gameId)
 	return m_db.count<Games>(sqlite_orm::where(sqlite_orm::c(&Games::m_id) == gameId)) > 0;
 }
 
-std::vector<GameHistory> skribbl::Database::GetGameHistory(int userId)
+std::vector<skribbl::GameHistory> skribbl::Database::GetGameHistory(int userId)
 {
 	return m_db.get_all<GameHistory>(sqlite_orm::where(sqlite_orm::c(&GameHistory::m_id_player) == userId));
 }

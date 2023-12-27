@@ -105,34 +105,36 @@ namespace sqlite_orm {
 
 namespace sql = sqlite_orm;
 
-struct User {
-	int m_id;
-	std::string m_username;
-	std::string m_password;
-	int m_nrGamesPlayed;
-};
-
-struct GameHistory {
-	int m_id;
-	std::unique_ptr<int> m_id_player;
-	std::unique_ptr<int> m_id_game;
-	int m_points;
-};
-
-struct Games {
-	int m_id;
-	std::chrono::sys_days m_date;
-};
-
-struct Words {
-	int m_id;
-	std::string m_word;
-};
 
 using namespace std::chrono;
 
 namespace skribbl
 {
+
+	struct User {
+		int m_id;
+		std::string m_username;
+		std::string m_password;
+		int m_nrGamesPlayed;
+	};
+
+	struct GameHistory {
+		int m_id;
+		std::unique_ptr<int> m_id_player;
+		std::unique_ptr<int> m_id_game;
+		int m_points;
+	};
+
+	struct Games {
+		int m_id;
+		std::chrono::sys_days m_date;
+	};
+
+	struct Words {
+		int m_id;
+		std::string m_word;
+	};
+
 	inline auto CreateDatabase(const std::string& filename)
 	{
 		return sql::make_storage(

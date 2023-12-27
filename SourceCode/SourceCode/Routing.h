@@ -4,13 +4,15 @@
 #include <vector>
 #include <unordered_map>
 #include "IGame.h"
+#include "Database.h"
 
 namespace skribbl
 {
 	class Routing
 	{
 	public:
-		Routing() = default;
+		//Routing() = default;
+		Routing(std::shared_ptr<skribbl::Database> db);
 		~Routing() = default;
 		Routing(const Routing& other) = delete;
 		Routing& operator=(const Routing& other) = delete;
@@ -45,5 +47,7 @@ namespace skribbl
 	private:
 		crow::SimpleApp m_app;
 		std::unordered_map<uint16_t, IGame::IGamePtr> m_games;
+		std::shared_ptr<skribbl::Database> m_db;
+
 	};
 }

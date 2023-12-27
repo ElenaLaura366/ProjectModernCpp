@@ -155,9 +155,9 @@ bool Routing::SendLogin(const std::string& username, const std::string& password
 	);
 
 	if (response.status_code == 200 || response.status_code == 201){
-		auto resp = crow::json::load(response.text);
-		m_playerName = std::string(resp["playerName"]);
-		return true;
+		/*auto resp = crow::json::load(response.text);
+		m_playerName = std::string(resp["username"]);
+		*/return true;
 	}
 
 	return false;
@@ -174,9 +174,9 @@ bool Routing::SendRegister(const std::string& username, const std::string& passw
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		auto resp = crow::json::load(response.text);
+		/*auto resp = crow::json::load(response.text);
 		m_playerName = std::string(resp["playerName"]);
-		return true;
+		*/return true;
 	}
 
 	return false;
