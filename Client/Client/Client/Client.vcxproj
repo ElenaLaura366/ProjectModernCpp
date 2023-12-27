@@ -64,6 +64,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Routing.cpp" />
+    <ClCompile Include="UserInfo.cpp" />
     <QtRcc Include="Client.qrc" />
     <QtUic Include="Client.ui" />
     <QtMoc Include="Client.h" />
@@ -76,6 +77,7 @@
     <QtUic Include="GamePage.ui" />
     <QtUic Include="LobbyPage.ui" />
     <QtUic Include="LoginPage.ui" />
+    <QtUic Include="UserInfo.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LoginPage.h" />
@@ -91,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Routing.h" />
+    <QtMoc Include="UserInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

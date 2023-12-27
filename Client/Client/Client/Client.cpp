@@ -9,10 +9,15 @@ Client::Client(QWidget* parent)
 	ui->setupUi(this);
 
 	m_stackedWidget = ui->centralWidget->findChild<QStackedWidget*>("stackedWidget");
+	ui->mainToolBar->hide();
+	ui->menuBar->hide();
+	ui->mainToolBar->setStyleSheet("background: transparent;");
+
 
 	m_loginPage = new LoginPage(this);
 	m_gamePage = new GamePage(this, &m_rt);
 	m_lobbyPage = new LobbyPage(this);
+	m_userInfo = new UserInfo();
 
 	m_stackedWidget->addWidget(m_gamePage);
 	m_stackedWidget->addWidget(m_lobbyPage);
@@ -30,7 +35,13 @@ Client::Client(QWidget* parent)
 
 	connect(m_loginPage, &LoginPage::loginSuccessful, this, &Client::ChangeToLobbyPage);
 	connect(m_loginPage, &LoginPage::SendLoginToServer, this, &Client::HandleLogin);
-	connect(m_loginPage, &LoginPage::SendRegisterToServer, this, &Client::HandleRegister);
+	connect(m_loginPage, &LoginPage::SendRegisterToServer, this, &Client::HandleRegister); 
+
+	QAction* menuAction = new QAction("Game history", this);
+	QMenu* menuUsername = ui->menuUsername;
+	menuUsername->addAction(menuAction);
+	connect(menuAction, &QAction::triggered, this, &Client::ShowUserInfo);
+
 
 	ChangeToLoginPage();
 }
@@ -51,6 +62,12 @@ void Client::ChangeToGamePage() {
 void Client::ChangeToLobbyPage() {
 
 	m_stackedWidget->setCurrentWidget(m_lobbyPage);
+}
+
+void Client::ShowUserInfo()
+{
+	m_userInfo->setWindowTitle(m_username + "'s game history");
+	m_userInfo->show();
 }
 
 void Client::HandleAnswer()
@@ -84,8 +101,12 @@ void Client::HandleLogin() {
 	std::string password = loginUi->inputPsw->text().toUtf8().constData();
 
 	if (m_rt.SendLogin(username, password) == true) {
-		QMessageBox::information(nullptr, "Title", "Hello username");
+		m_username = QString::fromUtf8(username.c_str());
+		QMessageBox::information(nullptr, "Title", "Hello " + m_username);
 		emit loginButtonClicked();
+		ui->menuUsername->setTitle(m_username);
+		ui->mainToolBar->show();
+		ui->menuBar->show();
 	}
 	else {
 		QMessageBox::information(nullptr, "Title", "Wrong credentials.");
@@ -101,8 +122,12 @@ void Client::HandleRegister() {
 
 
 	if (m_rt.SendRegister(username, password) == true) {
-		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully");
-		emit loginButtonClicked(); // ce este asta
+		m_username = QString::fromUtf8(username.c_str());
+		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully, " + m_username);
+		emit loginButtonClicked(); 
+		ui->menuUsername->setTitle(m_username);
+		ui->mainToolBar->show();
+		ui->menuBar->show();
 	}
 	else {
 		QMessageBox::information(nullptr, "Title", "An account with this username already exist");
@@ -131,3 +156,4 @@ void Client::HandleJoinLobby()
 	}
 	ChangeToGamePage();
 }
+

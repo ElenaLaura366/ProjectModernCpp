@@ -21,9 +21,9 @@
     <property name="geometry">
      <rect>
       <x>-30</x>
-      <y>30</y>
+      <y>20</y>
       <width>761</width>
-      <height>291</height>
+      <height>301</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -42,6 +42,12 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuUsername">
+    <property name="title">
+     <string>Username</string>
+    </property>
+   </widget>
+   <addaction name="menuUsername"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

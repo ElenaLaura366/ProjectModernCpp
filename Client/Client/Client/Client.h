@@ -10,6 +10,7 @@
 #include "LoginPage.h"
 #include "GamePage.h"
 #include "LobbyPage.h"
+#include "UserInfo.h"
 
 #include "Routing.h"
 
@@ -27,6 +28,7 @@ private slots:
     void ChangeToLoginPage();
     void ChangeToGamePage();
     void ChangeToLobbyPage();
+    void ShowUserInfo();
 
     void HandleAnswer();
     void HandleLogin();
@@ -37,6 +39,7 @@ private slots:
 
 private:
     bool ValidInput();
+    QString m_username;
 
 private:
     Ui::ClientClass* ui;
@@ -44,6 +47,7 @@ private:
     LoginPage* m_loginPage;
     GamePage* m_gamePage;
     LobbyPage* m_lobbyPage;
+    UserInfo* m_userInfo;
     Routing m_rt;
 
 signals:
