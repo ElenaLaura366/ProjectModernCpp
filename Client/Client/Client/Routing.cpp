@@ -21,7 +21,7 @@ bool Routing::SendAnswer(const std::string& answer)
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/send_answer" },
 		cpr::Parameters{
-			{ "lobbyCode",  std::to_string(m_lobbyCode)},
+			{ "lobbyCode",  m_lobbyCode},
 			{ "playerName", m_playerName },
 			{ "answer", answer }
 		}
@@ -40,7 +40,7 @@ uint8_t Routing::GetTime(const std::string& answer)
 {
 	cpr::Response response = cpr::Get(
 		cpr::Url{ m_url + "/get_time" },
-		cpr::Parameters{ { {"lobbyCode"}, std::to_string(m_lobbyCode) } }
+		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
 	);
 
 	auto resp = crow::json::load(response.text);
@@ -51,7 +51,7 @@ std::vector<QString> Routing::GetAnswers()
 {
 	cpr::Response response = cpr::Get(
 		cpr::Url{ m_url + "/get_answers" }, 
-		cpr::Parameters{ { {"lobbyCode"}, std::to_string(m_lobbyCode) } }
+		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
 	);
 
 	if (response.status_code == 204)
@@ -75,7 +75,7 @@ bool Routing::GetDrawing()
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/get_drawing" },
 		cpr::Parameters{
-			{ "lobbyCode", std::to_string(m_lobbyCode) },
+			{ "lobbyCode", m_lobbyCode },
 			{ "playerName", m_playerName },
 		}
 	);
@@ -90,7 +90,7 @@ QString Routing::GetWord() const
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/get_drawing" },
 		cpr::Parameters{
-			{ "lobbyCode", std::to_string(m_lobbyCode) },
+			{ "lobbyCode", m_lobbyCode },
 		}
 	);
 
@@ -104,7 +104,7 @@ bool Routing::IsDrawingPlayer()
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/drawing_player" },
 		cpr::Parameters{
-			{ "lobbyCode", std::to_string(m_lobbyCode) },
+			{ "lobbyCode", m_lobbyCode },
 		}
 	);
 
@@ -122,7 +122,7 @@ void Routing::SendDrawing(const DrawingConfig& drawing)
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/send_drawing" },
 		cpr::Payload{
-			{ "lobbyCode", std::to_string(m_lobbyCode) },
+			{ "lobbyCode", m_lobbyCode },
 			{ "playerName", m_playerName },
 			//{ "drawing", std::to_string(dr)}
 		}
@@ -134,18 +134,18 @@ bool Routing::ExitGame()
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/remove" },
 		cpr::Parameters{
-			{ "lobbyCode",  std::to_string(m_lobbyCode)},
+			{ "lobbyCode",  m_lobbyCode},
 			{ "playerName", m_playerName },
 		}
 	);
 	if (response.status_code == 200 || response.status_code == 201) {
-		m_lobbyCode = 0;
+		m_lobbyCode = "x";
 		return true;
 	}
 	return false;
 }
 
-uint16_t Routing::GetLobbyCode() const 
+std::string Routing::GetLobbyCode() const
 {
     return m_lobbyCode;
 }

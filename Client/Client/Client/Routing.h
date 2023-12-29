@@ -27,12 +27,12 @@ public:
 	QString GetWord() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
-	uint16_t GetLobbyCode() const;
+	std::string GetLobbyCode() const;
 
 
 private:
 	std::string m_url;
 	std::string m_playerName;
-	uint16_t m_lobbyCode;
+	std::string m_lobbyCode;
 };
 

@@ -30,6 +30,6 @@ void WaitingRoom::addUserToRoom(const User& user)
 
 	QListWidgetItem* item = new QListWidgetItem();
 	item->setSizeHint(userWidget->sizeHint());
-	ui->listWidget->addItem(item); // Add the item to the list
+	ui->listWidget->addItem(item);
 	ui->listWidget->setItemWidget(item, userWidget);
 }
