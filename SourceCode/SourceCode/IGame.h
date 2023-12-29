@@ -38,5 +38,7 @@ namespace skribbl
 		virtual std::vector <Answer> GetAnswers() const = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const = 0;
 		virtual std::string GetState() const = 0;
+		virtual std::vector<std::string> GetPlayers() const = 0;
+		virtual std::string GetHint() const = 0;
 	};
 }

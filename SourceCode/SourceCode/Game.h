@@ -53,9 +53,11 @@ namespace skribbl
 		std::vector <Answer> GetAnswers() const override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;
+		std::vector<std::string> GetPlayers() const override;
+		std::string GetHint() const override;
 
 		State GetNextState(State currentState);
-
+		
 	private:
 		std::vector<Player::PlayerPtr> m_players;
 		Turn::TurnPtr m_turn;

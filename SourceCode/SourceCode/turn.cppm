@@ -14,7 +14,7 @@ namespace skribbl
 	public:
 		using TurnPtr = std::unique_ptr<Turn>;
 
-		static const uint8_t kMaxScore = 100;
+		static constexpr uint8_t kMaxScore = 100;
 
 	public:
 		Turn();
@@ -25,14 +25,16 @@ namespace skribbl
 		~Turn() = default;
 
 		void Reset();
+		void SetAllPlayersGuessed();
+		
 		bool VerifyGuess(const std::string& guess);
 		int8_t ScoreGuessingPlayer() const;
 		int8_t ScoreDrawingPlayer() const;
 		uint8_t AvrageAnswerTime() const;
 		bool IsOver() const;
 		uint8_t GetRemainingTime() const;
-
-		void SetAllPlayersGuessed();
+		std::string GetHint() const;
+		std::string GetWord() const;
 
 	private:
 		WordHandler::WordHandlerPtr m_wordHandler;

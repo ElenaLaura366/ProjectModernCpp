@@ -6,6 +6,8 @@
 #include "IGame.h"
 #include "Database.h"
 
+import uniquerandom;
+
 namespace skribbl
 {
 	class Routing
@@ -21,9 +23,8 @@ namespace skribbl
 		
 		void Run();
 
-		static const uint16_t kMinLobbyCode = 10000;
-		static const uint16_t kMaxLobbyCode = 65535;
-		static const uint16_t kmaxGamesSupported = 8;
+		static constexpr uint8_t klobbyCodeLength = 6;
+		static constexpr uint8_t kmaxGamesSupported = 8;
 
 	private:
 		crow::response JoinLobby(const crow::request& req);
@@ -43,11 +44,12 @@ namespace skribbl
 		crow::response GetLogin(const crow::request& req);
 		crow::response GetRegister(const crow::request& req);
 		crow::response GetTime(const crow::request& req);
+		crow::response GetHint(const crow::request& req);
 
 	private:
 		crow::SimpleApp m_app;
-		std::unordered_map<uint16_t, IGame::IGamePtr> m_games;
+		std::unordered_map<std::string, IGame::IGamePtr> m_games;
 		std::shared_ptr<skribbl::Database> m_db;
-
+		UniqueRandom<std::string> m_ur;
 	};
 }

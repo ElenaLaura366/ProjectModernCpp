@@ -21,11 +21,10 @@ namespace skribbl
 		WordHandler(WordHandler&& wg)noexcept = default;
 		WordHandler& operator=(WordHandler&&)noexcept = default;
 
+		void Reset();
 		
-		std::string GetWord() const;
-		//std::string getWordPattern() const; // displays only the number of characters the word has
-		std::vector<std::pair<int, char>> GetHint(); // displays the number of characters and several characters from the word
-		//std::vector<int> getWordPattern() const;
+		std::string GetWord();
+		std::string GetHint() const; // displays the number of characters and several characters from the word
 
 	private:
 		std::string m_currentWord;

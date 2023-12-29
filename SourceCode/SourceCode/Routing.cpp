@@ -1,8 +1,9 @@
 #include "Routing.h"
 using namespace skribbl;
 
-skribbl::Routing::Routing(std::shared_ptr<skribbl::Database> db): m_db(db)
+skribbl::Routing::Routing(std::shared_ptr<skribbl::Database> db) : m_db(db)
 {
+	m_ur.SetRange(klobbyCodeLength);
 }
 
 void skribbl::Routing::Run()
@@ -126,6 +127,14 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/get_hint")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetHint(req);
+			}
+	);
+
 	CROW_ROUTE(m_app, "/send_answer")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
@@ -195,7 +204,7 @@ void skribbl::Routing::Run()
 
 crow::response Routing::JoinLobby(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	if (m_games.find(lobbyCode) == m_games.end())
 		return crow::response(404, "Lobby not found!");
@@ -213,8 +222,7 @@ crow::response Routing::JoinLobby(const crow::request& req)
 
 crow::response Routing::StartGame(const crow::request& req)
 {
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	m_games[lobbyCode]->Start();
 
@@ -226,13 +234,7 @@ crow::response Routing::CreateLobby(const crow::request& req)
 	if (m_games.size() == kmaxGamesSupported)
 		return crow::response(503, "Server full!");
 
-	std::random_device rd;
-	std::mt19937 eng(rd());
-	std::uniform_int_distribution<uint32_t> distr(kMinLobbyCode, kMaxLobbyCode);
-
-	uint16_t lobbyCode = distr(eng);
-	while (m_games.find(lobbyCode) != m_games.end())
-		lobbyCode = distr(eng);
+	std::string lobbyCode = m_ur.GetValue();
 
 	m_games[lobbyCode] = IGame::Factory();
 
@@ -246,8 +248,7 @@ crow::response Routing::CreateLobby(const crow::request& req)
 
 crow::response Routing::GetGameLeaderboard(const crow::request& req)
 {
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 	std::vector<std::pair<std::string, int16_t>> leaderboard = m_games[lobbyCode]->GetLeaderboard();
 
 	std::vector<crow::json::wvalue> results;
@@ -263,7 +264,7 @@ crow::response Routing::GetGameLeaderboard(const crow::request& req)
 
 crow::response Routing::RemovePlayer(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 	std::string playerName = req.url_params.get("playerName");
 
 	m_games[lobbyCode]->RemovePlayer(playerName);
@@ -272,7 +273,7 @@ crow::response Routing::RemovePlayer(const crow::request& req)
 
 crow::response Routing::ProcessAnswer(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 	std::string playerName = req.url_params.get("playerName");
 	std::string answer = req.url_params.get("answer");
 
@@ -295,12 +296,10 @@ crow::response skribbl::Routing::ProcessDrawing(const crow::request& req)
 
 crow::response skribbl::Routing::GetWord(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
-	std::string word = "mere";// m_games[lobbyCode]->GetWord();
-	
 	crow::json::wvalue jsonResp;
-	jsonResp["word"] = word;
+	jsonResp["word"] = m_games[lobbyCode]->GetWord();
 	return crow::response(200, jsonResp);
 }
 
@@ -311,7 +310,7 @@ crow::response skribbl::Routing::GetDrawing(const crow::request& req)
 
 crow::response skribbl::Routing::GetAnswers(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	std::vector<crow::json::wvalue> answers_json;
 	auto answers = m_games[lobbyCode]->GetAnswers();
@@ -329,7 +328,7 @@ crow::response skribbl::Routing::GetAnswers(const crow::request& req)
 
 crow::response skribbl::Routing::GetDrawingPlayer(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	auto drawingPlayer = "player"; // m_games[lobbyCode].GetDrawingPlayer();
 
@@ -340,8 +339,7 @@ crow::response skribbl::Routing::GetDrawingPlayer(const crow::request& req)
 
 crow::response Routing::GetGameState(const crow::request& req)
 {
-	crow::json::rvalue json = crow::json::load(req.body);
-	uint16_t lobbyCode = json["lobbyCode"].u();
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	return crow::response(200, m_games[lobbyCode]->GetState());
 }
@@ -381,7 +379,7 @@ crow::response skribbl::Routing::GetRegister(const crow::request& req)
 
 crow::response skribbl::Routing::GetTime(const crow::request& req)
 {
-	uint16_t lobbyCode = std::stoi(req.url_params.get("lobbyCode"));
+	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	uint8_t seconds = m_games[lobbyCode]->GetTime();
 
@@ -389,4 +387,10 @@ crow::response skribbl::Routing::GetTime(const crow::request& req)
 	jsonResp["seconds"] = seconds;
 
 	return crow::response(200, jsonResp);
+}
+
+crow::response skribbl::Routing::GetHint(const crow::request& req)
+{
+	std::string lobbyCode = req.url_params.get("lobbyCode");
+	return crow::response(200, m_games[lobbyCode]->GetHint());
 }

@@ -82,6 +82,16 @@ uint8_t skribbl::Turn::GetRemainingTime() const
 	return m_timer.GetRemainingTime();
 }
 
+std::string skribbl::Turn::GetHint() const
+{
+	return m_wordHandler->GetHint();
+}
+
+std::string skribbl::Turn::GetWord() const
+{
+	return m_wordHandler->GetWord();
+}
+
 void Turn::SetAllPlayersGuessed()
 {
 	m_allPlayersGuessed = true;

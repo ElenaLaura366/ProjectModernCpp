@@ -1,7 +1,7 @@
 module;
 export module uniquerandom;
 import <random>;
-import <set>;
+import <unordered_set>;
 import <string>;
 
 export template <typename T> class __declspec(dllexport) UniqueRandom
@@ -21,7 +21,11 @@ public:
 		Reset();
 	}
 
-	T getValue() {
+	void SetRange(int number)
+	{
+		m_dist = std::uniform_int_distribution<int>(0, number - 1);
+	}
+	T GetValue() {
 		int current = m_currentValue;
 		Reset();
 		if constexpr (std::is_same<T, std::string>::value) {
@@ -43,7 +47,7 @@ private:
 	std::random_device m_rand;
 	std::uniform_int_distribution<int> m_dist;
 	std::mt19937 m_mt;
-	std::set<size_t> m_usedNumber;
+	std::unordered_set<size_t> m_usedNumber;
 	size_t m_currentValue = 0;
 };
 

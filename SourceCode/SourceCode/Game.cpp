@@ -87,7 +87,7 @@ void Game::AddAnswer(const std::string& name, const std::string& answer)
 
 std::string Game::GetWord() const
 {
-	return std::string();
+	return m_turn->GetWord();
 }
 
 std::string Game::GetDrawingPlayer() const
@@ -109,6 +109,21 @@ std::string Game::GetState() const
 {
 	std::vector<std::string> states{ "Waiting" , "First Round","Second Round", "Third Round" , "Fourth Round", "Game Over" };
 	return states[static_cast<int>(m_state)];
+}
+
+std::vector<std::string> Game::GetPlayers() const
+{
+	std::vector<std::string> players;
+	for (uint8_t index = 0; index < m_players.size(); index++)
+	{
+		players.push_back(m_players[index]->GetUsername());
+	}
+	return players;
+}
+
+std::string Game::GetHint() const
+{
+	return m_turn->GetHint();
 }
 
 void Game::RemovePlayer(const std::string& name)

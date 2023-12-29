@@ -1,25 +1,33 @@
 module wordhandler;
 using skribbl::WordHandler;
 
-std::string WordHandler::GetWord() const
+std::string WordHandler::GetWord()
 {
 	return m_currentWord;
 }
 
 
 
-std::vector<std::pair<int, char>> skribbl::WordHandler::GetHint() 
+std::string WordHandler::GetHint() const
 {
 	if (m_currentWord.size() == 0) {
 		return {};
 	}
+	UniqueRandom<int> randomPossitions(m_currentWord.size());
 
-	m_ur = std::make_unique<UniqueRandom<int>>(m_currentWord.size());
-	std::vector<std::pair<int, char>> m_hint;
-	for (int i = 0; i < m_currentWord.size()/2; i++) {
-		int index = m_ur->getValue();
-		m_hint.push_back({index, m_currentWord[index]});
+	std::string m_hint;
+	for (char chr : m_currentWord)
+		m_hint += "_";
+
+	for (int index = 0; index < m_currentWord.size()/2; index++) {
+		int pos = randomPossitions.GetValue();
+		m_hint[pos] = m_currentWord[pos];
 	}
 
 	return m_hint;
+}
+
+void skribbl::WordHandler::Reset()
+{
+
 }
