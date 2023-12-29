@@ -44,6 +44,11 @@ void skribbl::Routing::Run()
 
 		Client error:
 
+			401
+			*Unauthorized. Although the HTTP standard specifies "unauthorized", semantically 
+						   this response means "unauthenticated".
+			*(ex: invalid username or password)
+
 			404
 			*Not Found. The server cannot find the requested resource.
 
@@ -199,11 +204,21 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/players")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetGamePlayers(req);
+			}
+	);
+
 	m_app.port(18080).multithreaded().run();
 }
 
 crow::response Routing::JoinLobby(const crow::request& req)
 {
+	std::lock_guard lock{ m_mutex };
+
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 
 	if (m_games.find(lobbyCode) == m_games.end())
@@ -214,6 +229,7 @@ crow::response Routing::JoinLobby(const crow::request& req)
 	{
 		crow::json::wvalue jsonResponse;
 		jsonResponse["lobbyCode"] = lobbyCode;
+		jsonResponse["players"] = m_games[lobbyCode]->GetPlayers();
 		return crow::response(201, jsonResponse);
 	}
 	else
@@ -231,6 +247,8 @@ crow::response Routing::StartGame(const crow::request& req)
 
 crow::response Routing::CreateLobby(const crow::request& req)
 {
+	std::lock_guard lock{ m_mutex };
+
 	if (m_games.size() == kmaxGamesSupported)
 		return crow::response(503, "Server full!");
 
@@ -273,6 +291,8 @@ crow::response Routing::RemovePlayer(const crow::request& req)
 
 crow::response Routing::ProcessAnswer(const crow::request& req)
 {
+	std::lock_guard lock{ m_mutex };
+
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	std::string playerName = req.url_params.get("playerName");
 	std::string answer = req.url_params.get("answer");
@@ -280,6 +300,7 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 	m_games[lobbyCode]->AddAnswer(playerName, answer);
 
 	crow::json::wvalue jsonResponse;
+	jsonResponse["lobbyCode"] = lobbyCode;
 	jsonResponse["playerName"] = playerName;
 	jsonResponse["answer"] = answer;
 	if (true/*m_games[lobbyCode]->VerifyAnswer(playerName, answer)*/)
@@ -298,9 +319,10 @@ crow::response skribbl::Routing::GetWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 
-	crow::json::wvalue jsonResp;
-	jsonResp["word"] = m_games[lobbyCode]->GetWord();
-	return crow::response(200, jsonResp);
+	crow::json::wvalue jsonResponse;
+	jsonResponse["lobbyCode"] = lobbyCode;
+	jsonResponse["word"] = m_games[lobbyCode]->GetWord();
+	return crow::response(200, jsonResponse);
 }
 
 crow::response skribbl::Routing::GetDrawing(const crow::request& req)
@@ -333,6 +355,7 @@ crow::response skribbl::Routing::GetDrawingPlayer(const crow::request& req)
 	auto drawingPlayer = "player"; // m_games[lobbyCode].GetDrawingPlayer();
 
 	crow::json::wvalue jsonResp;
+	jsonResp["lobbyCode"] = lobbyCode;
 	jsonResp["playerName"] = drawingPlayer;
 	return crow::response(200, jsonResp);
 }
@@ -341,40 +364,41 @@ crow::response Routing::GetGameState(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 
-	return crow::response(200, m_games[lobbyCode]->GetState());
+	crow::json::wvalue jsonResponse;
+	jsonResponse["lobbyCode"] = lobbyCode;
+	jsonResponse["state"] = m_games[lobbyCode]->GetState();
+	return crow::response(200, jsonResponse);
 }
 
 crow::response Routing::GetLogin(const crow::request& req)
 {
-
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
 
 	std::optional<skribbl::User> user = m_db->AuthenticateUser(username, password);
-	if (user.has_value()) {
+	if (user.has_value()) 
+	{
 		return crow::response(200);
-		// am putea returna si date despre user
 	}
-	else {
-		return crow::response(400);
+	else 
+	{
+		return crow::response(401, "Invalid username or password!");
 	}
-
-
-	if (username == "admin" && password == "123")
-		return crow::response(200);
-	return crow::response(400);
 }
 
 crow::response skribbl::Routing::GetRegister(const crow::request& req)
 {
+	std::lock_guard lock{ m_mutex };
+
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
 
 	if (m_db->CheckUserExists(username))
-		return crow::response(400);
+		return crow::response(409, "User already exists!");
+
 	m_db->CreateNewUser(username, password);
 
-	return crow::response(200);
+	return crow::response(201, "User created!");
 }
 
 crow::response skribbl::Routing::GetTime(const crow::request& req)
@@ -392,5 +416,19 @@ crow::response skribbl::Routing::GetTime(const crow::request& req)
 crow::response skribbl::Routing::GetHint(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
-	return crow::response(200, m_games[lobbyCode]->GetHint());
+
+	crow::json::wvalue jsonResponse;
+	jsonResponse["lobbyCode"] = lobbyCode;
+	jsonResponse["hint"] = m_games[lobbyCode]->GetHint();
+	return crow::response(200, jsonResponse);
+}
+
+crow::response skribbl::Routing::GetGamePlayers(const crow::request& req)
+{
+	std::string lobbyCode = req.url_params.get("lobbyCode");
+
+	crow::json::wvalue jsonResponse;
+	jsonResponse["lobbyCode"] = lobbyCode;
+	jsonResponse["players"] = m_games[lobbyCode]->GetPlayers();
+	return crow::response(200, jsonResponse);
 }

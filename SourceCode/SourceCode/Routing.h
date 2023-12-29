@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "IGame.h"
 #include "Database.h"
+#include <mutex>
 
 import uniquerandom;
 
@@ -45,11 +46,13 @@ namespace skribbl
 		crow::response GetRegister(const crow::request& req);
 		crow::response GetTime(const crow::request& req);
 		crow::response GetHint(const crow::request& req);
+		crow::response GetGamePlayers(const crow::request& req);
 
 	private:
 		crow::SimpleApp m_app;
 		std::unordered_map<std::string, IGame::IGamePtr> m_games;
 		std::shared_ptr<skribbl::Database> m_db;
 		UniqueRandom<std::string> m_ur;
+		std::mutex m_mutex;
 	};
 }

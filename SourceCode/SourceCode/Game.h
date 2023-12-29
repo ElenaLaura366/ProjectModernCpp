@@ -30,7 +30,7 @@ namespace skribbl
 		};
 
 	public:
-		static const uint8_t kMaxPlayersNumber = 8;
+		static constexpr uint8_t kMaxPlayersNumber = 8;
 
 	public:
 		Game();
