@@ -104,7 +104,7 @@ void skribbl::Database::PopulateStorage(const std::string& fileName)
 void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
 {
 	if (!UserExists(playerId)) {
-		throw std::exception("User ID does not exist.");
+		throw std::exception("User ID does not exist."); //schimba
 	}
 
 	if (!GameExists(gameId)) {

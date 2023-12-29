@@ -66,6 +66,7 @@
     <ClCompile Include="Routing.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserInfo.cpp" />
+    <ClCompile Include="UserWidget.cpp" />
     <ClCompile Include="WaitingRoom.cpp" />
     <QtRcc Include="Client.qrc" />
     <QtUic Include="Client.ui" />
@@ -97,6 +98,7 @@
   <ItemGroup>
     <ClInclude Include="Routing.h" />
     <ClInclude Include="User.h" />
+    <QtMoc Include="UserWidget.h" />
     <QtMoc Include="WaitingRoom.h" />
     <QtMoc Include="UserInfo.h" />
   </ItemGroup>

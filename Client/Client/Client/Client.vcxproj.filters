@@ -64,6 +64,9 @@
     <ClCompile Include="User.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UserWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LoginPage.h">
@@ -82,6 +85,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="WaitingRoom.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="UserWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -1,7 +1,10 @@
 #pragma once
 
 #include <QWidget>
+#include <QListWidgetItem>
 #include "ui_WaitingRoom.h"
+#include "User.h"
+#include "UserWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WaitingRoomClass; };
@@ -15,6 +18,7 @@ public:
 	WaitingRoom(QWidget *parent = nullptr);
 	~WaitingRoom();
 	void SetRoomCode(QString lobbyCode);
+	void addUserToRoom(const User& user);
 
 private slots:
 	void ChangeToGamePage();
