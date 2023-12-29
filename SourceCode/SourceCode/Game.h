@@ -48,12 +48,12 @@ namespace skribbl
 		void AddAnswer(const std::string& name, const std::string& answer) override;
 		
 		std::string GetWord() const override;
-		std::string GetDrawingPlayer()const override;
+		std::string GetDrawingPlayer() const override;
 		uint8_t GetTime() const override;
 		std::vector <Answer> GetAnswers() const override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;
-		std::vector<std::string> GetPlayers() const override;
+		std::vector<std::pair<std::string, int16_t>> GetPlayers() override;
 		std::string GetHint() const override;
 
 		State GetNextState(State currentState);
@@ -64,5 +64,6 @@ namespace skribbl
 		State m_state;
 		uint8_t m_playerGuessCount;
 		std::vector<Answer> m_answers;
+		uint8_t m_drawingPlayerPossition;
 	};
 }

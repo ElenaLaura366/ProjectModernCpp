@@ -8,7 +8,8 @@ using skribbl::Answer;
 
 Game::Game()
 	: m_turn{ nullptr },
-	m_playerGuessCount{ 0 }
+	m_playerGuessCount{ 0 },
+	m_drawingPlayerPossition { kMaxPlayersNumber }
 {
 	m_players.reserve(kMaxPlayersNumber);
 }
@@ -50,6 +51,7 @@ void Game::Start()
 
 	while (m_state != Game::State::GAME_OVER)
 	{
+		m_drawingPlayerPossition = 0;
 		for (Player::PlayerPtr& player : m_players)
 		{
 			m_playerGuessCount = 0;
@@ -61,6 +63,7 @@ void Game::Start()
 			}
 			player->UpdateScore(m_turn->ScoreDrawingPlayer());
 			ResetPlayersGuessed();
+			m_drawingPlayerPossition++;
 		}
 
 		m_state = GetNextState(m_state);
@@ -92,7 +95,7 @@ std::string Game::GetWord() const
 
 std::string Game::GetDrawingPlayer() const
 {
-	return std::string();
+	return (m_drawingPlayerPossition < kMaxPlayersNumber) ? m_players[m_drawingPlayerPossition]->GetUsername() : "\0";
 }
 
 uint8_t Game::GetTime() const
@@ -111,12 +114,12 @@ std::string Game::GetState() const
 	return states[static_cast<int>(m_state)];
 }
 
-std::vector<std::string> Game::GetPlayers() const
+std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 {
-	std::vector<std::string> players;
-	for (uint8_t index = 0; index < m_players.size(); index++)
+	std::vector<std::pair<std::string, int16_t>> players;
+	for (const auto& player : m_players)
 	{
-		players.push_back(m_players[index]->GetUsername());
+		players.push_back({ player->GetUsername(), player->GetScore() });
 	}
 	return players;
 }
