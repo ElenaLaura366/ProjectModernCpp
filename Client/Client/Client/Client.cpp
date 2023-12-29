@@ -69,7 +69,15 @@ void Client::ChangeToLobbyPage() {
 
 void Client::ChangeToWaitingRoom()
 {
-	//m_waitingRoom->SetRoomCode(user.getLobbyCode().value());
+	auto optionalLobbyCode = user.getLobbyCode();
+	if (!optionalLobbyCode.has_value()) {
+		QMessageBox::information(nullptr, "Error", "Lobby Code is not set.");
+		return;
+	}
+
+	QString lobbyCode = optionalLobbyCode.value();
+	m_waitingRoom->SetRoomCode(lobbyCode); // Setează codul lobby-ului
+	m_waitingRoom->addUserToRoom(user); // Adaugă utilizatorul curent la lista de jucători
 	m_stackedWidget->setCurrentWidget(m_waitingRoom);
 }
 
@@ -156,7 +164,11 @@ void Client::HandleCreateLobby()
 		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not created."); //de revizuit
 	}
 	//ChangeToGamePage();
-	ChangeToWaitingRoom();
+	if (m_rt.SendCreateLobby(lobbyName)) {
+		uint16_t lobbyCode = m_rt.GetLobbyCode();
+		user.setLobbyCode(QString::number(lobbyCode).toStdString());
+		ChangeToWaitingRoom();
+	}
 }
 
 void Client::HandleJoinLobby()

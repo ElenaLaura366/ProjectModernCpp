@@ -27,7 +27,7 @@ public:
 	QString GetWord() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
-
+	uint16_t GetLobbyCode() const;
 
 
 private:

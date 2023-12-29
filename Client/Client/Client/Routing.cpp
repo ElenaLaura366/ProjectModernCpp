@@ -145,6 +145,11 @@ bool Routing::ExitGame()
 	return false;
 }
 
+uint16_t Routing::GetLobbyCode() const 
+{
+    return m_lobbyCode;
+}
+
 bool Routing::SendLogin(const std::string& username, const std::string& password) {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/login" },
