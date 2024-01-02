@@ -103,19 +103,22 @@
     <rect>
      <x>390</x>
      <y>30</y>
-     <width>131</width>
+     <width>41</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>word</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="labelTime">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>90</y>
+     <y>80</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -127,8 +130,8 @@
   <widget class="QLabel" name="labelRound">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>100</y>
+     <x>140</x>
+     <y>90</y>
      <width>49</width>
      <height>16</height>
     </rect>
@@ -174,6 +177,19 @@
    </property>
    <property name="text">
     <string>reset</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lableSeconds">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>90</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>60 s</string>
    </property>
   </widget>
  </widget>

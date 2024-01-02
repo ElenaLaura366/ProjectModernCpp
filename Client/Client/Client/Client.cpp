@@ -124,6 +124,7 @@ void Client::HandleLogin() {
 		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
 		ui->menuBar->show();
+		ChangeToLobbyPage();
 	}
 	else {
 		QMessageBox::information(nullptr, "Title", "Wrong credentials.");

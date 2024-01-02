@@ -21,13 +21,14 @@ public:
 	bool SendCreateLobby(std::string& username);
 	bool SendAnswer(const std::string& answer);
 	void SendDrawing(const DrawingConfig& drawing);
-	uint8_t GetTime(const std::string& answer);
+	QString GetTime();
 	std::vector<QString> GetAnswers();
 	bool GetDrawing();
 	QString GetWord() const;
+	QString GetRound() const;
+	std::string GetLobbyCode() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
-	std::string GetLobbyCode() const;
 
 
 private:

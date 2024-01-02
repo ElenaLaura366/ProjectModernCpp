@@ -39,6 +39,15 @@ void GamePage::paintEvent(QPaintEvent* e)
 		UpdateChat();
 	}
 
+	QString seconds =m_rt->GetTime();
+	ui->lableSeconds->setText(seconds);
+
+	QString word = m_rt->GetWord();
+	ui->labelWord->setText(word);
+
+	QString round = m_rt->GetRound();
+	ui->labelRound->setText(round);
+
 	m_refreshCount++;
 	//m_rt->GetDrawing();
 }

@@ -16,6 +16,7 @@ Turn::Turn(Turn&& other) noexcept
 	m_answerTimestamps{ std::move(other.m_answerTimestamps) },
 	m_allPlayersGuessed{ std::move(other.m_allPlayersGuessed) }
 {
+	// empty
 }
 
 Turn& Turn::operator=(Turn&& other) noexcept

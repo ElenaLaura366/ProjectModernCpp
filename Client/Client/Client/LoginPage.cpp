@@ -71,7 +71,6 @@ void LoginPage::Proceed() {
 	else {
 		OnRegister();
 	}
-	emit loginSuccessful();
 }
 
 

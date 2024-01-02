@@ -36,7 +36,7 @@ bool Routing::SendAnswer(const std::string& answer)
 	return false;
 }
 
-uint8_t Routing::GetTime(const std::string& answer)
+QString Routing::GetTime()
 {
 	cpr::Response response = cpr::Get(
 		cpr::Url{ m_url + "/get_time" },
@@ -44,13 +44,13 @@ uint8_t Routing::GetTime(const std::string& answer)
 	);
 
 	auto resp = crow::json::load(response.text);
-	return resp["seconds"].u();
+	return QString::number(resp["seconds"].u());
 }
 
 std::vector<QString> Routing::GetAnswers()
 {
 	cpr::Response response = cpr::Get(
-		cpr::Url{ m_url + "/get_answers" }, 
+		cpr::Url{ m_url + "/get_answers" },
 		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
 	);
 
@@ -63,7 +63,7 @@ std::vector<QString> Routing::GetAnswers()
 	{
 		std::string mess = std::string(answer["playerName"]);
 		std::string message = mess + ": " + std::string(answer["answer"]);
-		QString text = QString::fromStdString(message);
+		QString text = QString::fromLatin1(message.data());
 		answerList.push_back(text);
 	}
 	return answerList;
@@ -97,6 +97,19 @@ QString Routing::GetWord() const
 	auto resp = crow::json::load(response.text);
 	std::string strWord = std::string(resp["word"]);
 	return QString::fromStdString(strWord);
+}
+
+QString Routing::GetRound() const
+{
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/game_state" },
+		cpr::Parameters{
+			{ "lobbyCode", m_lobbyCode },
+		}
+	);
+
+	auto resp = crow::json::load(response.text);
+	return QString::fromStdString(std::string(resp["state"]));
 }
 
 bool Routing::IsDrawingPlayer()
@@ -159,10 +172,10 @@ bool Routing::SendLogin(const std::string& username, const std::string& password
 		}
 	);
 
-	if (response.status_code == 200 || response.status_code == 201){
-		/*auto resp = crow::json::load(response.text);
-		m_playerName = std::string(resp["username"]);
-		*/return true;
+	if (response.status_code == 200 || response.status_code == 201) {
+		auto resp = crow::json::load(response.text);
+		m_playerName = resp["playerName"].s();
+		return true;
 	}
 
 	return false;
@@ -179,9 +192,9 @@ bool Routing::SendRegister(const std::string& username, const std::string& passw
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		/*auto resp = crow::json::load(response.text);
-		m_playerName = std::string(resp["playerName"]);
-		*/return true;
+		auto resp = crow::json::load(response.text);
+		m_playerName = resp["playerName"].s();
+		return true;
 	}
 
 	return false;
@@ -217,7 +230,7 @@ bool Routing::SendCreateLobby(std::string& username)
 
 	if (response.status_code == 200 || response.status_code == 201) {
 		auto resp = crow::json::load(response.text);
-		m_lobbyCode = resp["lobbyCode"].u();
+		m_lobbyCode = resp["lobbyCode"].s();
 		return true;
 	}
 

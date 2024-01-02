@@ -300,7 +300,7 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 
 	crow::json::wvalue jsonResponse;
 	jsonResponse["playerName"] = playerName;
-	if (m_games[lobbyCode]->VerifyAnswer(playerName, answer))
+	if (true /*m_games[lobbyCode]->VerifyAnswer(playerName, answer)*/)
 		jsonResponse["hasGuessed"] = true;
 	else
 		jsonResponse["hasGuessed"] = false;
@@ -372,7 +372,9 @@ crow::response Routing::Login(const crow::request& req)
 	std::optional<skribbl::User> user = m_db->AuthenticateUser(username, password);
 	if (user.has_value()) 
 	{
-		return crow::response(200);
+		crow::json::wvalue jsonResponse;
+		jsonResponse["playerName"] = username;
+		return crow::response(200, jsonResponse);
 	}
 	else 
 	{

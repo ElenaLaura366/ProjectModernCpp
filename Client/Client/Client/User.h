@@ -5,8 +5,8 @@ class User
 {
 public: 
     User();
-    void setUsername(std::string username);
-    void setLobbyCode(std::string lobbyCode);
+    void setUsername(const std::string& username);
+    void setLobbyCode(const std::string& lobbyCode);
     void setAdmin();
 
     QString getUsername();
