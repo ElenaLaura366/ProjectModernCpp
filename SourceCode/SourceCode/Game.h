@@ -6,9 +6,11 @@
 #include <algorithm>
 #include <ranges>
 #include "IGame.h"
+#include "Database.h"
 
 import player;
 import turn;
+
 
 namespace skribbl
 {
@@ -33,7 +35,7 @@ namespace skribbl
 		static constexpr uint8_t kMaxPlayersNumber = 8;
 
 	public:
-		Game();
+		Game(skribbl::Database& m_db);
 		~Game() = default;
 		Game(const Game& otherGame) = delete;
 		Game& operator=(const Game& otherGame) = delete;
@@ -65,5 +67,6 @@ namespace skribbl
 		uint8_t m_playerGuessCount;
 		std::vector<Answer> m_answers;
 		uint8_t m_drawingPlayerPossition;
+		skribbl::Database& m_db;
 	};
 }

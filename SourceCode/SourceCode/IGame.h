@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include "Database.h"
 
 import player;
 
@@ -21,7 +22,7 @@ namespace skribbl
 
 		using IGamePtr = std::unique_ptr<class IGame>;
 
-		static IGamePtr Factory();
+		static IGamePtr Factory(skribbl::Database& db);
 
 	public:
 		virtual ~IGame() = default;

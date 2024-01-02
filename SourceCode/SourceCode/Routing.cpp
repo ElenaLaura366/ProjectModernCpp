@@ -1,7 +1,7 @@
 #include "Routing.h"
 using namespace skribbl;
 
-skribbl::Routing::Routing(std::shared_ptr<skribbl::Database> db) : m_db(db)
+skribbl::Routing::Routing(skribbl::Database& db) : m_db(db)
 {
 	m_ur.SetRange(klobbyCodeLength);
 }
@@ -251,7 +251,7 @@ crow::response Routing::CreateLobby(const crow::request& req)
 
 	std::string lobbyCode = m_ur.GetValue();
 
-	m_games[lobbyCode] = IGame::Factory();
+	m_games[lobbyCode] = IGame::Factory(m_db);
 
 	std::string playerName = req.url_params.get("playerName");
 	m_games[lobbyCode]->AddPlayer(playerName);
@@ -369,7 +369,7 @@ crow::response Routing::Login(const crow::request& req)
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
 
-	std::optional<skribbl::User> user = m_db->AuthenticateUser(username, password);
+	std::optional<skribbl::User> user = m_db.AuthenticateUser(username, password);
 	if (user.has_value()) 
 	{
 		crow::json::wvalue jsonResponse;
@@ -389,10 +389,10 @@ crow::response skribbl::Routing::Register(const crow::request& req)
 	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
 
-	if (m_db->CheckUserExists(username))
+	if (m_db.CheckUserExists(username))
 		return crow::response(409, "User already exists!");
 
-	m_db->CreateNewUser(username, password);
+	m_db.CreateNewUser(username, password);
 
 	return crow::response(201, "User created!");
 }

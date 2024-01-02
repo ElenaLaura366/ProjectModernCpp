@@ -1,7 +1,6 @@
 module;
 export module turn;
 
-import wordhandler;
 import timer;
 import <vector>;
 import <memory>;
@@ -33,13 +32,11 @@ namespace skribbl
 		uint8_t AvrageAnswerTime() const;
 		bool IsOver() const;
 		uint8_t GetRemainingTime() const;
-		std::string GetHint() const;
-		std::string GetWord() const;
 
 	private:
-		WordHandler::WordHandlerPtr m_wordHandler;
 		Timer m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
 		bool m_allPlayersGuessed;
+		std::string m_word;
 	};
 }

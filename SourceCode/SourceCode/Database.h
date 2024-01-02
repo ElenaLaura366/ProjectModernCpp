@@ -173,8 +173,6 @@ namespace skribbl
 	class Database
 	{
 	public:
-		//Database();
-		//~Database();
 
 		bool Initialize(const std::string& fileName);
 

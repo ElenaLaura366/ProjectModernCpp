@@ -1,14 +1,11 @@
-module;
-export module wordhandler;
-
-import <vector>;
-import <string>;
-import <memory>;
+#include <vector>;
+#include <string>;
+#include <memory>;
 import uniquerandom;
 
 namespace skribbl
 {
-	export class WordHandler
+	class WordHandler
 	{
 	public:
 		using WordHandlerPtr = std::unique_ptr<WordHandler>;

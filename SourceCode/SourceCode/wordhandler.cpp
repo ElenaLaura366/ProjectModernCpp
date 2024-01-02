@@ -1,4 +1,5 @@
-module wordhandler;
+#include "WordHandler.h"
+
 using skribbl::WordHandler;
 
 std::string WordHandler::GetWord()
@@ -13,6 +14,7 @@ std::string WordHandler::GetHint() const
 	if (m_currentWord.size() == 0) {
 		return {};
 	}
+
 	UniqueRandom<int> randomPossitions(m_currentWord.size());
 
 	std::string m_hint;

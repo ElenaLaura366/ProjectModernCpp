@@ -36,7 +36,7 @@
     <ClCompile Include="turn.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="wordhandler.cppm">
+    <ClCompile Include="WordHandler.h">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="timer.cppm">
@@ -56,6 +56,7 @@
     <Text Include="WordsFile.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Routing.h">

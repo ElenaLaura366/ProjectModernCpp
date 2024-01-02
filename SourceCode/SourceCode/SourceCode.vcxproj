@@ -190,9 +190,10 @@
     <ClCompile Include="turn.cpp" />
     <ClCompile Include="turn.cppm" />
     <ClCompile Include="wordhandler.cpp" />
-    <ClCompile Include="wordhandler.cppm" />
+    <ClCompile Include="WordHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="output.txt" />
     <Text Include="WordsFile.txt" />
   </ItemGroup>
   <ItemGroup>

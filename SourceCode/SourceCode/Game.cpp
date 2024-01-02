@@ -6,17 +6,18 @@ using skribbl::Player;
 using skribbl::Turn;
 using skribbl::Answer;
 
-Game::Game()
+Game::Game(skribbl::Database& db)
 	: m_turn{ nullptr },
 	m_playerGuessCount{ 0 },
-	m_drawingPlayerPossition { kMaxPlayersNumber }
+	m_drawingPlayerPossition { kMaxPlayersNumber },
+	m_db(db)
 {
 	m_players.reserve(kMaxPlayersNumber);
 }
 
-IGame::IGamePtr IGame::Factory()
+IGame::IGamePtr IGame::Factory(skribbl::Database& db)
 {
-	return std::make_unique<Game>();
+	return std::make_unique<Game>(db);
 }
 
 std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard() const
@@ -90,7 +91,7 @@ void Game::AddAnswer(const std::string& name, const std::string& answer)
 
 std::string Game::GetWord() const
 {
-	return m_turn->GetWord();
+	return "";
 }
 
 std::string Game::GetDrawingPlayer() const
@@ -126,7 +127,7 @@ std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 
 std::string Game::GetHint() const
 {
-	return m_turn->GetHint();
+	return "";
 }
 
 void Game::RemovePlayer(const std::string& name)

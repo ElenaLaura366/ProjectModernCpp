@@ -15,7 +15,7 @@ namespace skribbl
 	{
 	public:
 		//Routing() = default;
-		Routing(std::shared_ptr<skribbl::Database> db);
+		Routing(skribbl::Database& db);
 		~Routing() = default;
 		Routing(const Routing& other) = delete;
 		Routing& operator=(const Routing& other) = delete;
@@ -51,7 +51,7 @@ namespace skribbl
 	private:
 		crow::SimpleApp m_app;
 		std::unordered_map<std::string, IGame::IGamePtr> m_games;
-		std::shared_ptr<skribbl::Database> m_db;
+		skribbl::Database& m_db;
 		UniqueRandom<std::string> m_ur;
 		std::mutex m_mutex;
 	};

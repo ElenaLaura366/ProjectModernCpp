@@ -1,10 +1,8 @@
 module turn;
 using skribbl::Turn;
-using skribbl::WordHandler;
 
 Turn::Turn()
 	: 
-	m_wordHandler{ nullptr },
 	m_allPlayersGuessed{ false }
 {
 
@@ -12,7 +10,6 @@ Turn::Turn()
 
 Turn::Turn(Turn&& other) noexcept
 	:
-	m_wordHandler{ std::move(other.m_wordHandler) },
 	m_answerTimestamps{ std::move(other.m_answerTimestamps) },
 	m_allPlayersGuessed{ std::move(other.m_allPlayersGuessed) }
 {
@@ -23,8 +20,6 @@ Turn& Turn::operator=(Turn&& other) noexcept
 {
 	if (this != &other)
 	{
-		
-		m_wordHandler = std::move(other.m_wordHandler);
 		m_answerTimestamps = std::move(other.m_answerTimestamps);
 		m_allPlayersGuessed = std::move(other.m_allPlayersGuessed);
 	}
@@ -62,7 +57,7 @@ int8_t Turn::ScoreDrawingPlayer() const
 
 bool Turn::VerifyGuess(const std::string& guess)
 {
-	if (guess == m_wordHandler->GetWord())
+	if (guess == m_word)
 	{
 		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.GetElapsedTime());
 		uint8_t time = timeInSeconds.count();
@@ -81,16 +76,6 @@ bool Turn::IsOver() const
 uint8_t skribbl::Turn::GetRemainingTime() const
 {
 	return m_timer.GetRemainingTime();
-}
-
-std::string skribbl::Turn::GetHint() const
-{
-	return m_wordHandler->GetHint();
-}
-
-std::string skribbl::Turn::GetWord() const
-{
-	return m_wordHandler->GetWord();
 }
 
 void Turn::SetAllPlayersGuessed()
