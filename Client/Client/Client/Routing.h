@@ -3,6 +3,7 @@
 #include <cpr/cpr.h>
 #include <crow.h>
 
+#include "User.h"
 #include "DrawingAreaWidget.h";
 
 class Routing
@@ -25,12 +26,11 @@ public:
 	std::vector<QString> GetAnswers();
 	bool GetDrawing();
 	QString GetWord() const;
-	QString GetHint() const;
 	QString GetRound() const;
 	std::string GetLobbyCode() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
-
+	std::vector<User> GetPlayers(const std::string& lobbyCode);
 
 private:
 	std::string m_url;

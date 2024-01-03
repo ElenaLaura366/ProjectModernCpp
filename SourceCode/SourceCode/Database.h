@@ -174,6 +174,8 @@ namespace skribbl
 	{
 	public:
 
+		//Database();
+
 		bool Initialize(const std::string& fileName);
 
 		bool CheckUserExists(const std::string& username);

@@ -1,4 +1,4 @@
-#include "Routing.h"
+﻿#include "Routing.h"
 
 #include <iostream>
 #include <numeric>
@@ -11,7 +11,7 @@
 Routing::Routing()
 	: m_url{ "http://localhost:18080" },
 	m_playerName{ "" },
-	m_lobbyCode{ ""}
+	m_lobbyCode{ 0 }
 {
 }
 
@@ -43,7 +43,8 @@ QString Routing::GetTime()
 		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
 	);
 
-	return QString::fromStdString(response.text);
+	auto resp = crow::json::load(response.text);
+	return QString::number(resp["seconds"].u());
 }
 
 std::vector<QString> Routing::GetAnswers()
@@ -87,25 +88,15 @@ bool Routing::GetDrawing()
 QString Routing::GetWord() const
 {
 	auto response = cpr::Get(
-		cpr::Url{ m_url + "/get_word" },
+		cpr::Url{ m_url + "/get_drawing" },
 		cpr::Parameters{
 			{ "lobbyCode", m_lobbyCode },
 		}
 	);
 
-	return QString::fromStdString(response.text);
-}
-
-QString Routing::GetHint() const
-{
-	auto response = cpr::Get(
-		cpr::Url{ m_url + "/get_hint" },
-		cpr::Parameters{
-			{ "lobbyCode", m_lobbyCode },
-		}
-	);
-
-	return QString::fromStdString(response.text);
+	auto resp = crow::json::load(response.text);
+	std::string strWord = std::string(resp["word"]);
+	return QString::fromStdString(strWord);
 }
 
 QString Routing::GetRound() const
@@ -117,7 +108,8 @@ QString Routing::GetRound() const
 		}
 	);
 
-	return QString::fromStdString(response.text);
+	auto resp = crow::json::load(response.text);
+	return QString::fromStdString(std::string(resp["state"]));
 }
 
 bool Routing::IsDrawingPlayer()
@@ -129,7 +121,8 @@ bool Routing::IsDrawingPlayer()
 		}
 	);
 
-	if (response.text == m_playerName)
+	auto resp = crow::json::load(response.text);
+	if (std::string(resp["playerName"]) == m_playerName)
 		return true;
 
 	return false;
@@ -180,11 +173,13 @@ bool Routing::SendLogin(const std::string& username, const std::string& password
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		m_playerName = response.text;
+		auto resp = crow::json::load(response.text);
+		m_playerName = resp["playerName"].s();
 		return true;
 	}
 
 	return false;
+
 }
 
 bool Routing::SendRegister(const std::string& username, const std::string& password) {
@@ -197,7 +192,8 @@ bool Routing::SendRegister(const std::string& username, const std::string& passw
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		m_playerName = response.text;
+		auto resp = crow::json::load(response.text);
+		m_playerName = resp["playerName"].s();
 		return true;
 	}
 
@@ -215,7 +211,8 @@ bool Routing::SendJoinLobby(std::string lobbyCode)
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		m_lobbyCode = lobbyCode;
+		auto resp = crow::json::load(response.text);
+		m_lobbyCode = resp["lobbyCode"].u();
 		return true;
 	}
 
@@ -232,9 +229,26 @@ bool Routing::SendCreateLobby(std::string& username)
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		m_lobbyCode = response.text;
+		auto resp = crow::json::load(response.text);
+		m_lobbyCode = resp["lobbyCode"].s();
 		return true;
 	}
 
 	return false;
+}
+
+std::vector<User> Routing::GetPlayers(const std::string& lobbyCode) 
+{
+	cpr::Response response = cpr::Get(cpr::Url{ m_url + "/players" },
+		cpr::Parameters{ {"lobbyCode", lobbyCode} });
+	// Parse response to get list of players
+	std::vector<User> players;
+	// presupunând că răspunsul conține o listă de nume de utilizatori
+	auto jsonResponse = crow::json::load(response.text);
+	for (const auto& playerName : jsonResponse) {
+		User user;
+		user.setUsername(playerName.s());
+		players.push_back(user);
+	}
+	return players;
 }
