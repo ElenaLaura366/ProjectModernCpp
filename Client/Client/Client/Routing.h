@@ -25,6 +25,7 @@ public:
 	std::vector<QString> GetAnswers();
 	bool GetDrawing();
 	QString GetWord() const;
+	QString GetHint() const;
 	QString GetRound() const;
 	std::string GetLobbyCode() const;
 	bool IsDrawingPlayer();

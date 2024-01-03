@@ -4,12 +4,9 @@
 	: m_db{ db }
 {}*/
 
-skribbl::Database::Database()
+/*skribbl::Database::Database()
 {
-	std::ofstream f("output.txt");
-	 f<< "Copie\n";
-	 f.close();
-}
+}*/
 
 bool skribbl::Database::Initialize(const std::string& fileName)
 {
