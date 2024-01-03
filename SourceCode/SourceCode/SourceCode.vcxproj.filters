@@ -21,7 +21,7 @@
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wordhandler.cpp">
+    <ClCompile Include="WordHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Turn.cpp">

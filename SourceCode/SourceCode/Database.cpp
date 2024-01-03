@@ -44,9 +44,9 @@ std::optional<skribbl::User> skribbl::Database::AuthenticateUser(const std::stri
 	return std::nullopt;
 }
 
-std::vector<int> skribbl::Database::GetIdWords()
+int skribbl::Database::GetNumberOfWords()
 {
-	return m_db.select(&Words::m_id);
+	return m_db.count<Words>();
 }
 
 std::string skribbl::Database::GetWord(int id)

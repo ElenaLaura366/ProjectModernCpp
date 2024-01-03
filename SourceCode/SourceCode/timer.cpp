@@ -55,6 +55,7 @@ void Timer::Pause()
 	if (m_isRunning && !m_isPaused)
 	{
 		m_isPaused = true;
+
 		m_condition.notify_all();
 	}
 }

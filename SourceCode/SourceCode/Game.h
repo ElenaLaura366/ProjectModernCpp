@@ -1,12 +1,8 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <memory>
 #include <algorithm>
 #include <ranges>
 #include "IGame.h"
-#include "Database.h"
 
 import player;
 import turn;
@@ -68,5 +64,6 @@ namespace skribbl
 		std::vector<Answer> m_answers;
 		uint8_t m_drawingPlayerPossition;
 		skribbl::Database& m_db;
+		WordHandler::WordHandlerPtr m_wordHandler;
 	};
 }

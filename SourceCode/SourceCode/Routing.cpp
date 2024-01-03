@@ -386,7 +386,7 @@ crow::response skribbl::Routing::Register(const crow::request& req)
 crow::response skribbl::Routing::GetTime(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
-	return crow::response(200, std::to_string(m_games[lobbyCode]->GetTime()));
+	return crow::response(200, std::to_string(/*m_games[lobbyCode]->GetTime()*/30));
 }
 
 crow::response skribbl::Routing::GetHint(const crow::request& req)

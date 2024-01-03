@@ -1,6 +1,7 @@
-#include <vector>;
-#include <string>;
-#include <memory>;
+#include <vector>
+#include <string>
+#include <memory>
+#include "Database.h"
 import uniquerandom;
 
 namespace skribbl
@@ -11,7 +12,7 @@ namespace skribbl
 		using WordHandlerPtr = std::unique_ptr<WordHandler>;
 
 	public:
-		WordHandler() = default;
+		WordHandler(skribbl::Database& db);
 		~WordHandler() = default; 
 		WordHandler(const WordHandler& wg)=delete; 
 		WordHandler& operator=(const WordHandler&) = delete;
@@ -26,5 +27,6 @@ namespace skribbl
 	private:
 		std::string m_currentWord;
 		UniqueRandom<int>::UniqueRandomPtr m_ur;
+		skribbl::Database& m_db;
 	};
 }

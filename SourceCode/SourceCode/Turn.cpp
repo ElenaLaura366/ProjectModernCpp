@@ -29,7 +29,7 @@ Turn& Turn::operator=(Turn&& other) noexcept
 void Turn::Reset()
 {
 	m_allPlayersGuessed = false;
-	m_timer.Pause();
+	m_timer.Restart();
 }
 
 int8_t Turn::ScoreGuessingPlayer() const
@@ -57,7 +57,7 @@ int8_t Turn::ScoreDrawingPlayer() const
 
 bool Turn::VerifyGuess(const std::string& guess)
 {
-	if (guess == m_word)
+	if (guess == m_currentWord)
 	{
 		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.GetElapsedTime());
 		uint8_t time = timeInSeconds.count();
@@ -76,6 +76,11 @@ bool Turn::IsOver() const
 uint8_t skribbl::Turn::GetRemainingTime() const
 {
 	return m_timer.GetRemainingTime();
+}
+
+void skribbl::Turn::SetCurrentWord(const std::string& word)
+{
+	m_currentWord = word;
 }
 
 void Turn::SetAllPlayersGuessed()

@@ -189,7 +189,7 @@
     <ClCompile Include="timer.cppm" />
     <ClCompile Include="turn.cpp" />
     <ClCompile Include="turn.cppm" />
-    <ClCompile Include="wordhandler.cpp" />
+    <ClCompile Include="WordHandler.cpp" />
     <ClCompile Include="WordHandler.h" />
   </ItemGroup>
   <ItemGroup>

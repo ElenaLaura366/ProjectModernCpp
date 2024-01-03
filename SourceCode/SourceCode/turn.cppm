@@ -32,11 +32,12 @@ namespace skribbl
 		uint8_t AvrageAnswerTime() const;
 		bool IsOver() const;
 		uint8_t GetRemainingTime() const;
+		void SetCurrentWord(const std::string& word);
 
 	private:
 		Timer m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
 		bool m_allPlayersGuessed;
-		std::string m_word;
+		std::string m_currentWord;
 	};
 }

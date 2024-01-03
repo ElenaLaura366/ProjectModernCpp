@@ -10,7 +10,7 @@ Game::Game(skribbl::Database& db)
 	: m_turn{ nullptr },
 	m_playerGuessCount{ 0 },
 	m_drawingPlayerPossition { kMaxPlayersNumber },
-	m_db(db)
+	m_db{ db }
 {
 	m_players.reserve(kMaxPlayersNumber);
 }
@@ -47,6 +47,7 @@ Game::State Game::GetNextState(State currentState)
 void Game::Start()
 {
 	m_turn = std::make_unique<Turn>();
+	m_wordHandler = std::make_unique<WordHandler>(m_db);
 
 	m_state = Game::State::FIRST_ROUND;
 
@@ -55,8 +56,10 @@ void Game::Start()
 		m_drawingPlayerPossition = 0;
 		for (Player::PlayerPtr& player : m_players)
 		{
+			m_wordHandler->Reset();
 			m_playerGuessCount = 0;
 			m_turn->Reset();
+			m_turn->SetCurrentWord(m_wordHandler->GetWord());
 			while (!m_turn->IsOver())
 			{
 				if (m_players.size() - 1 == m_playerGuessCount)

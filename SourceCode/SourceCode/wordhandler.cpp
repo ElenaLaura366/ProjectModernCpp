@@ -2,12 +2,15 @@
 
 using skribbl::WordHandler;
 
+skribbl::WordHandler::WordHandler(skribbl::Database& db) : m_db{ db }, m_currentWord { "" }
+{
+	m_ur = std::make_unique<UniqueRandom<int>>(m_db.GetNumberOfWords());
+}
+
 std::string WordHandler::GetWord()
 {
 	return m_currentWord;
 }
-
-
 
 std::string WordHandler::GetHint() const
 {
@@ -21,9 +24,14 @@ std::string WordHandler::GetHint() const
 	for (char chr : m_currentWord)
 		m_hint += "_";
 
-	for (int index = 0; index < m_currentWord.size()/2; index++) {
+	for (int index = 0; index < m_currentWord.size()/2;) {
 		int pos = randomPossitions.GetValue();
-		m_hint[pos] = m_currentWord[pos];
+		char currentCharacter = m_currentWord[pos];
+		if (currentCharacter != ' ')
+		{
+			m_hint[pos] = currentCharacter;
+			index++;
+		}
 	}
 
 	return m_hint;
@@ -31,5 +39,6 @@ std::string WordHandler::GetHint() const
 
 void skribbl::WordHandler::Reset()
 {
-
+	int wordPos = 1 + m_ur->GetValue();
+	m_currentWord = m_db.GetWord(wordPos);
 }

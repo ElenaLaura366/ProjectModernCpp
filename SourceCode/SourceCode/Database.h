@@ -183,7 +183,7 @@ namespace skribbl
 
 		std::optional<User> AuthenticateUser(const std::string& username, const std::string& password);
 
-		std::vector<int> GetIdWords();
+		int GetNumberOfWords();
 		std::string GetWord(int id);
 
 		void AddGames(year_month_day date);

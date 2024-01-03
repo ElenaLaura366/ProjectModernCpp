@@ -25,6 +25,7 @@ public:
 	QString GetTime();
 	std::vector<QString> GetAnswers();
 	bool GetDrawing();
+	QString GetHint() const;
 	QString GetWord() const;
 	QString GetRound() const;
 	std::string GetLobbyCode() const;
