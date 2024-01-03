@@ -38,4 +38,3 @@ private:
 	std::string m_playerName;
 	std::string m_lobbyCode;
 };
-

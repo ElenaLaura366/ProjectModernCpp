@@ -167,7 +167,7 @@ bool Routing::ExitGame()
 
 std::string Routing::GetLobbyCode() const
 {
-    return m_lobbyCode;
+	return m_lobbyCode;
 }
 
 bool Routing::SendLogin(const std::string& username, const std::string& password) {
@@ -239,18 +239,26 @@ bool Routing::SendCreateLobby(std::string& username)
 	return false;
 }
 
-std::vector<User> Routing::GetPlayers(const std::string& lobbyCode) 
+std::vector<User> Routing::GetPlayers(const std::string& lobbyCode)
 {
-	cpr::Response response = cpr::Get(cpr::Url{ m_url + "/players" },
-		cpr::Parameters{ {"lobbyCode", lobbyCode} });
-	// Parse response to get list of players
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/players" },
+		cpr::Parameters{
+			{"lobbyCode", lobbyCode}
+		}
+	);
+
+	if (response.status_code != 200) {
+		return std::vector<User>();
+	}
+
 	std::vector<User> players;
-	// presupunând că răspunsul conține o listă de nume de utilizatori
 	auto jsonResponse = crow::json::load(response.text);
 	for (const auto& playerName : jsonResponse) {
 		User user;
 		user.setUsername(playerName.s());
 		players.push_back(user);
 	}
+
 	return players;
 }
