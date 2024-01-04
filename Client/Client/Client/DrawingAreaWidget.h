@@ -4,7 +4,7 @@
 #include <QMouseEvent>
 #include <QWidget>
 
-using DrawingConfig = QVector<QVector<QPoint>>;
+using DrawingConfig = std::vector<std::vector<QPoint>>;
 
 class DrawingAreaWidget : public QWidget {
 	Q_OBJECT
@@ -13,6 +13,8 @@ public:
 	DrawingAreaWidget(QWidget* parent = nullptr);
 	void UndoLastLine();
 	void ResetDrawing();
+	const DrawingConfig& GetDrawing() const;
+	void SetDrawing(const DrawingConfig& drawing);
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -21,8 +23,8 @@ private:
 	void paintEvent(QPaintEvent* event) override;
 
 private:
+	std::vector<QPoint> m_line;
 	DrawingConfig m_drawing;
-	QVector<QPoint> m_line;
 	bool m_isMousePressed;
 };
 

@@ -27,7 +27,6 @@ bool Routing::SendAnswer(const std::string& answer)
 		}
 	);
 	if (response.status_code == 200 || response.status_code == 201) {
-		std::cout << "Submited answer :)\n";
 		auto resp = crow::json::load(response.text);
 		auto our = response.text.find("true") != response.text.npos;
 
@@ -43,7 +42,7 @@ QString Routing::GetTime()
 		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
 	);
 
-	return QString::fromStdString(response.text);
+	return QString::fromLatin1(response.text.data());
 }
 
 std::vector<QString> Routing::GetAnswers()
@@ -68,20 +67,44 @@ std::vector<QString> Routing::GetAnswers()
 	return answerList;
 }
 
-bool Routing::GetDrawing()
+DrawingConfig Routing::GetDrawing()
 {
-	std::vector<int> dr{ {1, 2, 3} };
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/get_drawing" },
 		cpr::Parameters{
 			{ "lobbyCode", m_lobbyCode },
-			{ "playerName", m_playerName },
 		}
 	);
 
 	auto answers = crow::json::load(response.text);
 
-	return true;
+	DrawingConfig result;
+	if (response.text.size() == 0)
+		return result;
+	std::istringstream ss(response.text);
+	std::string line;
+
+	while (std::getline(ss, line, '/'))
+	{
+		std::vector<QPoint> points;
+		std::istringstream lineStream(line);
+		std::string pointPair;
+
+		while (lineStream >> pointPair)
+		{
+			std::istringstream pointStream(pointPair);
+			std::string x, y;
+			std::getline(pointStream, x, ' ');
+			std::getline(pointStream, y, ' ');
+
+			QPoint point(std::stoi(x), std::stoi(y));
+			points.push_back(point);
+		}
+
+		result.push_back(points);
+	}
+
+	return result;
 }
 
 QString Routing::GetWord() const
@@ -92,8 +115,7 @@ QString Routing::GetWord() const
 			{ "lobbyCode", m_lobbyCode },
 		}
 	);
-
-	return QString::fromStdString(response.text);
+	return QString::fromLatin1(response.text.data());
 }
 
 QString Routing::GetHint() const
@@ -105,7 +127,7 @@ QString Routing::GetHint() const
 		}
 	);
 
-	return QString::fromStdString(response.text);
+	return QString::fromLatin1(response.text.data());
 }
 
 QString Routing::GetRound() const
@@ -116,8 +138,9 @@ QString Routing::GetRound() const
 			{ "lobbyCode", m_lobbyCode },
 		}
 	);
-
-	return QString::fromStdString(response.text);
+	if (response.status_code == 200 || response.status_code == 201)
+		return QString::fromLatin1(response.text.data());
+	return QString("No Server Answer");
 }
 
 bool Routing::IsDrawingPlayer()
@@ -129,22 +152,34 @@ bool Routing::IsDrawingPlayer()
 		}
 	);
 
-	if (response.text == m_playerName)
-		return true;
-
-	return false;
-
+	if (response.status_code == 200 || response.status_code == 201) {
+		if (response.text == m_playerName)
+			return true;
+	}
+	else
+		// exception ?
+		return false;
 }
 
 void Routing::SendDrawing(const DrawingConfig& drawing)
 {
-	std::vector<int> dr{ {1, 2, 3} };
+	std::string drawingStr;
+	for (const auto& line : drawing)
+	{
+		for (const auto& point : line)
+		{
+			drawingStr.append(std::to_string(point.x()));
+			drawingStr.append(" ");
+			drawingStr.append(std::to_string(point.y()));
+		}
+		drawingStr.append("/");
+	}
+
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/send_drawing" },
-		cpr::Payload{
+		cpr::Parameters{
 			{ "lobbyCode", m_lobbyCode },
-			{ "playerName", m_playerName },
-			//{ "drawing", std::to_string(dr)}
+			{ "drawing", drawingStr }
 		}
 	);
 }

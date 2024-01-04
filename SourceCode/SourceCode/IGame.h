@@ -32,11 +32,13 @@ namespace skribbl
 		virtual bool VerifyAnswer(const std::string& name, const std::string& answer) = 0;
 		virtual bool AddPlayer(const std::string& name) = 0;
 		virtual void AddAnswer(const std::string& name, const std::string& answer) = 0;
-		
+		virtual void SetDrawing(const std::string& drawing) = 0;
+
 		virtual std::string GetWord() const  = 0;
 		virtual std::string GetDrawingPlayer()const  = 0;
 		virtual uint8_t GetTime() const  = 0;
 		virtual std::vector <Answer> GetAnswers() const = 0;
+		virtual std::string GetDrawing() const = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const = 0;
 		virtual std::string GetState() const = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetPlayers() = 0;

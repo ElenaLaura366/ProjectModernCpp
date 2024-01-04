@@ -304,23 +304,28 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 	return crow::response(200, jsonResponse);
 }
 
-crow::response skribbl::Routing::ProcessDrawing(const crow::request& req)
+crow::response Routing::ProcessDrawing(const crow::request& req)
 {
-	return crow::response();
+	std::string lobbyCode = req.url_params.get("lobbyCode");
+	auto drawing = req.url_params.get("drawing");
+	m_games[lobbyCode]->SetDrawing(req.url_params.get("drawing"));
+	return crow::response(200);
 }
 
-crow::response skribbl::Routing::GetDrawing(const crow::request& req)
+crow::response Routing::GetDrawing(const crow::request& req)
 {
-	return crow::response();
+	std::string lobbyCode = req.url_params.get("lobbyCode");
+	std::string drawingStr = m_games[lobbyCode]->GetDrawing();
+	return crow::response(200, drawingStr);
 }
 
-crow::response skribbl::Routing::GetWord(const crow::request& req)
+crow::response Routing::GetWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	return crow::response(200, m_games[lobbyCode]->GetWord());
 }
 
-crow::response skribbl::Routing::GetAnswers(const crow::request& req)
+crow::response Routing::GetAnswers(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 
@@ -338,7 +343,7 @@ crow::response skribbl::Routing::GetAnswers(const crow::request& req)
 	return crow::json::wvalue{ answers_json };
 }
 
-crow::response skribbl::Routing::GetDrawingPlayer(const crow::request& req)
+crow::response Routing::GetDrawingPlayer(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	return crow::response(200, m_games[lobbyCode]->GetDrawingPlayer());
@@ -368,7 +373,7 @@ crow::response Routing::Login(const crow::request& req)
 	}
 }
 
-crow::response skribbl::Routing::Register(const crow::request& req)
+crow::response Routing::Register(const crow::request& req)
 {
 	std::lock_guard lock{ m_mutex };
 
@@ -383,19 +388,19 @@ crow::response skribbl::Routing::Register(const crow::request& req)
 	return crow::response(201, "User created!");
 }
 
-crow::response skribbl::Routing::GetTime(const crow::request& req)
+crow::response Routing::GetTime(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	return crow::response(200, std::to_string(/*m_games[lobbyCode]->GetTime()*/30));
 }
 
-crow::response skribbl::Routing::GetHint(const crow::request& req)
+crow::response Routing::GetHint(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	return crow::response(200, m_games[lobbyCode]->GetHint());
 }
 
-crow::response skribbl::Routing::GetGamePlayers(const crow::request& req)
+crow::response Routing::GetGamePlayers(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 

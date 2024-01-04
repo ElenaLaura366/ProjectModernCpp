@@ -1,22 +1,22 @@
 #include "GamePage.h"
 #include <QKeyEvent>
 
-GamePage::GamePage(QWidget *parent, Routing* rt)
+GamePage::GamePage(QWidget* parent, Routing* rt)
 	: QWidget{ parent }
 	, ui{ new Ui::GamePageClass() }
-	, m_refreshCount{0}
+	, m_refreshCount{ 0 }
 	, m_rt{ rt }
 {
 	ui->setupUi(this);
 	m_drawingArea = ui->drawingArea;
 
-	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked); 
+	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked);
 	connect(ui->undoLastLineBtn, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
 	connect(ui->exitGameBtn, &QPushButton::clicked, this, &GamePage::OnExitGameBtnClicked);
 	connect(ui->resetDrawingBtn, &QPushButton::clicked, this, &GamePage::OnResetDrawingBtnClicked);
 }
 
-GamePage::~GamePage(){
+GamePage::~GamePage() {
 	delete ui;
 }
 
@@ -27,7 +27,7 @@ Ui::GamePageClass* GamePage::GetUi()
 
 void GamePage::paintEvent(QPaintEvent* e)
 {
-	if(m_refreshCount % kRefreshRate == 0)
+	if (m_refreshCount % kRefreshRate == 0)
 	{
 		auto answers = m_rt->GetAnswers();
 
@@ -37,19 +37,21 @@ void GamePage::paintEvent(QPaintEvent* e)
 			m_answers = answers;
 		}
 		UpdateChat();
+
+		QString seconds = m_rt->GetTime();
+		ui->lableSeconds->setText(seconds);
+
+		QString word = m_rt->GetWord();
+		ui->labelWord->setText(word);
+
+		QString round = m_rt->GetRound();
+		ui->labelRound->setText(round);
+
+		m_drawingArea->SetDrawing(m_rt->GetDrawing());
+		m_rt->SendDrawing(m_drawingArea->GetDrawing());
 	}
 
-	QString seconds =m_rt->GetTime();
-	ui->lableSeconds->setText(seconds);
-
-	QString word = m_rt->GetWord();
-	ui->labelWord->setText(word);
-
-	QString round = m_rt->GetRound();
-	ui->labelRound->setText(round);
-
 	m_refreshCount++;
-	//m_rt->GetDrawing();
 }
 
 void GamePage::keyPressEvent(QKeyEvent* event) {
@@ -88,7 +90,7 @@ void GamePage::OnResetDrawingBtnClicked() {
 	m_drawingArea->ResetDrawing();
 }
 
-void GamePage::OnExitGameBtnClicked(){
+void GamePage::OnExitGameBtnClicked() {
 
 	ui->answerList->clear();
 	m_drawingArea->ResetDrawing();

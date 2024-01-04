@@ -44,11 +44,13 @@ namespace skribbl
 		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
 		bool AddPlayer(const std::string& name) override;
 		void AddAnswer(const std::string& name, const std::string& answer) override;
-		
+		void SetDrawing(const std::string& drawing) override;
+
 		std::string GetWord() const override;
 		std::string GetDrawingPlayer() const override;
 		uint8_t GetTime() const override;
 		std::vector <Answer> GetAnswers() const override;
+		std::string GetDrawing() const override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;
 		std::vector<std::pair<std::string, int16_t>> GetPlayers() override;
@@ -62,6 +64,7 @@ namespace skribbl
 		State m_state;
 		uint8_t m_playerGuessCount;
 		std::vector<Answer> m_answers;
+		std::string m_drawing;
 		uint8_t m_drawingPlayerPossition;
 		skribbl::Database& m_db;
 		WordHandler::WordHandlerPtr m_wordHandler;

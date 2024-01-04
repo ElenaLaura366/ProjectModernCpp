@@ -92,6 +92,11 @@ void Game::AddAnswer(const std::string& name, const std::string& answer)
 	m_answers.emplace_back(name, answer);
 }
 
+void skribbl::Game::SetDrawing(const std::string& drawing)
+{
+	m_drawing = drawing;
+}
+
 std::string Game::GetWord() const
 {
 	return "";
@@ -110,6 +115,11 @@ uint8_t Game::GetTime() const
 std::vector<Answer> Game::GetAnswers() const
 {
 	return m_answers;
+}
+
+std::string skribbl::Game::GetDrawing() const
+{
+	return m_drawing;
 }
 
 std::string Game::GetState() const

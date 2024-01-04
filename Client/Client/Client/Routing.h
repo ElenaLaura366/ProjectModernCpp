@@ -24,7 +24,7 @@ public:
 	void SendDrawing(const DrawingConfig& drawing);
 	QString GetTime();
 	std::vector<QString> GetAnswers();
-	bool GetDrawing();
+	DrawingConfig GetDrawing();
 	QString GetHint() const;
 	QString GetWord() const;
 	QString GetRound() const;
