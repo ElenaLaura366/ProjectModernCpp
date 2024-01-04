@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QTimer.h>
 #include <QListWidgetItem>
+#include <QPaintEvent>
 
 #include "Routing.h"
 #include "ui_WaitingRoom.h"
@@ -18,12 +19,13 @@ class WaitingRoom : public QWidget
 	Q_OBJECT
 
 public:
-	WaitingRoom(QWidget *parent = nullptr);
+	WaitingRoom(QWidget *parent = nullptr, Routing* m_rt = nullptr);
 	~WaitingRoom();
 	void SetRoomCode(QString lobbyCode);
-	void addUserToRoom(const User& user);
-	void UpdatePlayerList(const std::vector<User>& players);
+	void addUserToRoom(const QString& user);
+	void UpdatePlayerList(const std::vector<QString>& players);
 	void FetchPlayers();
+	void paintEvent(QPaintEvent* e) override;
 
 private slots:
 	void ChangeToGamePage();
@@ -33,6 +35,8 @@ signals:
 
 private:
 	Ui::WaitingRoomClass *ui;
-	QString lobbyCode;
 	Routing* m_rt;
+
+	static const uint8_t kRefreshRate = 5;
+	uint m_refreshCount;
 };

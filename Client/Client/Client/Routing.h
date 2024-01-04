@@ -31,7 +31,7 @@ public:
 	std::string GetLobbyCode() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
-	std::vector<User> GetPlayers(const std::string& lobbyCode);
+	std::vector<QString> GetPlayers();
 
 private:
 	std::string m_url;

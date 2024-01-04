@@ -11,8 +11,8 @@ class UserWidget : public QWidget {
     Q_OBJECT
 
 public:
-    UserWidget(const User& user, QWidget* parent = nullptr);
+    UserWidget(const QString& user, QWidget* parent = nullptr);
 
 private:
-    User m_user;
+    QString m_user;
 };

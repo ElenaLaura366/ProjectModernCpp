@@ -17,7 +17,7 @@ Client::Client(QWidget* parent)
 	m_loginPage = new LoginPage(this);
 	m_gamePage = new GamePage(this, &m_rt);
 	m_lobbyPage = new LobbyPage(this);
-	m_waitingRoom = new WaitingRoom(this);
+	m_waitingRoom = new WaitingRoom(this, &m_rt);
 	m_userInfo = new UserInfo();
 
 	m_stackedWidget->addWidget(m_gamePage);
@@ -77,7 +77,7 @@ void Client::ChangeToWaitingRoom()
 
 	QString lobbyCode = optionalLobbyCode.value();
 	m_waitingRoom->SetRoomCode(lobbyCode);
-	m_waitingRoom->addUserToRoom(user);
+	//m_waitingRoom->addUserToRoom(user);
 	m_stackedWidget->setCurrentWidget(m_waitingRoom);
 }
 
