@@ -23,7 +23,6 @@ private:
 	void paintEvent(QPaintEvent* event) override;
 
 private:
-	std::vector<QPoint> m_line;
 	DrawingConfig m_drawing;
 	bool m_isMousePressed;
 };

@@ -22,6 +22,7 @@ public:
 	bool SendCreateLobby(std::string& username);
 	bool SendAnswer(const std::string& answer);
 	void SendDrawing(const DrawingConfig& drawing);
+	bool GetIsDrawing() const;
 	QString GetTime();
 	std::vector<QString> GetAnswers();
 	DrawingConfig GetDrawing();
@@ -36,5 +37,6 @@ public:
 private:
 	std::string m_url;
 	std::string m_playerName;
+	bool m_isDrawing;
 	std::string m_lobbyCode;
 };

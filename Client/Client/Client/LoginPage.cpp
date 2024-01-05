@@ -1,4 +1,6 @@
 #include "LoginPage.h"
+#include <QKeyEvent>
+
 
 LoginPage::LoginPage(QWidget *parent)
 	: QWidget{ parent }
@@ -54,6 +56,13 @@ void LoginPage::paintEvent(QPaintEvent* event){
 		ui->btnProceed->setText("REGISTER");
 		ui->inputPswConf->setVisible(true);
 		ui->labelPswConf->setVisible(true);
+	}
+}
+
+void LoginPage::keyPressEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_Return) {
+		Proceed();
 	}
 }
 

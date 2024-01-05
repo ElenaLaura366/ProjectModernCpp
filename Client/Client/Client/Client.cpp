@@ -49,9 +49,9 @@ Client::Client(QWidget* parent)
 	ChangeToLoginPage();
 }
 
-void Client::paintEvent(QPaintEvent* e)
+void Client::closeEvent(QCloseEvent* event)
 {
-	auto ceva = 0;
+	m_rt.ExitGame();
 }
 
 void Client::ChangeToLoginPage() {
@@ -160,10 +160,11 @@ void Client::HandleCreateLobby()
 
 	std::string lobbyName = lobbyUiUser->inputUsername->text().toUtf8().constData();
 
-	if (!m_rt.SendCreateLobby(lobbyName)) {
+	bool islobbyCreated = m_rt.SendCreateLobby(lobbyName);
+	if (!islobbyCreated) {
 		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not created."); //de revizuit
 	}
-	if (m_rt.SendCreateLobby(lobbyName)) {
+	else {
 		user.setLobbyCode(m_rt.GetLobbyCode());
 		ChangeToWaitingRoom();
 	}

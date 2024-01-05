@@ -39,5 +39,5 @@ private:
 	std::vector<QString> m_answers;
 	uint m_refreshCount;
 
-	static const uint8_t kRefreshRate = 5;
+	static const uint8_t kRefreshRate = 10;
 };

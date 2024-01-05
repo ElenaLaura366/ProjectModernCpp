@@ -88,16 +88,13 @@ DrawingConfig Routing::GetDrawing()
 	{
 		std::vector<QPoint> points;
 		std::istringstream lineStream(line);
-		std::string pointPair;
+		std::string pointX, pointY;
 
-		while (lineStream >> pointPair)
+		while (lineStream >> pointX)
 		{
-			std::istringstream pointStream(pointPair);
-			std::string x, y;
-			std::getline(pointStream, x, ' ');
-			std::getline(pointStream, y, ' ');
+			lineStream >> pointY;
 
-			QPoint point(std::stoi(x), std::stoi(y));
+			QPoint point(std::stoi(pointX), std::stoi(pointY));
 			points.push_back(point);
 		}
 
@@ -184,18 +181,26 @@ void Routing::SendDrawing(const DrawingConfig& drawing)
 	);
 }
 
+bool Routing::GetIsDrawing() const
+{
+	return m_isDrawing;
+}
+
 bool Routing::ExitGame()
 {
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/remove" },
-		cpr::Parameters{
-			{ "lobbyCode",  m_lobbyCode},
-			{ "playerName", m_playerName },
+	if (m_lobbyCode != "x") {
+
+		auto response = cpr::Put(
+			cpr::Url{ m_url + "/remove" },
+			cpr::Parameters{
+				{ "lobbyCode",  m_lobbyCode},
+				{ "playerName", m_playerName },
+			}
+		);
+		if (response.status_code == 204) {
+			m_lobbyCode = "x";
+			return true;
 		}
-	);
-	if (response.status_code == 200 || response.status_code == 201) {
-		m_lobbyCode = "x";
-		return true;
 	}
 	return false;
 }
@@ -251,6 +256,7 @@ bool Routing::SendJoinLobby(std::string lobbyCode)
 
 	if (response.status_code == 200 || response.status_code == 201) {
 		m_lobbyCode = lobbyCode;
+		m_isDrawing = false;
 		return true;
 	}
 
@@ -268,6 +274,7 @@ bool Routing::SendCreateLobby(std::string& username)
 
 	if (response.status_code == 200 || response.status_code == 201) {
 		m_lobbyCode = response.text;
+		m_isDrawing = true;
 		return true;
 	}
 

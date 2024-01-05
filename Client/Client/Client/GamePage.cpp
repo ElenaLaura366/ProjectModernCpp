@@ -47,21 +47,21 @@ void GamePage::paintEvent(QPaintEvent* e)
 		QString round = m_rt->GetRound();
 		ui->labelRound->setText(round);
 
-		m_drawingArea->SetDrawing(m_rt->GetDrawing());
-		m_rt->SendDrawing(m_drawingArea->GetDrawing());
+		if(m_rt->GetIsDrawing())
+			m_rt->SendDrawing(m_drawingArea->GetDrawing());
+		else
+			m_drawingArea->SetDrawing(m_rt->GetDrawing());
 	}
 
 	m_refreshCount++;
 }
 
 void GamePage::keyPressEvent(QKeyEvent* event) {
-	if (event->key() == Qt::Key_Return) {
+	if (event->key() == Qt::Key_Return)
 		OnSendAnswerBtnClicked();
-	}
 
-	if (event->key() == Qt::Key_Z && event->modifiers() & Qt::ControlModifier) {
+	if (event->key() == Qt::Key_Z && event->modifiers() & Qt::ControlModifier)
 		OnUndoBtnClicked();
-	}
 }
 
 void GamePage::OnSendAnswerBtnClicked() {

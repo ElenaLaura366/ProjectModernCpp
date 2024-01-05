@@ -24,7 +24,7 @@ public:
     Client(QWidget *parent = nullptr);
     ~Client() = default;
 
-    void paintEvent(QPaintEvent* e) override;
+    void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void ChangeToLoginPage();
