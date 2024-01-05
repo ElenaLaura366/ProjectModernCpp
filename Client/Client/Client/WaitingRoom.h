@@ -4,6 +4,7 @@
 #include <QTimer.h>
 #include <QListWidgetItem>
 #include <QPaintEvent>
+#include <QMessageBox>
 
 #include "Routing.h"
 #include "ui_WaitingRoom.h"
@@ -29,6 +30,7 @@ public:
 
 private slots:
 	void ChangeToGamePage();
+	void AddCustomWord();
 
 signals:
 	void goToGame();
@@ -37,6 +39,6 @@ private:
 	Ui::WaitingRoomClass *ui;
 	Routing* m_rt;
 
-	static const uint8_t kRefreshRate = 5;
+	static const uint8_t kRefreshRate = 2;
 	uint m_refreshCount;
 };

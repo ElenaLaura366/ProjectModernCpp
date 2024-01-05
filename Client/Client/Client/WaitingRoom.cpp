@@ -1,4 +1,4 @@
-#include "WaitingRoom.h"
+﻿#include "WaitingRoom.h"
 
 WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 	: QWidget(parent)
@@ -9,6 +9,7 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 	ui->setupUi(this);
 
 	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::ChangeToGamePage);
+	connect(ui->pushButton, &QPushButton::clicked, this, &WaitingRoom::AddCustomWord);
 }
 
 
@@ -57,4 +58,16 @@ void WaitingRoom::paintEvent(QPaintEvent* e)
 		FetchPlayers();
 	}
 	m_refreshCount++;
+}
+
+void WaitingRoom::AddCustomWord()
+{
+	QString word = ui->lineEdit->text();
+	if (!word.isEmpty()) 
+	{
+		QMessageBox::information(this, "Custom Word", word);
+		ui->lineEdit->setDisabled(true); // Dezactivează QLineEdit pentru a împiedica editarea ulterioară
+		// Alternativ, puteți folosi ui->lineEdit->setEnabled(false);
+		// Sau dacă doriți să ascundeți QLineEdit: ui->lineEdit->hide();
+	}
 }

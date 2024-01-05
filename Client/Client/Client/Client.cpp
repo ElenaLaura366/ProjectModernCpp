@@ -8,6 +8,8 @@ Client::Client(QWidget* parent)
 {
 	ui->setupUi(this);
 
+	this->setFixedSize(1200, 700);
+
 	m_stackedWidget = ui->centralWidget->findChild<QStackedWidget*>("stackedWidget");
 	ui->mainToolBar->hide();
 	ui->menuBar->hide();
