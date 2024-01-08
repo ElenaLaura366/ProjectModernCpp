@@ -8,13 +8,14 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 {
 	ui->setupUi(this);
 
-	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::ChangeToGamePage);
+	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::OnStartBtnPushed);
 	connect(ui->pushButton, &QPushButton::clicked, this, &WaitingRoom::AddCustomWord);
 }
 
 
-void WaitingRoom::ChangeToGamePage() {
-	emit goToGame();
+void WaitingRoom::OnStartBtnPushed() {
+	if(m_rt->SendStartGame())
+		emit goToGame();
 }
 
 WaitingRoom::~WaitingRoom()

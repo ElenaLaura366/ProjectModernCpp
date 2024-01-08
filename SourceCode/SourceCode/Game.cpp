@@ -99,7 +99,7 @@ void skribbl::Game::SetDrawing(const std::string& drawing)
 
 std::string Game::GetWord() const
 {
-	return "";
+	return m_wordHandler->GetWord();
 }
 
 std::string Game::GetDrawingPlayer() const

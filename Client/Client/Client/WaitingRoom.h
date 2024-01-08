@@ -29,7 +29,7 @@ public:
 	void paintEvent(QPaintEvent* e) override;
 
 private slots:
-	void ChangeToGamePage();
+	void OnStartBtnPushed();
 	void AddCustomWord();
 
 signals:

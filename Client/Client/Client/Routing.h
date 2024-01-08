@@ -16,6 +16,7 @@ public:
 	Routing(Routing&& other) noexcept = delete;
 	Routing& operator=(Routing&& other) noexcept = delete;
 
+	bool SendStartGame();
 	bool SendLogin(const std::string& username, const std::string& password);
 	bool SendRegister(const std::string& username, const std::string& password);
 	bool SendJoinLobby(std::string lobbyCode);

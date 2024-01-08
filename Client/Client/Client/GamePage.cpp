@@ -10,6 +10,8 @@ GamePage::GamePage(QWidget* parent, Routing* rt)
 	ui->setupUi(this);
 	m_drawingArea = ui->drawingArea;
 
+	ui->labelWord->setStyleSheet("font-size: 40px;");
+
 	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked);
 	connect(ui->undoLastLineBtn, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
 	connect(ui->exitGameBtn, &QPushButton::clicked, this, &GamePage::OnExitGameBtnClicked);

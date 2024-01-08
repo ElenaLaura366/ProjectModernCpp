@@ -91,20 +91,20 @@
   <widget class="DrawingAreaWidget" name="drawingArea" native="true">
    <property name="geometry">
     <rect>
-     <x>349</x>
-     <y>79</y>
+     <x>360</x>
+     <y>100</y>
      <width>651</width>
-     <height>461</height>
+     <height>441</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="labelWord">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>40</y>
-     <width>41</width>
-     <height>31</height>
+     <x>590</x>
+     <y>30</y>
+     <width>151</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
@@ -144,7 +144,7 @@
    <property name="geometry">
     <rect>
      <x>940</x>
-     <y>560</y>
+     <y>580</y>
      <width>61</width>
      <height>24</height>
     </rect>
@@ -170,7 +170,7 @@
    <property name="geometry">
     <rect>
      <x>860</x>
-     <y>560</y>
+     <y>580</y>
      <width>61</width>
      <height>24</height>
     </rect>

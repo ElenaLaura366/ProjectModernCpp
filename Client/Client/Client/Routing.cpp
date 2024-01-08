@@ -211,6 +211,20 @@ std::string Routing::GetLobbyCode() const
 	return m_lobbyCode;
 }
 
+bool Routing::SendStartGame()
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/start" },
+		cpr::Parameters{
+			{"lobbyCode", m_lobbyCode}
+		}
+	);
+
+	if (response.status_code == 204)
+		return true;
+	return false;
+}
+
 bool Routing::SendLogin(const std::string& username, const std::string& password) {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/login" },
