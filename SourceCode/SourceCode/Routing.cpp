@@ -197,7 +197,7 @@ void skribbl::Routing::Run()
 	);
 
 	CROW_ROUTE(m_app, "/game_state")
-		.methods(crow::HTTPMethod::PUT)(
+		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
 			{
 				return GetGameState(req);

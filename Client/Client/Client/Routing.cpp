@@ -136,7 +136,7 @@ QString Routing::GetRound() const
 			{ "lobbyCode", m_lobbyCode },
 		}
 	);
-	if (response.status_code == 200 || response.status_code == 201)
+	if (response.status_code == 200)
 		return QString::fromLatin1(response.text.data());
 	return QString("No Server Answer");
 }

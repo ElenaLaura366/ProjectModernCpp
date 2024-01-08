@@ -100,6 +100,9 @@
      <height>261</height>
     </rect>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
