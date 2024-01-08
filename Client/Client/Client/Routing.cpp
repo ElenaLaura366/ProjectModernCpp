@@ -9,10 +9,11 @@
 #include <QString>
 
 Routing::Routing()
-	: m_url{ "http://localhost:18080" },
-	m_playerName{ "" },
-	m_lobbyCode{ "" }
+	: m_url{ "http://localhost:18080" }
+	, m_playerName{ "" }
+	, m_lobbyCode{ "" }
 {
+	 // empty
 }
 
 

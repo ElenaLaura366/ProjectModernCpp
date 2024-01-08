@@ -80,6 +80,7 @@ void GamePage::UpdateChat() {
 		answerItem->setFlags(answerItem->flags() & ~Qt::ItemIsSelectable);
 		ui->answerList->addItem(answerItem);
 	}
+	ui->answerList->scrollToBottom();
 }
 
 void GamePage::OnUndoBtnClicked() {

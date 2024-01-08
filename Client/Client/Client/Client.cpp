@@ -53,7 +53,8 @@ Client::Client(QWidget* parent)
 
 void Client::closeEvent(QCloseEvent* event)
 {
-	m_rt.ExitGame();
+	if(!m_rt.GetLobbyCode().empty())
+		m_rt.ExitGame();
 }
 
 void Client::ChangeToLoginPage() {
