@@ -33,7 +33,7 @@ public:
 	std::string GetLobbyCode() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
-	std::vector<QString> GetPlayers();
+	std::vector<User> GetPlayers();
 	std::vector<std::pair<QString, int16_t>> GetLeaderBoard();
 
 private:

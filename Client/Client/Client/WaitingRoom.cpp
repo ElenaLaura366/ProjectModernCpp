@@ -5,6 +5,7 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 	, ui(new Ui::WaitingRoomClass())
 	, m_refreshCount{ 0 }
 	, m_rt{ m_rt }
+	,m_admin{ User() }
 {
 	ui->setupUi(this);
 
@@ -28,9 +29,9 @@ void WaitingRoom::SetRoomCode(QString lobbyCode)
 	ui->label_2->setText(lobbyCode);
 }
 
-void WaitingRoom::addUserToRoom(const QString& user)
+void WaitingRoom::addUserToRoom(User& user)
 {
-	UserWidget* userWidget = new UserWidget(user, this);
+	UserWidget* userWidget = new UserWidget(user.getUsername(), this);
 
 	QListWidgetItem* item = new QListWidgetItem();
 	item->setSizeHint(userWidget->sizeHint());
@@ -38,17 +39,29 @@ void WaitingRoom::addUserToRoom(const QString& user)
 	ui->listWidget->setItemWidget(item, userWidget);
 }
 
-void WaitingRoom::UpdatePlayerList(const std::vector<QString>& players)
+void WaitingRoom::UpdatePlayerList(std::vector<User>& players)
 {
 	ui->listWidget->clear();
-	for (const auto& player : players) {
+	bool admin = false;
+	for (auto& player : players) 
+	{
+		if (admin == false)
+		{
+			admin = true;
+			player.setAdmin();
+			m_admin = player;
+		}
 		addUserToRoom(player);
+		if (player.getUsername() == m_admin.getUsername())
+			ui->startGame->setVisible(true);
+		else ui->startGame->setVisible(false);
 	}
+	
 }
 
 void WaitingRoom::FetchPlayers()
 {
-	std::vector<QString> players = m_rt->GetPlayers();
+	std::vector<User> players = m_rt->GetPlayers();
 	UpdatePlayerList(players);
 }
 
@@ -67,8 +80,6 @@ void WaitingRoom::AddCustomWord()
 	if (!word.isEmpty()) 
 	{
 		QMessageBox::information(this, "Custom Word", word);
-		ui->lineEdit->setDisabled(true); // Dezactivează QLineEdit pentru a împiedica editarea ulterioară
-		// Alternativ, puteți folosi ui->lineEdit->setEnabled(false);
-		// Sau dacă doriți să ascundeți QLineEdit: ui->lineEdit->hide();
+		ui->lineEdit->setDisabled(true);
 	}
 }

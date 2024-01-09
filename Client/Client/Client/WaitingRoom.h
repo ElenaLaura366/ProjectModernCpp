@@ -23,8 +23,8 @@ public:
 	WaitingRoom(QWidget *parent = nullptr, Routing* m_rt = nullptr);
 	~WaitingRoom();
 	void SetRoomCode(QString lobbyCode);
-	void addUserToRoom(const QString& user);
-	void UpdatePlayerList(const std::vector<QString>& players);
+	void addUserToRoom(User& user);
+	void UpdatePlayerList(std::vector<User>& players);
 	void FetchPlayers();
 	void paintEvent(QPaintEvent* e) override;
 
@@ -41,4 +41,6 @@ private:
 
 	static const uint8_t kRefreshRate = 2;
 	uint m_refreshCount;
+
+	User m_admin;
 };
