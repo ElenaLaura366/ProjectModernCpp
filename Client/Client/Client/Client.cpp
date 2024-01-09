@@ -53,7 +53,8 @@ Client::Client(QWidget* parent)
 
 void Client::closeEvent(QCloseEvent* event)
 {
-	m_rt.ExitGame();
+	if(!m_rt.GetLobbyCode().empty())
+		m_rt.ExitGame();
 }
 
 void Client::ChangeToLoginPage() {
@@ -126,6 +127,10 @@ void Client::HandleLogin() {
 		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
 		ui->menuBar->show();
+		// example 
+		//user.AddGameHistory(1, 2, 3);
+		//user.AddGameHistory(1, 2, 6);
+		m_userInfo->DisplayHistory(user.GetGameHistory());
 		ChangeToLobbyPage();
 	}
 	else {

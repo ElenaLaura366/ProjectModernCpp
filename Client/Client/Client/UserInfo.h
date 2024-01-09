@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include "ui_UserInfo.h"
+#include "UserInfo.h"
+#include "User.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class UserInfoClass; };
@@ -14,6 +16,8 @@ class UserInfo : public QMainWindow
 public:
 	UserInfo(QWidget *parent = nullptr);
 	~UserInfo();
+
+	void DisplayHistory(std::vector<GameHistory> gameHistory);
 
 private:
 	Ui::UserInfoClass *ui;

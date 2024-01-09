@@ -9,10 +9,11 @@
 #include <QString>
 
 Routing::Routing()
-	: m_url{ "http://localhost:18080" },
-	m_playerName{ "" },
-	m_lobbyCode{ "" }
+	: m_url{ "http://localhost:18080" }
+	, m_playerName{ "" }
+	, m_lobbyCode{ "" }
 {
+	 // empty
 }
 
 
@@ -135,7 +136,7 @@ QString Routing::GetRound() const
 			{ "lobbyCode", m_lobbyCode },
 		}
 	);
-	if (response.status_code == 200 || response.status_code == 201)
+	if (response.status_code == 200)
 		return QString::fromLatin1(response.text.data());
 	return QString("No Server Answer");
 }
@@ -208,6 +209,20 @@ bool Routing::ExitGame()
 std::string Routing::GetLobbyCode() const
 {
 	return m_lobbyCode;
+}
+
+bool Routing::SendStartGame()
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/start" },
+		cpr::Parameters{
+			{"lobbyCode", m_lobbyCode}
+		}
+	);
+
+	if (response.status_code == 204)
+		return true;
+	return false;
 }
 
 bool Routing::SendLogin(const std::string& username, const std::string& password) {

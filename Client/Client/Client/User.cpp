@@ -32,7 +32,13 @@ std::optional<QString> User::getLobbyCode()
 	return m_lobbyCode;
 }
 
-bool User::isAdmin()
+void User::AddGameHistory(int id, int id_game, int points)
 {
-	return m_isAdmin;
+	m_gamesHistory.emplace_back(std::make_tuple( id, id_game, points));
 }
+
+std::vector<GameHistory> User::GetGameHistory()
+{
+	return m_gamesHistory;
+}
+

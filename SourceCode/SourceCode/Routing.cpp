@@ -197,7 +197,7 @@ void skribbl::Routing::Run()
 	);
 
 	CROW_ROUTE(m_app, "/game_state")
-		.methods(crow::HTTPMethod::PUT)(
+		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
 			{
 				return GetGameState(req);
@@ -282,6 +282,7 @@ crow::response Routing::RemovePlayer(const crow::request& req)
 	std::string playerName = req.url_params.get("playerName");
 
 	m_games[lobbyCode]->RemovePlayer(playerName);
+
 	if (m_games[lobbyCode]->GetPlayers().size() == 0)
 	{
 		auto it = m_games.find(lobbyCode);
