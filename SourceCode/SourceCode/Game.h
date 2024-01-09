@@ -28,7 +28,7 @@ namespace skribbl
 		};
 
 	public:
-		static constexpr uint8_t kMaxPlayersNumber = 8;
+		static constexpr uint8_t kMaxPlayersNumber{ 8 };
 
 	public:
 		Game(skribbl::Database& m_db);
@@ -45,6 +45,8 @@ namespace skribbl
 		bool AddPlayer(const std::string& name) override;
 		void AddAnswer(const std::string& name, const std::string& answer) override;
 		void SetDrawing(const std::string& drawing) override;
+		void HandleAllPlayersGuessed();
+		void HandleEndTurn();
 
 		std::string GetWord() const override;
 		std::string GetDrawingPlayer() const override;

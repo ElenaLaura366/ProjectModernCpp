@@ -45,7 +45,7 @@ void skribbl::Routing::Run()
 		Client error:
 
 			401
-			*Unauthorized. Although the HTTP standard specifies "unauthorized", semantically 
+			*Unauthorized. Although the HTTP standard specifies "unauthorized", semantically
 						   this response means "unauthenticated".
 			*(ex: invalid username or password)
 
@@ -303,7 +303,7 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 
 	crow::json::wvalue jsonResponse;
 	jsonResponse["playerName"] = playerName;
-	if (true /*m_games[lobbyCode]->VerifyAnswer(playerName, answer)*/)
+	if (m_games[lobbyCode]->VerifyAnswer(playerName, answer))
 		jsonResponse["hasGuessed"] = true;
 	else
 		jsonResponse["hasGuessed"] = false;
@@ -328,7 +328,11 @@ crow::response Routing::GetDrawing(const crow::request& req)
 crow::response Routing::GetWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
-	return crow::response(200, m_games[lobbyCode]->GetWord());
+	std::string playerName = req.url_params.get("playerName");
+
+	if (m_games[lobbyCode]->GetDrawingPlayer() == playerName)
+		return crow::response(200, m_games[lobbyCode]->GetWord());
+	return crow::response(200, m_games[lobbyCode]->GetHint());
 }
 
 crow::response Routing::GetAnswers(const crow::request& req)
@@ -369,11 +373,11 @@ crow::response Routing::Login(const crow::request& req)
 	std::string username = req.url_params.get("username");
 
 	std::optional<skribbl::User> user = m_db.AuthenticateUser(username, password);
-	if (user.has_value()) 
+	if (user.has_value())
 	{
 		return crow::response(200, username);
 	}
-	else 
+	else
 	{
 		return crow::response(401, "Invalid username or password!");
 	}
@@ -397,7 +401,7 @@ crow::response Routing::Register(const crow::request& req)
 crow::response Routing::GetTime(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
-	return crow::response(200, std::to_string(/*m_games[lobbyCode]->GetTime()*/30));
+	return crow::response(200, std::to_string(m_games[lobbyCode]->GetTime()));
 }
 
 crow::response Routing::GetHint(const crow::request& req)

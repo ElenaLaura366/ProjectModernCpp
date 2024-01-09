@@ -13,7 +13,7 @@ class GamePage : public QWidget
 	Q_OBJECT
 
 public:
-	GamePage(QWidget *parent = nullptr, Routing* m_rt = nullptr);
+	GamePage(QWidget* parent = nullptr, Routing* m_rt = nullptr);
 	~GamePage();
 
 	Ui::GamePageClass* GetUi();
@@ -33,11 +33,11 @@ signals:
 	void SendAnswerToServer();
 
 private:
-	Ui::GamePageClass *ui;
+	Ui::GamePageClass* ui;
 	DrawingAreaWidget* m_drawingArea;
 	Routing* m_rt;
 	std::vector<QString> m_answers;
 	uint m_refreshCount;
 
-	static const uint8_t kRefreshRate = 10;
+	static const uint8_t kRefreshRate{ 5 };
 };

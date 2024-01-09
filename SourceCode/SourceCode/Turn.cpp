@@ -5,7 +5,7 @@ Turn::Turn()
 	: 
 	m_allPlayersGuessed{ false }
 {
-
+	// empty
 }
 
 Turn::Turn(Turn&& other) noexcept
@@ -26,6 +26,11 @@ Turn& Turn::operator=(Turn&& other) noexcept
 	return *this;
 }
 
+void Turn::Start()
+{
+	m_timer.Start();
+}
+
 void Turn::Reset()
 {
 	m_allPlayersGuessed = false;
@@ -37,6 +42,11 @@ int8_t Turn::ScoreGuessingPlayer() const
 	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.GetElapsedTime());
 	uint8_t time = timeInSeconds.count();
 	return time < 30 ? kMaxScore : (60 - time) * 100 / 30;
+}
+
+int8_t Turn::GetMinimGuessingScore() const
+{
+	return (-1 * kMaxScore) / 2;
 }
 
 uint8_t Turn::AvrageAnswerTime() const
@@ -73,12 +83,12 @@ bool Turn::IsOver() const
 	return m_allPlayersGuessed || m_timer.IsTimeUp();
 }
 
-uint8_t skribbl::Turn::GetRemainingTime() const
+uint8_t Turn::GetRemainingTime() const
 {
 	return m_timer.GetRemainingTime();
 }
 
-void skribbl::Turn::SetCurrentWord(const std::string& word)
+void Turn::SetCurrentWord(const std::string& word)
 {
 	m_currentWord = word;
 }

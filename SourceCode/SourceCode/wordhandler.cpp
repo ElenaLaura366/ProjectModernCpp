@@ -2,7 +2,7 @@
 
 using skribbl::WordHandler;
 
-skribbl::WordHandler::WordHandler(skribbl::Database& db) : m_db{ db }, m_currentWord { "" }
+skribbl::WordHandler::WordHandler(skribbl::Database& db) : m_db{ db }, m_currentWord { "Not_Initialized" }
 {
 	m_ur = std::make_unique<UniqueRandom<int>>(m_db.GetNumberOfWords());
 }

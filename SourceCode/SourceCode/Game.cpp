@@ -9,7 +9,7 @@ using skribbl::Answer;
 Game::Game(skribbl::Database& db)
 	: m_turn{ nullptr },
 	m_playerGuessCount{ 0 },
-	m_drawingPlayerPossition { kMaxPlayersNumber },
+	m_drawingPlayerPossition{ kMaxPlayersNumber },
 	m_db{ db }
 {
 	m_players.reserve(kMaxPlayersNumber);
@@ -51,30 +51,10 @@ void Game::Start()
 
 	m_state = Game::State::FIRST_ROUND;
 
-	while (m_state != Game::State::GAME_OVER)
-	{
-		m_drawingPlayerPossition = 0;
-		for (Player::PlayerPtr& player : m_players)
-		{
-			m_wordHandler->Reset();
-			m_playerGuessCount = 0;
-			m_turn->Reset();
-			m_turn->SetCurrentWord(m_wordHandler->GetWord());
-			while (!m_turn->IsOver())
-			{
-				if (m_players.size() - 1 == m_playerGuessCount)
-					m_turn->SetAllPlayersGuessed();
-			}
-			player->UpdateScore(m_turn->ScoreDrawingPlayer());
-			ResetPlayersGuessed();
-			m_drawingPlayerPossition++;
-		}
-
-		m_state = GetNextState(m_state);
-
-		if (m_players.size() == 0)
-			m_state = Game::State::GAME_OVER;
-	}
+	m_drawingPlayerPossition = 0;
+	m_wordHandler->Reset();
+	m_turn->SetCurrentWord(m_wordHandler->GetWord());
+	m_turn->Start();
 }
 
 bool Game::AddPlayer(const std::string& name)
@@ -92,7 +72,7 @@ void Game::AddAnswer(const std::string& name, const std::string& answer)
 	m_answers.emplace_back(name, answer);
 }
 
-void skribbl::Game::SetDrawing(const std::string& drawing)
+void Game::SetDrawing(const std::string& drawing)
 {
 	m_drawing = drawing;
 }
@@ -117,7 +97,7 @@ std::vector<Answer> Game::GetAnswers() const
 	return m_answers;
 }
 
-std::string skribbl::Game::GetDrawing() const
+std::string Game::GetDrawing() const
 {
 	return m_drawing;
 }
@@ -163,6 +143,46 @@ void Game::ResetPlayersGuessed()
 	{
 		player->setGuessed(false);
 	}
+	m_playerGuessCount = 0;
+}
+
+void Game::HandleEndTurn()
+{
+	// this function is to be given to the timer as a callback so that is being called when the timer runs out
+
+	m_players[m_drawingPlayerPossition]->UpdateScore(m_turn->ScoreDrawingPlayer());
+	for (auto& player : m_players)
+	{
+		if (!player->HasGuessed())
+		{
+			player->UpdateScore(m_turn->GetMinimGuessingScore());
+		}
+	}
+
+	m_drawingPlayerPossition++;
+	if (m_drawingPlayerPossition == m_players.size())
+	{
+		m_state = GetNextState(m_state);
+
+		if (m_state == Game::State::GAME_OVER)
+		{
+			//HandleEndGame();
+			return;
+		}
+	}
+
+	ResetPlayersGuessed();
+	m_wordHandler->Reset();
+	m_turn->SetCurrentWord(m_wordHandler->GetWord());
+	m_turn->Reset();
+}
+
+void Game::HandleAllPlayersGuessed()
+{
+	if (m_playerGuessCount != m_players.size() - 1)
+		return;
+
+	HandleEndTurn();
 }
 
 bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
@@ -175,6 +195,7 @@ bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
 			{
 				player->UpdateScore(m_turn->ScoreGuessingPlayer());
 				m_playerGuessCount++;
+				HandleAllPlayersGuessed();
 				return true;
 			}
 		}

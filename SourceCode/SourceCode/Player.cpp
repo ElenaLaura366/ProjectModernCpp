@@ -4,17 +4,23 @@ using skribbl::Player;
 Player::Player()
 	:m_username{ "-" },
 	m_score{ 0 }
-{}
+{
+	// empty
+}
 
 Player::Player(const std::string& username)
 	:m_username{ std::move(username) },
 	m_score{ 0 }
-{}
+{
+	// empty
+}
 
 Player::Player(const Player& player)
 	: m_username{ player.GetUsername() },
 	m_score{ player.GetScore() }
-{}
+{
+	// empty
+}
 
 Player& skribbl::Player::operator=(const Player & other)
 {
@@ -28,22 +34,22 @@ Player& skribbl::Player::operator=(const Player & other)
 
 int16_t Player::GetScore() const
 {
-	return this->m_score;
+	return m_score;
 }
 
 std::string Player::GetUsername() const
 {
-	return this->m_username;
+	return m_username;
 }
 
 void Player::SetUsername(const std::string& username)
 {
-	this->m_username = std::move(username);
+	m_username = std::move(username);
 }
 
 void Player::UpdateScore(int8_t score)
 {
-	this->m_score += score;
+	m_score += score;
 }
 
 void skribbl::Player::setGuessed(bool guessed)

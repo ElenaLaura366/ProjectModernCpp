@@ -10,10 +10,10 @@
 
 Routing::Routing()
 	: m_url{ "http://localhost:18080" }
-	, m_playerName{ "" }
-	, m_lobbyCode{ "" }
+	, m_playerName{ "Not_Initialized" }
+	, m_lobbyCode{ "Not_Initialized" }
 {
-	 // empty
+	// empty
 }
 
 
@@ -111,6 +111,7 @@ QString Routing::GetWord() const
 		cpr::Url{ m_url + "/get_word" },
 		cpr::Parameters{
 			{ "lobbyCode", m_lobbyCode },
+			{ "playerName", m_playerName }
 		}
 	);
 	return QString::fromLatin1(response.text.data());
@@ -169,6 +170,7 @@ void Routing::SendDrawing(const DrawingConfig& drawing)
 			drawingStr.append(std::to_string(point.x()));
 			drawingStr.append(" ");
 			drawingStr.append(std::to_string(point.y()));
+			drawingStr.append(" ");
 		}
 		drawingStr.append("/");
 	}
@@ -305,14 +307,14 @@ std::vector<QString> Routing::GetPlayers()
 		}
 	);
 
-	if (response.status_code != 200) 
+	if (response.status_code != 200)
 	{
 		return std::vector<QString>();
 	}
 
 	std::vector<QString> players;
 	auto jsonResponse = crow::json::load(response.text);
-	for (const auto& playerName : jsonResponse) 
+	for (const auto& playerName : jsonResponse)
 	{
 		std::string mess = std::string(playerName["playerName"]);
 		players.push_back(QString::fromLatin1(mess.data()));

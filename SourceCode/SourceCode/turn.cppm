@@ -23,11 +23,13 @@ namespace skribbl
 		Turn& operator=(Turn&& other) noexcept;
 		~Turn() = default;
 
+		void Start();
 		void Reset();
 		void SetAllPlayersGuessed();
 		
 		bool VerifyGuess(const std::string& guess);
 		int8_t ScoreGuessingPlayer() const;
+		int8_t GetMinimGuessingScore() const;
 		int8_t ScoreDrawingPlayer() const;
 		uint8_t AvrageAnswerTime() const;
 		bool IsOver() const;
