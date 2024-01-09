@@ -224,6 +224,9 @@ crow::response Routing::JoinLobby(const crow::request& req)
 	if (m_games.find(lobbyCode) == m_games.end())
 		return crow::response(404, "Lobby not found!");
 
+	if (m_games[lobbyCode]->HasStarted())
+		return crow::response(404, "Game started!");
+
 	std::string playerName = req.url_params.get("playerName");
 	if (m_games[lobbyCode]->AddPlayer(playerName))
 	{
@@ -330,9 +333,7 @@ crow::response Routing::GetWord(const crow::request& req)
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	std::string playerName = req.url_params.get("playerName");
 
-	if (m_games[lobbyCode]->GetDrawingPlayer() == playerName)
-		return crow::response(200, m_games[lobbyCode]->GetWord());
-	return crow::response(200, m_games[lobbyCode]->GetHint());
+	return crow::response(200, m_games[lobbyCode]->GetWord());
 }
 
 crow::response Routing::GetAnswers(const crow::request& req)

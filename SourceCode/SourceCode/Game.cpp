@@ -84,7 +84,7 @@ std::string Game::GetWord() const
 
 std::string Game::GetDrawingPlayer() const
 {
-	return (m_drawingPlayerPossition < kMaxPlayersNumber) ? m_players[m_drawingPlayerPossition]->GetUsername() : "\0";
+	return (m_drawingPlayerPossition < m_players.size()) ? m_players[m_drawingPlayerPossition]->GetUsername() : "\0";
 }
 
 uint8_t Game::GetTime() const
@@ -121,6 +121,11 @@ std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 std::string Game::GetHint() const
 {
 	return "";
+}
+
+bool skribbl::Game::HasStarted() const
+{
+	return m_state != Game::State::WAITING;
 }
 
 void Game::RemovePlayer(const std::string& name)

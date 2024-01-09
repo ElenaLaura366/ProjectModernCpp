@@ -11,10 +11,14 @@ class DrawingAreaWidget : public QWidget {
 
 public:
 	DrawingAreaWidget(QWidget* parent = nullptr);
+
 	void UndoLastLine();
 	void ResetDrawing();
+
 	const DrawingConfig& GetDrawing() const;
 	void SetDrawing(const DrawingConfig& drawing);
+
+	void SetIsPlayerDrawing(bool val);
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -25,5 +29,6 @@ private:
 private:
 	DrawingConfig m_drawing;
 	bool m_isMousePressed;
+	bool m_isPlayerDrawing;
 };
 

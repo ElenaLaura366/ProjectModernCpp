@@ -43,5 +43,6 @@ namespace skribbl
 		virtual std::string GetState() const = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetPlayers() = 0;
 		virtual std::string GetHint() const = 0;
+		virtual bool HasStarted() const = 0;
 	};
 }

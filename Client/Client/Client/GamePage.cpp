@@ -1,5 +1,6 @@
 #include "GamePage.h"
 #include <QKeyEvent>
+#include <QTableWidgetItem>
 
 GamePage::GamePage(QWidget* parent, Routing* rt)
 	: QWidget{ parent }
@@ -40,19 +41,32 @@ void GamePage::paintEvent(QPaintEvent* e)
 		}
 		UpdateChat();
 
+		m_drawingArea->SetIsPlayerDrawing(m_rt->IsDrawingPlayer());
+
 		QString seconds = m_rt->GetTime();
 		ui->lableSeconds->setText(seconds);
 
-		QString word = m_rt->GetWord();
-		ui->labelWord->setText(word);
 
 		QString round = m_rt->GetRound();
 		ui->labelRound->setText(round);
 
-		if(m_rt->GetIsDrawing())
+		UpdateLeaderBoard();
+
+		QString word = m_rt->GetWord();
+
+		if (m_rt->GetIsDrawing()) {
 			m_rt->SendDrawing(m_drawingArea->GetDrawing());
+			ui->labelWord->setText(word);
+		}
 		else
+		{
 			m_drawingArea->SetDrawing(m_rt->GetDrawing());
+			QString hiddenWord;
+			for (size_t i = 0; i < word.size(); i++)
+				hiddenWord += "_ ";
+
+			ui->labelWord->setText(hiddenWord);
+		}
 	}
 
 	m_refreshCount++;
@@ -71,6 +85,32 @@ void GamePage::OnSendAnswerBtnClicked() {
 	if (answer.isEmpty())
 		return;
 	emit SendAnswerToServer();
+}
+
+void GamePage::UpdateLeaderBoard()
+{
+	std::vector<std::pair<QString, int16_t>> leaderBoard = m_rt->GetLeaderBoard();
+	if (leaderBoard.size() == 0)
+		return;
+
+	ui->leaderBoard->clearContents();
+	ui->leaderBoard->setRowCount(0);
+
+	auto& tableWidget = ui->leaderBoard;
+	int row;
+	for (const auto& pair : leaderBoard) {
+		int row = tableWidget->rowCount();
+		tableWidget->setRowCount(row + 1);
+
+		QTableWidgetItem* playerNameItem = new QTableWidgetItem(pair.first);
+		QTableWidgetItem* scoreItem = new QTableWidgetItem(QString::number(pair.second));
+
+		playerNameItem->setTextAlignment(Qt::AlignCenter);
+		scoreItem->setTextAlignment(Qt::AlignCenter);
+
+		tableWidget->setItem(row, 0, playerNameItem);
+		tableWidget->setItem(row, 1, scoreItem);
+	}
 }
 
 void GamePage::UpdateChat() {

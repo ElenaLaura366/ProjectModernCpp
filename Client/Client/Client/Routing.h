@@ -34,6 +34,7 @@ public:
 	bool IsDrawingPlayer();
 	bool ExitGame();
 	std::vector<QString> GetPlayers();
+	std::vector<std::pair<QString, int16_t>> GetLeaderBoard();
 
 private:
 	std::string m_url;

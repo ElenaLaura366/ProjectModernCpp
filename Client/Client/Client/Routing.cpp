@@ -11,7 +11,8 @@
 Routing::Routing()
 	: m_url{ "http://localhost:18080" }
 	, m_playerName{ "Not_Initialized" }
-	, m_lobbyCode{ "Not_Initialized" }
+	, m_lobbyCode{ "" }
+	, m_isDrawing{ false }
 {
 	// empty
 }
@@ -152,12 +153,15 @@ bool Routing::IsDrawingPlayer()
 	);
 
 	if (response.status_code == 200 || response.status_code == 201) {
-		if (response.text == m_playerName)
+		if (response.text == m_playerName) {
+			m_isDrawing = true;
 			return true;
+		}
+		else {
+			m_isDrawing = false;
+			return false;
+		}
 	}
-	else
-		// exception ?
-		return false;
 }
 
 void Routing::SendDrawing(const DrawingConfig& drawing)
@@ -273,7 +277,6 @@ bool Routing::SendJoinLobby(std::string lobbyCode)
 
 	if (response.status_code == 200 || response.status_code == 201) {
 		m_lobbyCode = lobbyCode;
-		m_isDrawing = false;
 		return true;
 	}
 
@@ -291,7 +294,6 @@ bool Routing::SendCreateLobby(std::string& username)
 
 	if (response.status_code == 200 || response.status_code == 201) {
 		m_lobbyCode = response.text;
-		m_isDrawing = true;
 		return true;
 	}
 
@@ -321,4 +323,30 @@ std::vector<QString> Routing::GetPlayers()
 	}
 
 	return players;
+}
+
+std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
+{
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/players" },
+		cpr::Parameters{
+			{ "lobbyCode", m_lobbyCode },
+		}
+	);
+
+	if (response.status_code != 200)
+	{
+		return std::vector<std::pair<QString, int16_t>>();
+	}
+
+	std::vector<std::pair<QString, int16_t>> leaderBoard;
+	auto jsonResponse = crow::json::load(response.text);
+	for (const auto& playerInfo : jsonResponse)
+	{
+		QString playerName = QString::fromLatin1(std::string(playerInfo["playerName"]).data());
+		int16_t score = playerInfo["score"].i();
+		leaderBoard.emplace_back(playerName, score);
+	}
+
+	return leaderBoard;
 }

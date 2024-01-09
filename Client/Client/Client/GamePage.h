@@ -20,6 +20,7 @@ public:
 	void paintEvent(QPaintEvent* e) override;
 
 private:
+	void UpdateLeaderBoard();
 	void UpdateChat();
 
 	void keyPressEvent(QKeyEvent* event) override;

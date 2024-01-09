@@ -30,8 +30,15 @@ void DrawingAreaWidget::SetDrawing(const DrawingConfig& drawing)
 	update();
 }
 
+void DrawingAreaWidget::SetIsPlayerDrawing(bool val)
+{
+	if (m_isMousePressed != val)
+		ResetDrawing();
+	m_isPlayerDrawing = val;
+}
+
 void DrawingAreaWidget::mousePressEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton) {
+	if (event->button() == Qt::LeftButton && m_isPlayerDrawing) {
 		std::vector<QPoint> newLine;
 		newLine.emplace_back(event->pos());
 		m_drawing.emplace_back(std::move(newLine));
@@ -41,14 +48,14 @@ void DrawingAreaWidget::mousePressEvent(QMouseEvent* event) {
 }
 
 void DrawingAreaWidget::mouseMoveEvent(QMouseEvent* event) {
-	if ((event->buttons() & Qt::LeftButton) && m_isMousePressed) {
+	if ((event->buttons() & Qt::LeftButton) && m_isMousePressed && m_isPlayerDrawing) {
 		m_drawing.back().push_back(event->pos());
 		update();
 	}
 }
 
 void DrawingAreaWidget::mouseReleaseEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton && m_isMousePressed) {
+	if (event->button() == Qt::LeftButton && m_isMousePressed && m_isPlayerDrawing) {
 		m_drawing.back().push_back(event->pos());
 		m_isMousePressed = false;
 	}

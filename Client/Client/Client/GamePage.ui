@@ -104,9 +104,9 @@
   <widget class="QLabel" name="labelWord">
    <property name="geometry">
     <rect>
-     <x>600</x>
+     <x>490</x>
      <y>20</y>
-     <width>151</width>
+     <width>401</width>
      <height>61</height>
     </rect>
    </property>
@@ -195,7 +195,7 @@
     <string>60 s</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QTableWidget" name="leaderBoard">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -204,9 +204,27 @@
      <height>199</height>
     </rect>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
    <property name="horizontalScrollBarPolicy">
     <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderHighlightSections">
+    <bool>false</bool>
+   </attribute>
    <column>
     <property name="text">
      <string>PlayerName</string>
