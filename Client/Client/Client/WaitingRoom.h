@@ -39,8 +39,9 @@ private:
 	Ui::WaitingRoomClass *ui;
 	Routing* m_rt;
 
-	static const uint8_t kRefreshRate = 2;
+	static const uint8_t kRefreshRate{ 2 };
 	uint m_refreshCount;
 
 	User m_admin;
+	const QString kWaitingState{ "Waiting" };
 };

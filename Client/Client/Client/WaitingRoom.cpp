@@ -52,7 +52,7 @@ void WaitingRoom::UpdatePlayerList(std::vector<User>& players)
 			m_admin = player;
 		}
 		addUserToRoom(player);
-		if (player.getUsername() == m_admin.getUsername())
+		if (QString::fromLatin1(m_rt->GetPlayerName().data()) == m_admin.getUsername())
 			ui->startGame->setVisible(true);
 		else ui->startGame->setVisible(false);
 	}
@@ -70,6 +70,8 @@ void WaitingRoom::paintEvent(QPaintEvent* e)
 	if (m_refreshCount % kRefreshRate == 0)
 	{
 		FetchPlayers();
+		if(m_rt->GetRound() != kWaitingState)
+			emit goToGame();
 	}
 	m_refreshCount++;
 }

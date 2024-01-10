@@ -35,6 +35,7 @@ public:
 	bool ExitGame();
 	std::vector<User> GetPlayers();
 	std::vector<std::pair<QString, int16_t>> GetLeaderBoard();
+	std::string GetPlayerName() const;
 
 private:
 	std::string m_url;

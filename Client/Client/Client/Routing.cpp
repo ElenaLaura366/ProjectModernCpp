@@ -352,3 +352,8 @@ std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
 
 	return leaderBoard;
 }
+
+std::string Routing::GetPlayerName() const
+{
+	return m_playerName;
+}
