@@ -35,6 +35,7 @@ void Turn::Reset()
 {
 	m_allPlayersGuessed = false;
 	m_timer.Restart();
+	m_answerTimestamps.clear();
 }
 
 int8_t Turn::ScoreGuessingPlayer() const
@@ -59,7 +60,7 @@ int8_t Turn::ScoreDrawingPlayer() const
 	if (m_answerTimestamps.size() != 0)
 	{
 		uint8_t avrageTime = AvrageAnswerTime();
-		return (60 - avrageTime) * 100 / 30;
+		return (60 - avrageTime) * 100 / 60;
 	}
 	else
 		return (-1 * kMaxScore);

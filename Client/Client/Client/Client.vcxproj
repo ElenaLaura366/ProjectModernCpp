@@ -64,6 +64,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LeaderBoardWidget.cpp" />
     <ClCompile Include="Routing.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserInfo.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="LoginPage.cpp" />
     <ClCompile Include="main.cpp" />
     <QtUic Include="GamePage.ui" />
+    <QtUic Include="LeaderBoardWidget.ui" />
     <QtUic Include="LobbyPage.ui" />
     <QtUic Include="LoginPage.ui" />
     <QtUic Include="UserInfo.ui" />
@@ -97,6 +99,7 @@
     <QtMoc Include="DrawingAreaWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="LeaderBoardWidget.h" />
     <ClInclude Include="Routing.h" />
     <ClInclude Include="User.h" />
     <QtMoc Include="UserWidget.h" />

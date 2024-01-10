@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "ui_GamePage.h"
 #include "Routing.h"
+#include "LeaderBoardWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class GamePageClass; };
@@ -20,6 +21,8 @@ public:
 	void paintEvent(QPaintEvent* e) override;
 
 private:
+	void ShowLeaderBoard();
+
 	void UpdateLeaderBoard();
 	void UpdateChat();
 
@@ -36,9 +39,12 @@ signals:
 private:
 	Ui::GamePageClass* ui;
 	DrawingAreaWidget* m_drawingArea;
+	LeaderBoardWidget* m_leaderBoard;
 	Routing* m_rt;
 	std::vector<QString> m_answers;
 	uint m_refreshCount;
+	bool m_leaderBoardShow;
 
 	static const uint8_t kRefreshRate{ 5 };
+	const QString kGameOverState{ "Game Over" };
 };

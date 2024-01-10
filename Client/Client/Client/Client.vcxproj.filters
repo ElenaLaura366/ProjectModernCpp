@@ -67,6 +67,9 @@
     <ClCompile Include="UserWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeaderBoardWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LoginPage.h">
@@ -90,6 +93,9 @@
     <QtMoc Include="UserWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="LeaderBoardWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="LoginPage.ui">
@@ -105,6 +111,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="WaitingRoom.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="LeaderBoardWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

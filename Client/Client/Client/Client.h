@@ -54,6 +54,7 @@ private:
     UserInfo* m_userInfo;
     WaitingRoom* m_waitingRoom;
 
+
     Routing m_rt;
 
 signals:

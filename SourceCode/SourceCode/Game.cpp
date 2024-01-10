@@ -156,11 +156,11 @@ void Game::HandleEndTurn()
 	// this function is to be given to the timer as a callback so that is being called when the timer runs out
 
 	m_players[m_drawingPlayerPossition]->UpdateScore(m_turn->ScoreDrawingPlayer());
-	for (auto& player : m_players)
+	for (size_t i = 0; i < m_players.size(); i++)
 	{
-		if (!player->HasGuessed())
+		if (!m_players[i]->HasGuessed() && i != m_drawingPlayerPossition)
 		{
-			player->UpdateScore(m_turn->GetMinimGuessingScore());
+			m_players[i]->UpdateScore(m_turn->GetMinimGuessingScore());
 		}
 	}
 
@@ -168,7 +168,7 @@ void Game::HandleEndTurn()
 	if (m_drawingPlayerPossition == m_players.size())
 	{
 		m_state = GetNextState(m_state);
-
+		m_drawingPlayerPossition = 0;
 		if (m_state == Game::State::GAME_OVER)
 		{
 			//HandleEndGame();

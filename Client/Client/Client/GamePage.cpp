@@ -7,11 +7,13 @@ GamePage::GamePage(QWidget* parent, Routing* rt)
 	, ui{ new Ui::GamePageClass() }
 	, m_refreshCount{ 0 }
 	, m_rt{ rt }
+	, m_leaderBoardShow{ false }
 {
 	ui->setupUi(this);
 	m_drawingArea = ui->drawingArea;
 
 	ui->labelWord->setStyleSheet("font-size: 40px;");
+
 
 	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked);
 	connect(ui->undoLastLineBtn, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
@@ -49,6 +51,11 @@ void GamePage::paintEvent(QPaintEvent* e)
 
 		QString round = m_rt->GetRound();
 		ui->labelRound->setText(round);
+
+		if (round == kGameOverState && !m_leaderBoardShow)
+		{
+			ShowLeaderBoard();
+		}
 
 		UpdateLeaderBoard();
 
@@ -139,6 +146,13 @@ void GamePage::OnExitGameBtnClicked() {
 	m_drawingArea->ResetDrawing();
 
 	emit ExitGame();
+}
+
+void GamePage::ShowLeaderBoard() {
+	std::vector<std::pair<QString, int16_t>> playersAndScores = m_rt->GetLeaderBoard();
+
+	m_leaderBoard = new LeaderBoardWidget(this, playersAndScores);
+	m_leaderBoard->show();
 }
 
 

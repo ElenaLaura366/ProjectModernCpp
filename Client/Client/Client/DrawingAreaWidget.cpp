@@ -1,6 +1,9 @@
 ﻿#include "DrawingAreaWidget.h"
 
-DrawingAreaWidget::DrawingAreaWidget(QWidget* parent) : QWidget{ parent }, m_isMousePressed{ false }
+DrawingAreaWidget::DrawingAreaWidget(QWidget* parent)
+	: QWidget{ parent }
+	, m_isMousePressed{ false }
+	, m_isPlayerDrawing{ false }
 {
 	// empty
 }
