@@ -53,9 +53,7 @@ void GamePage::paintEvent(QPaintEvent* e)
 		ui->labelRound->setText(round);
 
 		if (round == kGameOverState && !m_leaderBoardShow)
-		{
 			ShowLeaderBoard();
-		}
 
 		UpdateLeaderBoard();
 
@@ -149,6 +147,7 @@ void GamePage::OnExitGameBtnClicked() {
 }
 
 void GamePage::ShowLeaderBoard() {
+	m_leaderBoardShow = true;
 	std::vector<std::pair<QString, int16_t>> playersAndScores = m_rt->GetLeaderBoard();
 
 	m_leaderBoard = new LeaderBoardWidget(this, playersAndScores);

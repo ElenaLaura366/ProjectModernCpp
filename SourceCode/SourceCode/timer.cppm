@@ -5,6 +5,7 @@ export import <chrono>;
 import <thread>;
 import <atomic>;
 import <mutex>;
+import <functional>;
 
 using namespace std::chrono;
 using namespace std::chrono_literals;
@@ -17,7 +18,7 @@ namespace skribbl
 		using TimeConfig = milliseconds;
 
 	public:
-		Timer();
+		Timer(const std::function<void()>& callback);
 
 		Timer(const Timer& other) = delete;
 		Timer& operator=(const Timer& other) = delete;
@@ -38,6 +39,8 @@ namespace skribbl
 		std::thread m_timerThread;
 		std::condition_variable m_condition;
 		std::mutex m_mutex;
+
+		std::function<void()> m_handleTimeOut;
 
 		std::atomic<bool> m_isRunning, m_isPaused;
 		std::atomic<TimeConfig> m_duration;

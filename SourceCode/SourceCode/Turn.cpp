@@ -1,11 +1,10 @@
 module turn;
 using skribbl::Turn;
 
-Turn::Turn()
-	: 
-	m_allPlayersGuessed{ false }
+Turn::Turn(const std::function<void()>& callback)
+	: m_allPlayersGuessed{ false }
 {
-	// empty
+	m_timer = std::make_unique<Timer>(callback);
 }
 
 Turn::Turn(Turn&& other) noexcept
@@ -28,19 +27,19 @@ Turn& Turn::operator=(Turn&& other) noexcept
 
 void Turn::Start()
 {
-	m_timer.Start();
+	m_timer->Start();
 }
 
 void Turn::Reset()
 {
 	m_allPlayersGuessed = false;
-	m_timer.Restart();
+	m_timer->Restart();
 	m_answerTimestamps.clear();
 }
 
 int8_t Turn::ScoreGuessingPlayer() const
 {
-	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.GetElapsedTime());
+	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer->GetElapsedTime());
 	uint8_t time = timeInSeconds.count();
 	return time < 30 ? kMaxScore : (60 - time) * 100 / 30;
 }
@@ -70,7 +69,7 @@ bool Turn::VerifyGuess(const std::string& guess)
 {
 	if (guess == m_currentWord)
 	{
-		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer.GetElapsedTime());
+		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer->GetElapsedTime());
 		uint8_t time = timeInSeconds.count();
 		m_answerTimestamps.push_back(time);
 		return true;
@@ -81,12 +80,12 @@ bool Turn::VerifyGuess(const std::string& guess)
 
 bool Turn::IsOver() const
 {
-	return m_allPlayersGuessed || m_timer.IsTimeUp();
+	return m_allPlayersGuessed || m_timer->IsTimeUp();
 }
 
 uint8_t Turn::GetRemainingTime() const
 {
-	return m_timer.GetRemainingTime();
+	return m_timer->GetRemainingTime();
 }
 
 void Turn::SetCurrentWord(const std::string& word)

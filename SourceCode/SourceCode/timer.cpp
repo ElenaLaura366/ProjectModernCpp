@@ -8,10 +8,11 @@ using namespace std::chrono_literals;
 static const milliseconds kRefreshingRate{ 10 };
 static const seconds kDuration{ 60 };
 
-Timer::Timer()
+Timer::Timer(const std::function<void()>& callback)
 	: m_isRunning{ false }
 	, m_duration{ kDuration }
 	, m_elapsedTime{ 0s }
+	, m_handleTimeOut{ callback }
 {
 	// empty
 }
@@ -41,7 +42,7 @@ void Timer::Start()
 				{
 					m_isPaused = true;
 					m_condition.notify_one();
-					// notify game of end turn;
+					m_handleTimeOut();
 				}
 
 				milliseconds timePassed = duration_cast<milliseconds>(endLock - startLock);

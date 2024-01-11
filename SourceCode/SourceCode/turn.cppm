@@ -5,6 +5,7 @@ import timer;
 import <vector>;
 import <memory>;
 import <numeric>;
+import <functional>;
 
 namespace skribbl
 {
@@ -16,7 +17,7 @@ namespace skribbl
 		static constexpr uint8_t kMaxScore = 100;
 
 	public:
-		Turn();
+		Turn(const std::function<void()>& callback);
 		Turn(const Turn& other) = delete;
 		Turn& operator=(const Turn& other) = delete;
 		Turn(Turn&& other) noexcept;
@@ -37,7 +38,7 @@ namespace skribbl
 		void SetCurrentWord(const std::string& word);
 
 	private:
-		Timer m_timer;
+		std::unique_ptr<Timer> m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
 		bool m_allPlayersGuessed;
 		std::string m_currentWord;
