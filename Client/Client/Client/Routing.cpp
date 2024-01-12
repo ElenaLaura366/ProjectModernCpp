@@ -9,7 +9,7 @@
 #include <QString>
 
 Routing::Routing()
-	: m_url{ "http://localhost:18080" }
+	: m_url{ "http://25.46.224.159:18080" }
 	, m_playerName{ "Not_Initialized" }
 	, m_lobbyCode{ "" }
 	, m_isDrawing{ false }
@@ -69,7 +69,7 @@ std::vector<QString> Routing::GetAnswers()
 	return std::move(answerList);
 }
 
-const DrawingConfig& Routing::GetDrawing()
+DrawingConfig Routing::GetDrawing()
 {
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/get_drawing" },
@@ -103,7 +103,7 @@ const DrawingConfig& Routing::GetDrawing()
 		result.push_back(points);
 	}
 
-	return result;
+	return std::move(result);
 }
 
 QString Routing::GetWord() const
@@ -324,10 +324,10 @@ std::vector<User> Routing::GetPlayers()
 		players.push_back(user);
 	}
 
-	return players;
+	return std::move(players);
 }
 
-const std::vector<std::pair<QString, int16_t>>& Routing::GetLeaderBoard()
+std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
 {
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/players" },
@@ -350,7 +350,7 @@ const std::vector<std::pair<QString, int16_t>>& Routing::GetLeaderBoard()
 		leaderBoard.emplace_back(playerName, score);
 	}
 
-	return leaderBoard;
+	return std::move(leaderBoard);
 }
 
 std::string Routing::GetPlayerName() const
