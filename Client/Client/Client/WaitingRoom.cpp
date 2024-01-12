@@ -83,5 +83,7 @@ void WaitingRoom::AddCustomWord()
 	{
 		QMessageBox::information(this, "Custom Word", word);
 		ui->lineEdit->setDisabled(true);
+		ui->pushButton->setDisabled(true);
+		m_rt->SendCustomWord(word.toLatin1().data());
 	}
 }

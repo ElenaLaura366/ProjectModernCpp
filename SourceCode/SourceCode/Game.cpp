@@ -182,6 +182,11 @@ void Game::HandleEndTurn()
 	m_turn->Reset();
 }
 
+void skribbl::Game::AddCustomWord(const std::string& word)
+{
+	m_wordHandler->AddCustomWord(word);
+}
+
 void Game::HandleAllPlayersGuessed()
 {
 	if (m_playerGuessCount != m_players.size() - 1)

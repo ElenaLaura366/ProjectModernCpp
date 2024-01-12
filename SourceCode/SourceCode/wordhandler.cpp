@@ -37,6 +37,11 @@ std::string WordHandler::GetHint() const
 	return m_hint;
 }
 
+void skribbl::WordHandler::AddCustomWord(const std::string& word)
+{
+	m_customWords.push_back({ word, 0 }); //ciudat
+}
+
 void skribbl::WordHandler::Reset()
 {
 	int wordPos = 1 + m_ur->GetValue();

@@ -45,6 +45,7 @@ namespace skribbl
 		crow::response GetTime(const crow::request& req);
 		crow::response GetHint(const crow::request& req);
 		crow::response GetGamePlayers(const crow::request& req);
+		crow::response AddCustomWord(const crow::request& req);
 
 		crow::response GetGamesHistory(const crow::request& req);
 

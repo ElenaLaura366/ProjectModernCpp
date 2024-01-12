@@ -38,8 +38,12 @@ public:
 	std::vector<User> GetPlayers();
 	std::vector<std::pair<QString, int16_t>> GetLeaderBoard();
 	std::string GetPlayerName() const;
+<<<<<<< Updated upstream
 	std::vector<GameHistory> GetGamesHistory();
 	
+=======
+	void SendCustomWord(const std::string& word);
+>>>>>>> Stashed changes
 
 private:
 	std::string m_url;
