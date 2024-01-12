@@ -1,8 +1,9 @@
 #include "LoginPage.h"
 #include <QKeyEvent>
+#include <QRegularExpression>
 
 
-LoginPage::LoginPage(QWidget *parent)
+LoginPage::LoginPage(QWidget* parent)
 	: QWidget{ parent }
 	, ui{ new Ui::LoginPageClass() }
 	, m_windowState{ WindowState::LOGIN }
@@ -11,8 +12,8 @@ LoginPage::LoginPage(QWidget *parent)
 	connect(ui->btnLogin, &QPushButton::clicked, this, &LoginPage::ChangeToLogin);
 	connect(ui->btnRegister, &QPushButton::clicked, this, &LoginPage::ChangeToRegister);
 	connect(ui->btnProceed, &QPushButton::clicked, this, &LoginPage::Proceed);
-	ui->inputPsw->setEchoMode(QLineEdit::Password);
-	ui->inputPswConf->setEchoMode(QLineEdit::Password);
+	ui->inputPassword->setEchoMode(QLineEdit::Password);
+	ui->inputPasswordConfirm->setEchoMode(QLineEdit::Password);
 }
 
 LoginPage::~LoginPage()
@@ -28,7 +29,7 @@ Ui::LoginPageClass* LoginPage::GetUi()
 void LoginPage::ChangeToLogin()
 {
 	if (m_windowState != WindowState::LOGIN) {
-		cleanTextFields();
+		CleanTextFields();
 	}
 	m_windowState = WindowState::LOGIN;
 	update();
@@ -37,24 +38,23 @@ void LoginPage::ChangeToLogin()
 void LoginPage::ChangeToRegister()
 {
 	if (m_windowState != WindowState::REGISTER) {
-		cleanTextFields();
+		CleanTextFields();
 	}
 	m_windowState = WindowState::REGISTER;
 	update();
 }
 
-void LoginPage::paintEvent(QPaintEvent* event){
+void LoginPage::paintEvent(QPaintEvent* event) {
 	if (m_windowState == WindowState::LOGIN) {
 		ui->title->setText("Please Login in order to enter the game");
 		ui->btnProceed->setText("LOGIN");
-		ui->inputPswConf->setVisible(false);
+		ui->inputPasswordConfirm->setVisible(false);
 		ui->labelPswConf->setVisible(false);
-		// de adaugat linia
 	}
 	else {
 		ui->title->setText("Please Register in order to enter the game");
 		ui->btnProceed->setText("REGISTER");
-		ui->inputPswConf->setVisible(true);
+		ui->inputPasswordConfirm->setVisible(true);
 		ui->labelPswConf->setVisible(true);
 	}
 }
@@ -66,10 +66,10 @@ void LoginPage::keyPressEvent(QKeyEvent* event)
 	}
 }
 
-void LoginPage::cleanTextFields() {
+void LoginPage::CleanTextFields() {
 	ui->inputUsername->setText("");
-	ui->inputPsw->setText("");
-	ui->inputPswConf->setText("");
+	ui->inputPassword->setText("");
+	ui->inputPasswordConfirm->setText("");
 }
 
 void LoginPage::Proceed() {
@@ -84,25 +84,53 @@ void LoginPage::Proceed() {
 
 
 void LoginPage::OnLogin() {
-	if (ui->inputUsername->text().isEmpty() || ui->inputPsw->text().isEmpty())
-	{
-		QMessageBox::warning(nullptr, "Title", "One or more of the fields are null");
-		return;
-	}
-	emit SendLoginToServer();
+	if (ValidateInput())
+		emit SendLoginToServer();
 }
 
 
 void LoginPage::OnRegister() {
-	if (ui->inputUsername->text().isEmpty() || ui->inputPsw->text().isEmpty() || ui->inputPswConf->text().isEmpty())
+	if (ValidateInput())
+		emit SendRegisterToServer();
+}
+
+bool LoginPage::ValidateInput()
+{
+	if (ui->inputUsername->text().isEmpty() || ui->inputPassword->text().isEmpty())
 	{
-		QMessageBox::warning(nullptr, "Title", "One or more of the fields are null");
-		return;
+		QMessageBox::warning(nullptr, "Input error", "One or more of the fields are null");
+		return false;
 	}
 
-	if (ui->inputPsw->text() != ui->inputPswConf->text()) {
+	auto checkAscii = [](QString input) -> bool {
+		QRegularExpression regex("^[\\x00-\\x7F]+$");
+		QRegularExpressionMatch match = regex.match(input);
+		return match.hasMatch() && match.capturedLength(0) == input.length();
+	};
+
+	if (!checkAscii(ui->inputPassword->text()) || !checkAscii(ui->inputUsername->text())) {
+		QMessageBox::warning(nullptr, "Input error", "Invalid characters input");
+		return false;
+	}
+
+	if (ui->inputPassword->text() != ui->inputPasswordConfirm->text() && m_windowState == WindowState::REGISTER) {
 		QMessageBox::warning(nullptr, "Register error", "The two passwords are not the same");
+		return false;
+	}
+
+	if (m_windowState == WindowState::LOGIN)
+		return true;
+
+	if (ui->inputPassword->text().size() < 6) {
+		QMessageBox::warning(nullptr, "Register error", "Password needs to have more than 6 characters");
+		return false;
+	}
+
+	if (QRegularExpression re("\\s"); re.match(ui->inputUsername->text()).hasMatch()
+		|| re.match(ui->inputPassword->text()).hasMatch()) {
+		QMessageBox::warning(nullptr, "Register error", "Password or username have spaces");
+		return false;
 	}
 	
-	emit SendRegisterToServer();
+	return true;
 }

@@ -28,6 +28,4 @@ namespace skribbl
 		std::string m_currentWord;
 		UniqueRandom<int>::UniqueRandomPtr m_ur;
 		skribbl::Database& m_db;
-	};
-}
-
+	};}

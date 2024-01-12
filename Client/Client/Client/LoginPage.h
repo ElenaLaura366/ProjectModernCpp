@@ -28,9 +28,10 @@ protected:
 	void keyPressEvent(QKeyEvent* event) override;
 
 private:
-	void cleanTextFields();
+	void CleanTextFields();
 	void OnLogin();
 	void OnRegister();
+	bool ValidateInput();
 
 private slots:
 	void ChangeToLogin();

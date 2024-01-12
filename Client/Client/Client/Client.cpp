@@ -1,6 +1,7 @@
 ﻿#include "Client.h"
 
 #include <QPushButton>
+#include <QCryptographicHash>
 
 Client::Client(QWidget* parent)
 	: QMainWindow{ parent },
@@ -118,7 +119,8 @@ void Client::HandleLogin() {
 	auto loginUi = m_loginPage->GetUi();
 
 	std::string username = loginUi->inputUsername->text().toUtf8().constData();
-	std::string password = loginUi->inputPsw->text().toUtf8().constData();
+	std::string password = std::string(QCryptographicHash::hash(loginUi->inputPassword->text().toUtf8(), QCryptographicHash::Sha256));
+	
 
 	if (m_rt.SendLogin(username, password) == true) {
 		user.setUsername(username);
@@ -127,9 +129,6 @@ void Client::HandleLogin() {
 		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
 		ui->menuBar->show();
-		// example 
-		//user.AddGameHistory(1, 2, 3);
-		//user.AddGameHistory(1, 2, 6);
 		m_userInfo->DisplayHistory(user.GetGameHistory());
 		ChangeToLobbyPage();
 	}
@@ -143,7 +142,7 @@ void Client::HandleRegister() {
 	auto loginUi = m_loginPage->GetUi();
 
 	std::string username = loginUi->inputUsername->text().toUtf8().constData();
-	std::string password = loginUi->inputPsw->text().toUtf8().constData();
+	std::string password = std::string(QCryptographicHash::hash(loginUi->inputPassword->text().toUtf8(), QCryptographicHash::Sha256));
 
 
 	if (m_rt.SendRegister(username, password) == true) {

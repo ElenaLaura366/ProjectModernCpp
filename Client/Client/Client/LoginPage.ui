@@ -81,7 +81,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLineEdit" name="inputPsw">
+  <widget class="QLineEdit" name="inputPassword">
    <property name="geometry">
     <rect>
      <x>610</x>
@@ -120,7 +120,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="inputPswConf">
+  <widget class="QLineEdit" name="inputPasswordConfirm">
    <property name="geometry">
     <rect>
      <x>610</x>
