@@ -212,19 +212,18 @@ void skribbl::Routing::Run()
 			}
 	);
 
-<<<<<<< Updated upstream
 	CROW_ROUTE(m_app, "/gamesHistory")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
 			{
 				return GetGamesHistory(req);
-=======
+			}
+	);
 	CROW_ROUTE(m_app, "/custom_word")
 		.methods(crow::HTTPMethod::PUT)(
 			[this](const crow::request& req)
 			{
 				return AddCustomWord(req);
->>>>>>> Stashed changes
 			}
 	);
 
@@ -444,12 +443,11 @@ crow::response Routing::GetGamePlayers(const crow::request& req)
 	return crow::json::wvalue{ results };
 }
 
-<<<<<<< Updated upstream
-crow::response skribbl::Routing::GetGamesHistory(const crow::request& req)
+crow::response skribbl::Routing::GetGamesHistory(const crow::request & req)
 {
 	std::string username = req.url_params.get("username");
 
-	std::vector<skribbl::GameHistory> games = m_db.GetGameHistory(username);
+	std::vector<std::pair<int, std::string>> games = m_db.GetGameHistory(username);
 
 	std::vector<crow::json::wvalue> results;
 	// de vazut de ce nu merge
@@ -464,7 +462,8 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request& req)
 	}*/
 	return crow::json::wvalue{ results };
 
-=======
+}
+
 crow::response skribbl::Routing::AddCustomWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
@@ -472,5 +471,4 @@ crow::response skribbl::Routing::AddCustomWord(const crow::request& req)
 	m_games[lobbyCode]->AddCustomWord(word);//in game
 
 	return crow::response(201, "Added!");
->>>>>>> Stashed changes
 }

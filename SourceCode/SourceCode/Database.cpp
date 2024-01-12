@@ -1,13 +1,5 @@
 #include "Database.h"
 
-/*skribbl::Database::Database(Storage& db)
-	: m_db{ db }
-{}*/
-
-/*skribbl::Database::Database()
-{
-}*/
-
 bool skribbl::Database::Initialize(const std::string& fileName)
 {
 	m_db.sync_schema();
@@ -142,4 +134,9 @@ std::vector<std::pair<int, std::string>> skribbl::Database::GetGameHistory(const
 
 	//return m_db.get_all<GameHistory>(sqlite_orm::where(sqlite_orm::c(&GameHistory::m_id_player) == userId));
 	return std::vector<std::pair<int, std::string>>{};
+}
+
+void skribbl::Database::AddCustomWordToDatabase(const std::string& word)
+{
+	m_db.insert(Words{ -1, word });
 }

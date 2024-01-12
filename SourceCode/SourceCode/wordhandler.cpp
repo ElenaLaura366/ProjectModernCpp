@@ -39,7 +39,7 @@ std::string WordHandler::GetHint() const
 
 void skribbl::WordHandler::AddCustomWord(const std::string& word)
 {
-	m_customWords.push_back({ word, 0 }); //ciudat
+	m_customWords.push_back(std::make_pair(word, 0));//crapa aici
 }
 
 void skribbl::WordHandler::Reset()

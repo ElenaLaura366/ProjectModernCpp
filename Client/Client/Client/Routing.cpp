@@ -9,12 +9,7 @@
 #include <QString>
 
 Routing::Routing()
-<<<<<<< Updated upstream
-	//: m_url{ "http://localhost:18080" }
-	: m_url{ "http://25.46.224.159:18080" }
-=======
 	: m_url{ "http://localhost:18080" }
->>>>>>> Stashed changes
 	, m_playerName{ "Not_Initialized" }
 	, m_lobbyCode{ "" }
 	, m_isDrawing{ false }
@@ -377,11 +372,10 @@ std::string Routing::GetPlayerName() const
 	return m_playerName;
 }
 
-<<<<<<< Updated upstream
 std::vector<GameHistory> Routing::GetGamesHistory()
 {
 	auto response = cpr::Get(
-		cpr::Url{m_playerName + "/gamesHistory"}, 
+		cpr::Url{ m_playerName + "/gamesHistory" },
 		cpr::Parameters{
 			{"username", m_playerName}
 		}
@@ -398,11 +392,12 @@ std::vector<GameHistory> Routing::GetGamesHistory()
 	{
 		std::string gameId = std::string(game["playerName"]);
 		std::string points = std::string(game["date"]);
-		gameHistory.emplace_back(std::make_pair( gameId, points ));
+		gameHistory.emplace_back(std::make_pair(gameId, points));
 	}
 
 	return gameHistory;
-=======
+}
+
 void Routing::SendCustomWord(const std::string& word)
 {
 	auto response = cpr::Put(
@@ -412,5 +407,4 @@ void Routing::SendCustomWord(const std::string& word)
 			{ "word", word }
 		}
 	);
->>>>>>> Stashed changes
 }

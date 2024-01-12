@@ -13,6 +13,7 @@ Game::Game(skribbl::Database& db)
 	m_db{ db }
 {
 	m_players.reserve(kMaxPlayersNumber);
+	m_wordHandler = std::make_unique<WordHandler>(m_db);
 }
 
 IGame::IGamePtr IGame::Factory(skribbl::Database& db)
@@ -47,7 +48,7 @@ Game::State Game::GetNextState(State currentState)
 void Game::Start()
 {
 	m_turn = std::make_unique<Turn>([this]() {HandleEndTurn(); }, [this]() {GetHint(); });
-	m_wordHandler = std::make_unique<WordHandler>(m_db);
+	//m_wordHandler = std::make_unique<WordHandler>(m_db);
 
 	m_state = Game::State::FIRST_ROUND;
 
