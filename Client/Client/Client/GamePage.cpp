@@ -10,10 +10,8 @@ GamePage::GamePage(QWidget* parent, Routing* rt)
 	, m_leaderBoardShow{ false }
 {
 	ui->setupUi(this);
-	m_drawingArea = ui->drawingArea;
-
 	ui->labelWord->setStyleSheet("font-size: 40px;");
-
+	m_drawingArea = ui->drawingArea;
 
 	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked);
 	connect(ui->undoLastLineBtn, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
@@ -32,46 +30,22 @@ Ui::GamePageClass* GamePage::GetUi()
 
 void GamePage::paintEvent(QPaintEvent* e)
 {
+	if (m_refreshCount == 0)
+		UpdateEndTurn();
 	if (m_refreshCount % kRefreshRate == 0)
 	{
-		auto answers = m_rt->GetAnswers();
+		UpdateChat(std::move(m_rt->GetAnswers()));
 
-		if (answers.size() != 0 && answers.size() > m_answers.size())
-		{
-			m_answers.clear();
-			m_answers = answers;
-		}
-		UpdateChat();
+		QString time = m_rt->GetTime();
+		ui->lableSeconds->setText(time);
 
-		m_drawingArea->SetIsPlayerDrawing(m_rt->IsDrawingPlayer());
+		if (kTimeOutValues.find(time) != kTimeOutValues.end())
+			UpdateEndTurn();
 
-		QString seconds = m_rt->GetTime();
-		ui->lableSeconds->setText(seconds);
-
-
-		QString round = m_rt->GetRound();
-		ui->labelRound->setText(round);
-
-		if (round == kGameOverState && !m_leaderBoardShow)
-			ShowLeaderBoard();
-
-		UpdateLeaderBoard();
-
-		QString word = m_rt->GetWord();
-
-		if (m_rt->GetIsDrawing()) {
+		if (m_rt->GetIsDrawing())
 			m_rt->SendDrawing(m_drawingArea->GetDrawing());
-			ui->labelWord->setText(word);
-		}
 		else
-		{
 			m_drawingArea->SetDrawing(m_rt->GetDrawing());
-			QString hiddenWord;
-			for (size_t i = 0; i < word.size(); i++)
-				hiddenWord += "_ ";
-
-			ui->labelWord->setText(hiddenWord);
-		}
 	}
 
 	m_refreshCount++;
@@ -118,16 +92,45 @@ void GamePage::UpdateLeaderBoard()
 	}
 }
 
-void GamePage::UpdateChat() {
+void GamePage::UpdateChat(const std::vector<QString>& answers) {
 
-	ui->answerList->clear();
-	for (const auto& text : m_answers)
+	if (answers.size() <= ui->answerList->count())
+		return;
+	size_t i = ui->answerList->count();
+	for (; i < answers.size(); i++)
 	{
-		QListWidgetItem* answerItem = new QListWidgetItem(text);
+		QListWidgetItem* answerItem = new QListWidgetItem(answers[i]);
 		answerItem->setFlags(answerItem->flags() & ~Qt::ItemIsSelectable);
 		ui->answerList->addItem(answerItem);
 	}
 	ui->answerList->scrollToBottom();
+}
+
+void GamePage::UpdateEndTurn()
+{
+	m_drawingArea->SetIsPlayerDrawing(m_rt->IsDrawingPlayer());
+
+	QString round = m_rt->GetRound();
+	ui->labelRound->setText(round);
+
+	if (round == kGameOverState && !m_leaderBoardShow)
+		ShowLeaderBoard();
+
+	UpdateLeaderBoard();
+
+	QString word = m_rt->GetWord();
+
+	if (m_rt->GetIsDrawing()) {
+		ui->labelWord->setText(word);
+	}
+	else {
+		QString hiddenWord;
+		for (size_t i = 0; i < word.size(); i++)
+			hiddenWord += "_ ";
+
+		ui->labelWord->setText(hiddenWord);
+	}
+
 }
 
 void GamePage::OnUndoBtnClicked() {

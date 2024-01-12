@@ -24,7 +24,8 @@ private:
 	void ShowLeaderBoard();
 
 	void UpdateLeaderBoard();
-	void UpdateChat();
+	void UpdateChat(const std::vector<QString>& answers);
+	void UpdateEndTurn();
 
 	void keyPressEvent(QKeyEvent* event) override;
 	void OnSendAnswerBtnClicked();
@@ -41,10 +42,10 @@ private:
 	DrawingAreaWidget* m_drawingArea;
 	LeaderBoardWidget* m_leaderBoard;
 	Routing* m_rt;
-	std::vector<QString> m_answers;
 	uint m_refreshCount;
 	bool m_leaderBoardShow;
 
 	static const uint8_t kRefreshRate{ 5 };
 	const QString kGameOverState{ "Game Over" };
+	const std::unordered_set<QString> kTimeOutValues{ { "0", "60", "59", "58"} };
 };

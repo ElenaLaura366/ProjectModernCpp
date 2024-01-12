@@ -1,16 +1,13 @@
 module turn;
 using skribbl::Turn;
 
-Turn::Turn(const std::function<void()>& callback)
-	: m_allPlayersGuessed{ false }
+Turn::Turn(const std::function<void()>& callbackEndTurn, const std::function<void()>& callbackHint)
 {
-	m_timer = std::make_unique<Timer>(callback);
+	m_timer = std::make_unique<Timer>(callbackEndTurn, callbackHint);
 }
 
 Turn::Turn(Turn&& other) noexcept
-	:
-	m_answerTimestamps{ std::move(other.m_answerTimestamps) },
-	m_allPlayersGuessed{ std::move(other.m_allPlayersGuessed) }
+	: m_answerTimestamps{ std::move(other.m_answerTimestamps) }
 {
 	// empty
 }
@@ -20,20 +17,18 @@ Turn& Turn::operator=(Turn&& other) noexcept
 	if (this != &other)
 	{
 		m_answerTimestamps = std::move(other.m_answerTimestamps);
-		m_allPlayersGuessed = std::move(other.m_allPlayersGuessed);
 	}
 	return *this;
 }
 
 void Turn::Start()
 {
-	m_timer->Start();
+	m_timer->Start(m_currentWord.size() / 2);
 }
 
 void Turn::Reset()
 {
-	m_allPlayersGuessed = false;
-	m_timer->Restart();
+	m_timer->Restart(m_currentWord.size() / 2);
 	m_answerTimestamps.clear();
 }
 
@@ -80,7 +75,7 @@ bool Turn::VerifyGuess(const std::string& guess)
 
 bool Turn::IsOver() const
 {
-	return m_allPlayersGuessed || m_timer->IsTimeUp();
+	return m_timer->IsTimeUp();
 }
 
 uint8_t Turn::GetRemainingTime() const
@@ -91,9 +86,4 @@ uint8_t Turn::GetRemainingTime() const
 void Turn::SetCurrentWord(const std::string& word)
 {
 	m_currentWord = word;
-}
-
-void Turn::SetAllPlayersGuessed()
-{
-	m_allPlayersGuessed = true;
 }

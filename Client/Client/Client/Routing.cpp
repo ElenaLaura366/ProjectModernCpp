@@ -66,10 +66,10 @@ std::vector<QString> Routing::GetAnswers()
 		QString text = QString::fromLatin1(message.data());
 		answerList.push_back(text);
 	}
-	return answerList;
+	return std::move(answerList);
 }
 
-DrawingConfig Routing::GetDrawing()
+const DrawingConfig& Routing::GetDrawing()
 {
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/get_drawing" },
@@ -327,7 +327,7 @@ std::vector<User> Routing::GetPlayers()
 	return players;
 }
 
-std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
+const std::vector<std::pair<QString, int16_t>>& Routing::GetLeaderBoard()
 {
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/players" },

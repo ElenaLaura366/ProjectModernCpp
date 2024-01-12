@@ -26,7 +26,7 @@ public:
 	bool GetIsDrawing() const;
 	QString GetTime();
 	std::vector<QString> GetAnswers();
-	DrawingConfig GetDrawing();
+	const DrawingConfig& GetDrawing();
 	QString GetHint() const;
 	QString GetWord() const;
 	QString GetRound() const;
@@ -34,7 +34,7 @@ public:
 	bool IsDrawingPlayer();
 	bool ExitGame();
 	std::vector<User> GetPlayers();
-	std::vector<std::pair<QString, int16_t>> GetLeaderBoard();
+	const std::vector<std::pair<QString, int16_t>>& GetLeaderBoard();
 	std::string GetPlayerName() const;
 
 private:

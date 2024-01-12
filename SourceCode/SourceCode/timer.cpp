@@ -7,12 +7,14 @@ using namespace std::chrono_literals;
 
 static const milliseconds kRefreshingRate{ 10 };
 static const seconds kDuration{ 60 };
+static const seconds kFirstHintTime{ 30 };
 
-Timer::Timer(const std::function<void()>& callback)
+Timer::Timer(const std::function<void()>& callbackEndTurn, const std::function<void()>& callbackHint)
 	: m_isRunning{ false }
 	, m_duration{ kDuration }
 	, m_elapsedTime{ 0s }
-	, m_handleTimeOut{ callback }
+	, m_handleTimeOut{ callbackEndTurn }
+	, m_handleHint{ callbackHint }
 {
 	// empty
 }
@@ -22,7 +24,7 @@ Timer::~Timer()
 	Stop();
 }
 
-void Timer::Start()
+void Timer::Start(uint8_t hintCount)
 {
 	if (m_isRunning)
 		return;
@@ -38,11 +40,17 @@ void Timer::Start()
 				m_condition.wait_for(lock, kRefreshingRate, [&] {return !m_isRunning || m_isPaused; });
 				time_point<steady_clock> endLock = steady_clock::now();
 
+
 				if (IsTimeUp() & !m_isPaused)
 				{
 					m_isPaused = true;
 					m_condition.notify_one();
 					m_handleTimeOut();
+				}
+
+				if (m_elapsedTime.load() == kFirstHintTime)
+				{
+					m_handleHint();
 				}
 
 				milliseconds timePassed = duration_cast<milliseconds>(endLock - startLock);
@@ -53,15 +61,13 @@ void Timer::Start()
 
 void Timer::Pause()
 {
-	if (m_isRunning && !m_isPaused)
-	{
+	if (m_isRunning && !m_isPaused) {
 		m_isPaused = true;
-
 		m_condition.notify_all();
 	}
 }
 
-void Timer::Restart()
+void Timer::Restart(uint8_t hintCount)
 {
 	m_elapsedTime.store(0s);
 	m_isPaused = false;

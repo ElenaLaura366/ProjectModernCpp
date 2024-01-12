@@ -17,7 +17,7 @@ namespace skribbl
 		static constexpr uint8_t kMaxScore = 100;
 
 	public:
-		Turn(const std::function<void()>& callback);
+		Turn(const std::function<void()>& callbackEndTurn, const std::function<void()>& callbackHint);
 		Turn(const Turn& other) = delete;
 		Turn& operator=(const Turn& other) = delete;
 		Turn(Turn&& other) noexcept;
@@ -26,7 +26,6 @@ namespace skribbl
 
 		void Start();
 		void Reset();
-		void SetAllPlayersGuessed();
 		
 		bool VerifyGuess(const std::string& guess);
 		int8_t ScoreGuessingPlayer() const;
@@ -40,7 +39,6 @@ namespace skribbl
 	private:
 		std::unique_ptr<Timer> m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
-		bool m_allPlayersGuessed;
 		std::string m_currentWord;
 	};
 }

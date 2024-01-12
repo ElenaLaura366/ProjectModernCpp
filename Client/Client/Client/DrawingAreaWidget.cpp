@@ -35,9 +35,10 @@ void DrawingAreaWidget::SetDrawing(const DrawingConfig& drawing)
 
 void DrawingAreaWidget::SetIsPlayerDrawing(bool val)
 {
-	if (m_isMousePressed != val)
+	if (m_isPlayerDrawing != val) {
 		ResetDrawing();
-	m_isPlayerDrawing = val;
+		m_isPlayerDrawing = val;
+	}
 }
 
 void DrawingAreaWidget::mousePressEvent(QMouseEvent* event) {

@@ -18,16 +18,16 @@ namespace skribbl
 		using TimeConfig = milliseconds;
 
 	public:
-		Timer(const std::function<void()>& callback);
+		Timer(const std::function<void()>& callbackEndTurn, const std::function<void()>& callbackHint);
 
 		Timer(const Timer& other) = delete;
 		Timer& operator=(const Timer& other) = delete;
 
 		~Timer();
 
-		void Start();
+		void Start(uint8_t hintCount);
 		void Pause();
-		void Restart();
+		void Restart(uint8_t hintCount);
 		void Stop();
 
 		milliseconds GetElapsedTime() const;
@@ -41,6 +41,9 @@ namespace skribbl
 		std::mutex m_mutex;
 
 		std::function<void()> m_handleTimeOut;
+		std::function<void()> m_handleHint;
+
+		uint8_t m_hintCount;
 
 		std::atomic<bool> m_isRunning, m_isPaused;
 		std::atomic<TimeConfig> m_duration;
