@@ -125,15 +125,13 @@ bool skribbl::Database::GameExists(int gameId)
 	return m_db.count<Games>(sqlite_orm::where(sqlite_orm::c(&Games::m_id) == gameId)) > 0;
 }
 
-std::vector<std::pair<int, std::string>> skribbl::Database::GetGameHistory(const std::string& username)
+std::vector<std::tuple<int, std::string>> skribbl::Database::GetGameHistory(const std::string& username)
 {
-	auto user = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
-	int userId = user[0].m_id;
+	auto userId = m_db.select(&User::m_id, sql::where(sql::c(&User::m_username) == username));
 
-	// puncte si data utilizator
+	std::vector<std::tuple<int, std::string>> gameHistory = m_db.select(sql::columns(&GameHistory::m_points, sql::strftime("%Y-%m-%d", &Games::m_date)), sql::inner_join<Games>(sql::on (sql::c(&GameHistory::m_id_game) == &Games::m_id)));
 
-	//return m_db.get_all<GameHistory>(sqlite_orm::where(sqlite_orm::c(&GameHistory::m_id_player) == userId));
-	return std::vector<std::pair<int, std::string>>{};
+	return gameHistory;
 }
 
 void skribbl::Database::AddCustomWordToDatabase(const std::string& word)

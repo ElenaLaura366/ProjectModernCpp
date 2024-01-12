@@ -24,7 +24,6 @@ namespace skribbl
 		
 		void Run();
 
-		static constexpr uint8_t klobbyCodeLength = 6;
 		static constexpr uint8_t kmaxGamesSupported = 8;
 
 	private:

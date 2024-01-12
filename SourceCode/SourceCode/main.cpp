@@ -4,7 +4,6 @@
 int main()
 {
     skribbl::Database db;
-    //std::shared_ptr<skribbl::Database> db = std::make_shared<skribbl::Database>();
 
     if (!db.Initialize("wordsFile.txt"))
     {

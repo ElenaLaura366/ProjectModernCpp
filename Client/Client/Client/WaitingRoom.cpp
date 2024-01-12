@@ -8,7 +8,6 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 	,m_admin{ User() }
 {
 	ui->setupUi(this);
-
 	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::OnStartBtnPushed);
 	connect(ui->pushButton, &QPushButton::clicked, this, &WaitingRoom::AddCustomWord);
 }

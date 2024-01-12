@@ -388,11 +388,11 @@ std::vector<GameHistory> Routing::GetGamesHistory()
 
 	auto jsonResponse = crow::json::load(response.text);
 	std::vector<GameHistory> gameHistory;
-	for (const auto& game : jsonResponse)
+	for (const auto& history : jsonResponse)
 	{
-		std::string gameId = std::string(game["playerName"]);
-		std::string points = std::string(game["date"]);
-		gameHistory.emplace_back(std::make_pair(gameId, points));
+		std::string points = std::string(history["playerScore"]);
+		std::string date = std::string(history["date"]);
+		gameHistory.emplace_back(std::make_pair(points, date));
 	}
 
 	return gameHistory;

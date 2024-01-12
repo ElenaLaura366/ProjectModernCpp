@@ -193,7 +193,7 @@ namespace skribbl
 		void AddGameHistory(int playerId, int gameId, int points);
 		bool UserExists(int userId);
 		bool GameExists(int gameId);
-		std::vector<std::pair<int, std::string>> GetGameHistory(const std::string& username);
+		std::vector<std::tuple<int, std::string>> GetGameHistory(const std::string& username);
 
 		void AddCustomWordToDatabase(const std::string& word);
 

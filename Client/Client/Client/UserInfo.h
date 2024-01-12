@@ -2,7 +2,6 @@
 
 #include <QMainWindow>
 #include "ui_UserInfo.h"
-#include "UserInfo.h"
 #include "User.h"
 
 QT_BEGIN_NAMESPACE

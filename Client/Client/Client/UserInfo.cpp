@@ -18,15 +18,15 @@ void UserInfo::DisplayHistory(std::vector<GameHistory> gameHistory)
 	ui->tableWidget->setRowCount(gameHistory.size());
 
 	int rowIndex = 0;
-	for (const auto& game : gameHistory) {
+	for (const auto& history : gameHistory) {
+		 
+		const auto& [points, date] = history;
 
-		const auto& [points, date] = game;
+		QTableWidgetItem* pointsCell = new QTableWidgetItem(QString::fromUtf8(points.c_str()));
+		QTableWidgetItem* dateCell = new QTableWidgetItem(QString::fromUtf8(date.c_str()));
 
-		QTableWidgetItem* gameIdItem = new QTableWidgetItem(QString::fromUtf8(points.c_str()));
-		QTableWidgetItem* playerIdItem = new QTableWidgetItem(QString::fromUtf8(date.c_str()));
-
-		ui->tableWidget->setItem(rowIndex, 0, gameIdItem);
-		ui->tableWidget->setItem(rowIndex, 1, playerIdItem);
+		ui->tableWidget->setItem(rowIndex, 0, pointsCell);
+		ui->tableWidget->setItem(rowIndex, 1, dateCell);
 		rowIndex++;
 	}
 }

@@ -3,7 +3,7 @@ using namespace skribbl;
 
 skribbl::Routing::Routing(skribbl::Database& db) : m_db(db)
 {
-	m_ur.SetRange(klobbyCodeLength);
+	m_ur.SetRange(kmaxGamesSupported);
 }
 
 void skribbl::Routing::Run()
@@ -447,21 +447,15 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req)
 {
 	std::string username = req.url_params.get("username");
 
-	std::vector<std::pair<int, std::string>> games = m_db.GetGameHistory(username);
-
 	std::vector<crow::json::wvalue> results;
-	// de vazut de ce nu merge
-
-	// date of game
-	/*for (const auto& game : games)
+	for (const auto& history : m_db.GetGameHistory(username))
 	{
 		results.push_back(crow::json::wvalue{
-			{"gameId", game.m_id_game},
-			{"points", game.m_points}
+			{"playerScore", std::get<0>(history)},
+			{"date", std::get<1>(history)}
 		});
-	}*/
+	}
 	return crow::json::wvalue{ results };
-
 }
 
 crow::response skribbl::Routing::AddCustomWord(const crow::request& req)
