@@ -212,6 +212,14 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/gamesHistory")
+		.methods(crow::HTTPMethod::PUT)(
+			[this](const crow::request& req)
+			{
+				return GetGamesHistory(req);
+			}
+	);
+
 	m_app.port(18080).multithreaded().run();
 }
 
@@ -426,4 +434,25 @@ crow::response Routing::GetGamePlayers(const crow::request& req)
 			});
 	}
 	return crow::json::wvalue{ results };
+}
+
+crow::response skribbl::Routing::GetGamesHistory(const crow::request& req)
+{
+	std::string username = req.url_params.get("username");
+
+	std::vector<skribbl::GameHistory> games = m_db.GetGameHistory(username);
+
+	std::vector<crow::json::wvalue> results;
+	// de vazut de ce nu merge
+
+	// date of game
+	/*for (const auto& game : games)
+	{
+		results.push_back(crow::json::wvalue{
+			{"gameId", game.m_id_game},
+			{"points", game.m_points}
+		});
+	}*/
+	return crow::json::wvalue{ results };
+
 }

@@ -20,15 +20,13 @@ void UserInfo::DisplayHistory(std::vector<GameHistory> gameHistory)
 	int rowIndex = 0;
 	for (const auto& game : gameHistory) {
 
-		const auto& [gameId, playerId, points] = game;
+		const auto& [points, date] = game;
 
-		QTableWidgetItem* gameIdItem = new QTableWidgetItem(QString::number(gameId));
-		QTableWidgetItem* playerIdItem = new QTableWidgetItem(QString::number(playerId));
-		QTableWidgetItem* pointsItem = new QTableWidgetItem(QString::number(points));
+		QTableWidgetItem* gameIdItem = new QTableWidgetItem(QString::fromUtf8(points.c_str()));
+		QTableWidgetItem* playerIdItem = new QTableWidgetItem(QString::fromUtf8(date.c_str()));
 
 		ui->tableWidget->setItem(rowIndex, 0, gameIdItem);
 		ui->tableWidget->setItem(rowIndex, 1, playerIdItem);
-		ui->tableWidget->setItem(rowIndex, 2, pointsItem);
 		rowIndex++;
 	}
 }

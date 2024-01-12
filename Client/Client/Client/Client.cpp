@@ -87,6 +87,7 @@ void Client::ChangeToWaitingRoom()
 void Client::ShowUserInfo()
 {
 	m_userInfo->setWindowTitle(user.getUsername() + "'s game history");
+	m_userInfo->DisplayHistory(m_rt.GetGamesHistory());
 	m_userInfo->show();
 }
 

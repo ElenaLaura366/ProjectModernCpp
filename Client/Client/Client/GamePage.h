@@ -46,6 +46,6 @@ private:
 	bool m_leaderBoardShow;
 
 	static const uint8_t kRefreshRate{ 5 };
-	const QString kGameOverState{ "Game Over" };
-	const std::unordered_set<QString> kTimeOutValues{ { "0", "60", "59", "58"} };
+	const QString kGameOverState { "Game Over" };
+	const std::unordered_set<QString> kTimeOutValues{ { "0", "60", "59", "58"}};
 };

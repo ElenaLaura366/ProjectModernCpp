@@ -34,7 +34,7 @@ std::optional<QString> User::getLobbyCode()
 
 void User::AddGameHistory(int id, int id_game, int points)
 {
-	m_gamesHistory.emplace_back(std::make_tuple( id, id_game, points));
+	//m_gamesHistory.emplace_back(std::make_tuple( id, id_game, points));
 }
 
 std::vector<GameHistory> User::GetGameHistory()

@@ -1,7 +1,7 @@
 #pragma once
 #include <qstring.h>
 
-using GameHistory = std::tuple<int, int, int>;
+using GameHistory = std::pair<std::string, std::string>;
 
 class User
 {
@@ -19,25 +19,10 @@ public:
 
     std::vector<GameHistory> GetGameHistory();
 
-    //int GetGameId(GameHistory gameHistory) {
-    //    return std::get<0>(gameHistory);
-    //}
-
-    //int GetPlayerId(GameHistory gameHistory) {
-    //    return std::get<1>(gameHistory);
-    //}
-
-    //int GetPointsId(GameHistory gameHistory) {
-    //    return std::get<2>(gameHistory);
-    //}
-
 private:
     QString m_username;
     bool m_isAdmin;
     std::optional<QString> m_lobbyCode;
     std::vector<GameHistory> m_gamesHistory;
-    // game id
-    // player id
-    // poitns
 };
 

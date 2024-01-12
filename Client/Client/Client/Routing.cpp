@@ -9,6 +9,7 @@
 #include <QString>
 
 Routing::Routing()
+	//: m_url{ "http://localhost:18080" }
 	: m_url{ "http://25.46.224.159:18080" }
 	, m_playerName{ "Not_Initialized" }
 	, m_lobbyCode{ "" }
@@ -34,6 +35,15 @@ bool Routing::SendAnswer(const std::string& answer)
 
 		return true;
 	}
+	return false;
+}
+
+bool Routing::SendGameHistory(const std::vector<GameHistory>& gameHistory)
+{
+	// send game history
+	
+
+
 	return false;
 }
 
@@ -141,6 +151,11 @@ QString Routing::GetRound() const
 	if (response.status_code == 200)
 		return QString::fromLatin1(response.text.data());
 	return QString("No Server Answer");
+}
+
+QString Routing::GetPlayer() const
+{
+	return  QString::fromUtf8(m_playerName.c_str());
 }
 
 bool Routing::IsDrawingPlayer()
@@ -356,4 +371,30 @@ std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
 std::string Routing::GetPlayerName() const
 {
 	return m_playerName;
+}
+
+std::vector<GameHistory> Routing::GetGamesHistory()
+{
+	auto response = cpr::Get(
+		cpr::Url{m_playerName + "/gamesHistory"}, 
+		cpr::Parameters{
+			{"username", m_playerName}
+		}
+	);
+
+	if (response.status_code != 200)
+	{
+		return std::vector<GameHistory>();
+	}
+
+	auto jsonResponse = crow::json::load(response.text);
+	std::vector<GameHistory> gameHistory;
+	for (const auto& game : jsonResponse)
+	{
+		std::string gameId = std::string(game["playerName"]);
+		std::string points = std::string(game["date"]);
+		gameHistory.emplace_back(std::make_pair( gameId, points ));
+	}
+
+	return gameHistory;
 }

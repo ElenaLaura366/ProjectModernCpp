@@ -44,4 +44,7 @@ private:
 
 	User m_admin;
 	const QString kWaitingState{ "Waiting" };
+
+private:
+	bool ValidateInput();
 };

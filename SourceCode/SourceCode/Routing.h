@@ -46,6 +46,8 @@ namespace skribbl
 		crow::response GetHint(const crow::request& req);
 		crow::response GetGamePlayers(const crow::request& req);
 
+		crow::response GetGamesHistory(const crow::request& req);
+
 	private:
 		crow::SimpleApp m_app;
 		std::unordered_map<std::string, IGame::IGamePtr> m_games;

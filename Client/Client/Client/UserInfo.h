@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class UserInfoClass; };
 QT_END_NAMESPACE
 
+
 class UserInfo : public QMainWindow
 {
 	Q_OBJECT

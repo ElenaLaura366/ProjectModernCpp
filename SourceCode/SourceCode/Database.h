@@ -193,7 +193,7 @@ namespace skribbl
 		void AddGameHistory(int playerId, int gameId, int points);
 		bool UserExists(int userId);
 		bool GameExists(int gameId);
-		std::vector<GameHistory> GetGameHistory(int userId);
+		std::vector<GameHistory> GetGameHistory(const std::string& username);
 
 	private:
 		void PopulateStorage(const std::string& fileName);

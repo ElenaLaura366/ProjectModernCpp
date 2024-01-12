@@ -133,7 +133,13 @@ bool skribbl::Database::GameExists(int gameId)
 	return m_db.count<Games>(sqlite_orm::where(sqlite_orm::c(&Games::m_id) == gameId)) > 0;
 }
 
-std::vector<skribbl::GameHistory> skribbl::Database::GetGameHistory(int userId)
+std::vector<std::pair<int, std::string>> skribbl::Database::GetGameHistory(const std::string& username)
 {
-	return m_db.get_all<GameHistory>(sqlite_orm::where(sqlite_orm::c(&GameHistory::m_id_player) == userId));
+	auto user = m_db.get_all<User>(sql::where(sql::c(&User::m_username) == username));
+	int userId = user[0].m_id;
+
+	// puncte si data utilizator
+
+	//return m_db.get_all<GameHistory>(sqlite_orm::where(sqlite_orm::c(&GameHistory::m_id_player) == userId));
+	return std::vector<std::pair<int, std::string>>{};
 }

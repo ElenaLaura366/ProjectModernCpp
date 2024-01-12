@@ -22,6 +22,7 @@ public:
 	bool SendJoinLobby(std::string lobbyCode);
 	bool SendCreateLobby(std::string& username);
 	bool SendAnswer(const std::string& answer);
+	bool SendGameHistory(const std::vector<GameHistory>& gameHistory);
 	void SendDrawing(const DrawingConfig& drawing);
 	bool GetIsDrawing() const;
 	QString GetTime();
@@ -30,12 +31,15 @@ public:
 	QString GetHint() const;
 	QString GetWord() const;
 	QString GetRound() const;
+	QString GetPlayer() const;
 	std::string GetLobbyCode() const;
 	bool IsDrawingPlayer();
 	bool ExitGame();
 	std::vector<User> GetPlayers();
 	std::vector<std::pair<QString, int16_t>> GetLeaderBoard();
 	std::string GetPlayerName() const;
+	std::vector<GameHistory> GetGamesHistory();
+	
 
 private:
 	std::string m_url;

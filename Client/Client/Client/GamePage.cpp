@@ -32,11 +32,11 @@ void GamePage::paintEvent(QPaintEvent* e)
 {
 	if (m_refreshCount == 0)
 		UpdateEndTurn();
-	if (m_refreshCount % kRefreshRate == 0)
+	QString time = m_rt->GetTime();	
+	if (time.toInt() % 3 == 0)
 	{
 		UpdateChat(std::move(m_rt->GetAnswers()));
 
-		QString time = m_rt->GetTime();
 		ui->lableSeconds->setText(time);
 
 		if (kTimeOutValues.find(time) != kTimeOutValues.end())
