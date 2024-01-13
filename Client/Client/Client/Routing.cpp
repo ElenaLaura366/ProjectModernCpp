@@ -412,11 +412,22 @@ void Routing::SendCustomWord(const std::string& word)
 uint8_t Routing::GetNumberOfCustomWords() const
 {
 	auto response = cpr::Get(
-		cpr::Url{ m_playerName + "/number_custom_words" },
+		cpr::Url{ m_url + "/number_custom_words" },
 		cpr::Parameters{
-			{"username", m_playerName}
+			{"lobbyCode", m_lobbyCode}
 		}
 	);
 
-	return response.text[0] - '0';
+	if (response.status_code == 200) 
+	{
+		auto jsonResponse = crow::json::load(response.text);
+		if (jsonResponse) 
+		{
+			auto numberCustomWords = jsonResponse["numberCustomWords"].u();
+			return static_cast<uint8_t>(numberCustomWords);
+		}
+	}
+
+	return 0;
 }
+

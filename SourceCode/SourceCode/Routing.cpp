@@ -486,8 +486,13 @@ crow::response skribbl::Routing::GetNumberCustomWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	uint8_t number = m_games[lobbyCode]->GetNumberCustomWord();
-	return crow::response(201, std::to_string(number));
+
+	crow::json::wvalue jsonResponse;
+	jsonResponse["numberCustomWords"] = number;
+
+	return crow::response(200, jsonResponse);
 }
+
 
 crow::response skribbl::Routing::AddCustomWord(const crow::request& req)
 {
