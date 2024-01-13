@@ -22,7 +22,7 @@ Player::Player(const Player& player)
 	// empty
 }
 
-Player& skribbl::Player::operator=(const Player & other)
+Player& Player::operator=(const Player & other)
 {
 	if (this != &other)
 	{
@@ -52,7 +52,7 @@ void Player::UpdateScore(int8_t score)
 	m_score += score;
 }
 
-void skribbl::Player::setGuessed(bool guessed)
+void Player::setGuessed(bool guessed)
 {
 	m_guessed = guessed;
 }

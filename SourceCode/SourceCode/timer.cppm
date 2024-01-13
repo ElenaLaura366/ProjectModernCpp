@@ -46,8 +46,10 @@ namespace skribbl
 		uint8_t m_hintCount;
 
 		std::atomic<bool> m_isRunning, m_isPaused;
-		std::atomic<TimeConfig> m_duration;
-		std::atomic<TimeConfig> m_elapsedTime, m_remainingTime;
+		std::atomic<TimeConfig> m_elapsedTime;
 
+		 const milliseconds kRefreshingRate{ 10 };
+		 const TimeConfig kDuration{ 60s };
+		 const seconds kFirstHintTime{ 30 };
 	};
 }

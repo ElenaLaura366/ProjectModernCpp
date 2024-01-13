@@ -14,7 +14,6 @@ std::string WordHandler::GetWord()
 
 std::vector<uint8_t> WordHandler::GenerateHint()
 {
-
 	UniqueRandom<int> randomPossitions(m_currentWord.size());
 
 	if (m_hint.size() < m_currentWord.size() / 2 && m_currentWord.size() == 0) {
@@ -28,27 +27,27 @@ std::vector<uint8_t> WordHandler::GenerateHint()
 	return m_hint;
 }
 
-void skribbl::WordHandler::AddCustomWord(const std::string& word)
+void WordHandler::AddCustomWord(const std::string& word)
 {
 	m_customWords.push_back(std::make_pair(word, 0));
 }
 
-void skribbl::WordHandler::UpdateCustomWordScore(int16_t score)
+void WordHandler::UpdateCustomWordScore(int16_t score)
 {
 	m_customWords[m_customWordPos].second = score;
 }
 
-uint8_t skribbl::WordHandler::GetNumberCustomWord() const
+uint8_t WordHandler::GetNumberCustomWord() const
 {
 	return m_customWords.size();
 }
 
-bool skribbl::WordHandler::AreCustomWordsLeft() const
+bool WordHandler::AreCustomWordsLeft() const
 {
 	return m_customWordPos < m_customWords.size();
 }
 
-void skribbl::WordHandler::Reset()
+void WordHandler::Reset()
 {
 	if (m_customWordPos < m_customWords.size())
 	{

@@ -39,8 +39,8 @@ namespace skribbl
 		virtual std::string GetWord() const  = 0;
 		virtual std::string GetDrawingPlayer()const  = 0;
 		virtual uint8_t GetTime() const  = 0;
-		virtual std::vector <Answer> GetAnswers() const = 0;
-		virtual std::string GetDrawing() const = 0;
+		virtual const std::vector <Answer>& GetAnswers() const = 0;
+		virtual const std::string& GetDrawing() const = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const = 0;
 		virtual std::string GetState() const = 0;
 		virtual std::vector<std::pair<std::string, int16_t>> GetPlayers() = 0;

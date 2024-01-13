@@ -2,16 +2,8 @@ module timer;
 
 using namespace skribbl;
 
-using namespace std::chrono;
-using namespace std::chrono_literals;
-
-static const milliseconds kRefreshingRate{ 10 };
-static const seconds kDuration{ 60 };
-static const seconds kFirstHintTime{ 30 };
-
 Timer::Timer(const std::function<void()>& callbackEndTurn, const std::function<void()>& callbackHint)
 	: m_isRunning{ false }
-	, m_duration{ kDuration }
 	, m_elapsedTime{ 0s }
 	, m_handleTimeOut{ callbackEndTurn }
 	, m_handleHint{ callbackHint }
@@ -29,6 +21,7 @@ void Timer::Start(uint8_t hintCount)
 	if (m_isRunning)
 		return;
 
+	m_hintCount = hintCount;
 	m_isRunning = true;
 	m_condition.notify_one();
 	m_timerThread = std::thread([this]
@@ -68,6 +61,7 @@ void Timer::Pause()
 
 void Timer::Restart(uint8_t hintCount)
 {
+	m_hintCount = hintCount;
 	m_elapsedTime.store(0s);
 	m_isPaused = false;
 	m_condition.notify_all();
@@ -91,7 +85,7 @@ milliseconds Timer::GetElapsedTime() const
 
 uint8_t Timer::GetRemainingTime() const
 {
-	auto millisecondsRemaining = m_duration.load() - m_elapsedTime.load();
+	auto millisecondsRemaining = kDuration - m_elapsedTime.load();
 	auto secondsRemaining = duration_cast<seconds>(millisecondsRemaining);
 
 	return static_cast<uint8_t>(secondsRemaining.count());
@@ -99,5 +93,5 @@ uint8_t Timer::GetRemainingTime() const
 
 bool Timer::IsTimeUp() const
 {
-	return m_elapsedTime.load().count() >= m_duration.load().count();
+	return m_elapsedTime.load() >= kDuration;
 }

@@ -21,16 +21,18 @@ namespace skribbl
 		Routing& operator=(const Routing& other) = delete;
 		Routing(Routing&& other) noexcept = delete;
 		Routing& operator=(Routing&& other) noexcept = delete;
-		
+
 		void Run();
 
 		static constexpr uint8_t kmaxGamesSupported = 8;
 
 	private:
-		crow::response JoinLobby(const crow::request& req);
-		crow::response StartGame(const crow::request& req);
+		crow::response Login(const crow::request& req);
+		crow::response Register(const crow::request& req);
 		crow::response CreateLobby(const crow::request& req);
-		crow::response GetGameLeaderboard(const crow::request& req);
+		crow::response JoinLobby(const crow::request& req);
+		crow::response AddCustomWord(const crow::request& req);
+		crow::response StartGame(const crow::request& req);
 		crow::response RemovePlayer(const crow::request& req);
 		crow::response ProcessAnswer(const crow::request& req);
 		crow::response ProcessDrawing(const crow::request& req);
@@ -39,14 +41,12 @@ namespace skribbl
 		crow::response GetAnswers(const crow::request& req);
 		crow::response GetDrawingPlayer(const crow::request& req);
 		crow::response GetGameState(const crow::request& req);
-		crow::response Login(const crow::request& req);
-		crow::response Register(const crow::request& req);
 		crow::response GetTime(const crow::request& req);
 		crow::response GetHint(const crow::request& req);
 		crow::response GetGamePlayers(const crow::request& req);
-		crow::response AddCustomWord(const crow::request& req);
+		crow::response GetGameLeaderboard(const crow::request& req);
 
-		crow::response GetGamesHistory(const crow::request& req);
+		crow::response GetGamesHistory(const crow::request& req) const;
 		crow::response GetNumberCustomWord(const crow::request& req);
 
 	private:

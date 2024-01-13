@@ -9,7 +9,7 @@
 #include <QString>
 
 Routing::Routing()
-	: m_url{ "http://localhost:18080" }
+	: m_url{ "http://localhoast:18080" }
 	, m_playerName{ "Not_Initialized" }
 	, m_lobbyCode{ "" }
 	, m_isDrawing{ false }
@@ -29,9 +29,6 @@ bool Routing::SendAnswer(const std::string& answer)
 		}
 	);
 	if (response.status_code == 200 || response.status_code == 201) {
-		auto resp = crow::json::load(response.text);
-		auto our = response.text.find("true") != response.text.npos;
-
 		return true;
 	}
 	return false;

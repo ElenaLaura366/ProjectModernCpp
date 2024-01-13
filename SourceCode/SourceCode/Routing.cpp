@@ -501,7 +501,7 @@ crow::response Routing::GetGamePlayers(const crow::request& req)
 	return crow::json::wvalue{ results };
 }
 
-crow::response skribbl::Routing::GetGamesHistory(const crow::request & req)
+crow::response skribbl::Routing::GetGamesHistory(const crow::request & req) const
 {
 	std::string username = req.url_params.get("username");
 
@@ -511,7 +511,7 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req)
 		results.push_back(crow::json::wvalue{
 			{"playerScore", std::get<0>(history)},
 			{"date", std::get<1>(history)}
-		});
+			});
 	}
 	return crow::json::wvalue{ results };
 }
@@ -531,7 +531,7 @@ crow::response skribbl::Routing::GetNumberCustomWord(const crow::request& req)
 }
 
 
-crow::response skribbl::Routing::AddCustomWord(const crow::request& req)
+crow::response Routing::AddCustomWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	if (m_games.find(lobbyCode) == m_games.end())

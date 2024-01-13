@@ -53,8 +53,8 @@ namespace skribbl
 		std::string GetWord() const override;
 		std::string GetDrawingPlayer() const override;
 		uint8_t GetTime() const override;
-		std::vector <Answer> GetAnswers() const override;
-		std::string GetDrawing() const override;
+		const std::vector <Answer>& GetAnswers() const override;
+		const std::string& GetDrawing() const override;
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;
 		std::vector<std::pair<std::string, int16_t>> GetPlayers() override;
