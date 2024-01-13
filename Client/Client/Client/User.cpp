@@ -22,7 +22,7 @@ void User::setAdmin()
 	m_isAdmin = true;
 }
 
-QString User::getUsername()
+QString User::getUsername() const
 {
 	return m_username;
 }

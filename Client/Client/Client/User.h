@@ -12,7 +12,7 @@ public:
     void setLobbyCode(const std::string& lobbyCode);
     void setAdmin();
 
-    QString getUsername();
+    QString getUsername() const;
     std::optional<QString> getLobbyCode();
 
     void AddGameHistory(int id, int id_game, int points);

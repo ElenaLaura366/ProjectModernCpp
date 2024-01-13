@@ -38,7 +38,7 @@ void WaitingRoom::SetRoomCode(QString lobbyCode)
 	ui->label_2->setText(lobbyCode);
 }
 
-void WaitingRoom::addUserToRoom(User& user)
+void WaitingRoom::addUserToRoom(const User& user)
 {
 	UserWidget* userWidget = new UserWidget(user.getUsername(), this);
 
@@ -48,30 +48,30 @@ void WaitingRoom::addUserToRoom(User& user)
 	ui->listWidget->setItemWidget(item, userWidget);
 }
 
-void WaitingRoom::UpdatePlayerList(std::vector<User>& players)
+void WaitingRoom::UpdatePlayerList(const std::vector<User>& players)
 {
 	ui->listWidget->clear();
-	bool admin = false;
-	for (auto& player : players)
+	m_admin = players[0];
+	for (const auto& player : players)
 	{
-		if (admin == false)
-		{
-			admin = true;
-			player.setAdmin();
-			m_admin = player;
-		}
 		addUserToRoom(player);
 		if (QString::fromLatin1(m_rt->GetPlayerName().data()) == m_admin.getUsername())
 			ui->startGame->setVisible(true);
 		else ui->startGame->setVisible(false);
 	}
-
 }
 
 void WaitingRoom::FetchPlayers()
 {
 	std::vector<User> players = m_rt->GetPlayers();
 	UpdatePlayerList(players);
+}
+
+void WaitingRoom::ResetButtons()
+{
+	ui->lineEdit->clear();
+	ui->lineEdit->setDisabled(false);
+	ui->pushButton->setDisabled(false);
 }
 
 void WaitingRoom::paintEvent(QPaintEvent* e)
