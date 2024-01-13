@@ -435,7 +435,19 @@ crow::response Routing::GetTime(const crow::request& req)
 crow::response Routing::GetHint(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
-	return crow::response(200, m_games[lobbyCode]->GetHint());
+	
+	std::vector<uint8_t> hints = m_games[lobbyCode]->GetHint();
+	
+	std::vector<crow::json::wvalue> results;
+	
+	for (const auto& hint : hints)
+	{
+		results.push_back(crow::json::wvalue{
+			{"wordIndex", hint},
+			});
+	}
+
+	return crow::json::wvalue{results};
 }
 
 crow::response Routing::GetGamePlayers(const crow::request& req)

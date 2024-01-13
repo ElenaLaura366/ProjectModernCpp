@@ -12,30 +12,47 @@ std::string WordHandler::GetWord()
 	return m_currentWord;
 }
 
-std::string WordHandler::GetHint() const
+//std::string WordHandler::GetHint() const
+//{
+//	if (m_currentWord.size() == 0) {
+//		return {};
+//	}
+//
+//	UniqueRandom<int> randomPossitions(m_currentWord.size());
+//
+//	std::string m_hint;
+//	for (char chr : m_currentWord)
+//		m_hint += "_";
+//
+//	for (int index = 0; index < m_currentWord.size()/2;) {
+//		int pos = randomPossitions.GetValue();
+//		char currentCharacter = m_currentWord[pos];
+//		if (currentCharacter != ' ')
+//		{
+//			m_hint[pos] = currentCharacter;
+//			index++;
+//		}
+//	}
+//
+//	return m_hint;
+//}
+
+std::vector<uint8_t> WordHandler::GenerateHint()
 {
-	if (m_currentWord.size() == 0) {
-		return {};
-	}
 
 	UniqueRandom<int> randomPossitions(m_currentWord.size());
 
-	std::string m_hint;
-	for (char chr : m_currentWord)
-		m_hint += "_";
-
-	for (int index = 0; index < m_currentWord.size()/2;) {
+	if (m_hint.size() < m_currentWord.size() / 2 && m_currentWord.size() == 0) {
 		int pos = randomPossitions.GetValue();
-		char currentCharacter = m_currentWord[pos];
-		if (currentCharacter != ' ')
+		if (std::find(m_hint.begin(), m_hint.end(), pos) == m_hint.end())
 		{
-			m_hint[pos] = currentCharacter;
-			index++;
+			m_hint.emplace_back(pos);
 		}
 	}
 
 	return m_hint;
 }
+
 
 void skribbl::WordHandler::AddCustomWord(const std::string& word)
 {
@@ -51,4 +68,5 @@ void skribbl::WordHandler::Reset()
 {
 	int wordPos = 1 + m_ur->GetValue();
 	m_currentWord = m_db.GetWord(wordPos);
+	m_hint.clear();
 }

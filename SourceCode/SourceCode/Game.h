@@ -58,7 +58,7 @@ namespace skribbl
 		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
 		std::string GetState() const override;
 		std::vector<std::pair<std::string, int16_t>> GetPlayers() override;
-		std::string GetHint() const override;
+		std::vector<uint8_t> GetHint() const override;
 		bool HasStarted() const override;
 
 		State GetNextState(State currentState);
