@@ -34,6 +34,7 @@ namespace skribbl
 		virtual void AddAnswer(const std::string& name, const std::string& answer) = 0;
 		virtual void SetDrawing(const std::string& drawing) = 0;
 		virtual void AddCustomWord(const std::string& word) = 0;
+		virtual uint8_t GetNumberCustomWord() = 0;
 
 		virtual std::string GetWord() const  = 0;
 		virtual std::string GetDrawingPlayer()const  = 0;

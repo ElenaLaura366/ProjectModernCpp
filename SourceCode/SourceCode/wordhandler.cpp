@@ -39,7 +39,12 @@ std::string WordHandler::GetHint() const
 
 void skribbl::WordHandler::AddCustomWord(const std::string& word)
 {
-	m_customWords.push_back(std::make_pair(word, 0));//crapa aici
+	m_customWords.push_back(std::make_pair(word, 0));
+}
+
+uint8_t skribbl::WordHandler::GetNumberCustomWord() const
+{
+	return m_customWords.size();
 }
 
 void skribbl::WordHandler::Reset()

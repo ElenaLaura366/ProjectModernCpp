@@ -24,6 +24,7 @@ namespace skribbl
 		std::string GetWord();
 		std::string GetHint() const; // displays the number of characters and several characters from the word
 		void AddCustomWord(const std::string& word);
+		uint8_t GetNumberCustomWord() const;
 
 	private:
 		std::string m_currentWord;

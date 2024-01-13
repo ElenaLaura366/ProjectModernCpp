@@ -188,6 +188,11 @@ void skribbl::Game::AddCustomWord(const std::string& word)
 	m_wordHandler->AddCustomWord(word);
 }
 
+uint8_t skribbl::Game::GetNumberCustomWord()
+{
+	return m_wordHandler->GetNumberCustomWord();
+}
+
 void Game::HandleAllPlayersGuessed()
 {
 	if (m_playerGuessCount != m_players.size() - 1)

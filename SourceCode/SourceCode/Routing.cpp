@@ -227,6 +227,14 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/number_custom_words")
+		.methods(crow::HTTPMethod::GET)(
+			[this](const crow::request& req)
+			{
+				return GetNumberCustomWord(req);
+			}
+	);
+
 	m_app.port(18080).multithreaded().run();
 }
 
@@ -456,6 +464,13 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req)
 		});
 	}
 	return crow::json::wvalue{ results };
+}
+
+crow::response skribbl::Routing::GetNumberCustomWord(const crow::request& req)
+{
+	std::string lobbyCode = req.url_params.get("lobbyCode");
+	uint8_t number = m_games[lobbyCode]->GetNumberCustomWord();
+	return crow::response(201, std::to_string(number));
 }
 
 crow::response skribbl::Routing::AddCustomWord(const crow::request& req)

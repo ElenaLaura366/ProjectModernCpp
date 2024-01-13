@@ -47,6 +47,7 @@ namespace skribbl
 		crow::response AddCustomWord(const crow::request& req);
 
 		crow::response GetGamesHistory(const crow::request& req);
+		crow::response GetNumberCustomWord(const crow::request& req);
 
 	private:
 		crow::SimpleApp m_app;

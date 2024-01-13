@@ -408,3 +408,15 @@ void Routing::SendCustomWord(const std::string& word)
 		}
 	);
 }
+
+uint8_t Routing::GetNumberOfCustomWords() const
+{
+	auto response = cpr::Get(
+		cpr::Url{ m_playerName + "/number_custom_words" },
+		cpr::Parameters{
+			{"username", m_playerName}
+		}
+	);
+
+	return response.text[0] - '0';
+}

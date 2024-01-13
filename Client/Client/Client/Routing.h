@@ -40,6 +40,7 @@ public:
 	std::string GetPlayerName() const;
 	std::vector<GameHistory> GetGamesHistory();
 	void SendCustomWord(const std::string& word);
+	uint8_t GetNumberOfCustomWords() const;
 
 private:
 	std::string m_url;
