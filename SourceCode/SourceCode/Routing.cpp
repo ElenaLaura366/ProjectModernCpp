@@ -313,6 +313,7 @@ crow::response Routing::RemovePlayer(const crow::request& req)
 	{
 		auto it = m_games.find(lobbyCode);
 		m_games.erase(it);
+		m_ur.RemoveValue(std::stoi(lobbyCode));
 	}
 	return crow::response(204);
 }
@@ -325,14 +326,17 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 	std::string playerName = req.url_params.get("playerName");
 	std::string answer = req.url_params.get("answer");
 
-	m_games[lobbyCode]->AddAnswer(playerName, answer);
 
 	crow::json::wvalue jsonResponse;
 	jsonResponse["playerName"] = playerName;
 	if (m_games[lobbyCode]->VerifyAnswer(playerName, answer))
+	{
+		answer = "Has guessed the word!";
 		jsonResponse["hasGuessed"] = true;
+	}
 	else
 		jsonResponse["hasGuessed"] = false;
+	m_games[lobbyCode]->AddAnswer(playerName, answer);
 	return crow::response(200, jsonResponse);
 }
 

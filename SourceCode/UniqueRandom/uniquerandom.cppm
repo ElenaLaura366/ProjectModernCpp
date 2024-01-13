@@ -42,6 +42,10 @@ public:
 
 		m_usedNumber.emplace(m_currentValue);
 	}
+	void RemoveValue(int value)
+	{
+		m_usedNumber.erase(value);
+	}
 
 private:
 	std::random_device m_rand;

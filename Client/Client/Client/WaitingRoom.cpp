@@ -5,7 +5,7 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 	, ui(new Ui::WaitingRoomClass())
 	, m_refreshCount{ 0 }
 	, m_rt{ m_rt }
-	,m_admin{ User() }
+	, m_admin{ User() }
 {
 	ui->setupUi(this);
 	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::OnStartBtnPushed);
@@ -13,17 +13,16 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 }
 
 
-void WaitingRoom::OnStartBtnPushed() 
+void WaitingRoom::OnStartBtnPushed()
 {
-	auto player = m_rt->GetPlayerName();
-	if (player.size() <= 1)
-		QMessageBox::warning(this, "Waiting Room", "Not enough players to start the game.");
+	//if (m_rt->GetPlayers().size() <= 1)
+	//	QMessageBox::warning(this, "Waiting Room", "Not enough players to start the game.");
 	//else
-	//	if (m_rt->GetNumberOfCustomWords() != player.size())
+	//	if (CheckAllCustomWordsAdded() == false)
 	//		QMessageBox::warning(this, "Custom Word", "Not all players have added their custom word yet. Please wait until everyone has finished their input before starting the game.");
-	else
-		if (m_rt->SendStartGame())
-			emit goToGame();
+	//	else
+			if (m_rt->SendStartGame())
+				emit goToGame();
 }
 
 WaitingRoom::~WaitingRoom()
@@ -50,7 +49,7 @@ void WaitingRoom::UpdatePlayerList(std::vector<User>& players)
 {
 	ui->listWidget->clear();
 	bool admin = false;
-	for (auto& player : players) 
+	for (auto& player : players)
 	{
 		if (admin == false)
 		{
@@ -63,7 +62,7 @@ void WaitingRoom::UpdatePlayerList(std::vector<User>& players)
 			ui->startGame->setVisible(true);
 		else ui->startGame->setVisible(false);
 	}
-	
+
 }
 
 void WaitingRoom::FetchPlayers()
@@ -77,7 +76,7 @@ void WaitingRoom::paintEvent(QPaintEvent* e)
 	if (m_refreshCount % kRefreshRate == 0)
 	{
 		FetchPlayers();
-		if(m_rt->GetRound() != kWaitingState)
+		if (m_rt->GetRound() != kWaitingState)
 			emit goToGame();
 	}
 	m_refreshCount++;
@@ -86,11 +85,22 @@ void WaitingRoom::paintEvent(QPaintEvent* e)
 void WaitingRoom::AddCustomWord()
 {
 	QString word = ui->lineEdit->text();
-	if (!word.isEmpty()) 
+	if (!word.isEmpty())
 	{
 		QMessageBox::information(this, "Custom Word", word);
 		ui->lineEdit->setDisabled(true);
 		ui->pushButton->setDisabled(true);
 		m_rt->SendCustomWord(word.toLatin1().data());
+		std::string username = m_rt->GetPlayerName();
+		m_customWords[username] = true;
 	}
+}
+
+bool WaitingRoom::CheckAllCustomWordsAdded() {
+	for (const auto& pair : m_customWords) {
+		if (!pair.second) {
+			return false;
+		}
+	}
+	return true;
 }
