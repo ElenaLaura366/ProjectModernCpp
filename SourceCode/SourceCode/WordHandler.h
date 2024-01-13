@@ -22,7 +22,9 @@ namespace skribbl
 		void Reset();
 		
 		std::string GetWord();
-		std::string GetHint() const; // displays the number of characters and several characters from the word
+		//std::string GetHint() const; // displays the number of characters and several characters from the word
+		std::vector<uint8_t> GenerateHint();
+
 		void AddCustomWord(const std::string& word);
 		uint8_t GetNumberCustomWord() const;
 
@@ -31,5 +33,6 @@ namespace skribbl
 		UniqueRandom<int>::UniqueRandomPtr m_ur;
 		skribbl::Database& m_db;
 		std::vector<std::pair<std::string, int16_t>> m_customWords;
+		std::vector<uint8_t> m_hint;
 	};
 }

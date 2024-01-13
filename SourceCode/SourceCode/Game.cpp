@@ -119,9 +119,9 @@ std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 	return players;
 }
 
-std::string Game::GetHint() const
+std::vector<uint8_t> Game::GetHint() const
 {
-	return "";
+	return m_wordHandler->GenerateHint();
 }
 
 bool skribbl::Game::HasStarted() const

@@ -148,7 +148,7 @@ void Client::HandleRegister() {
 	if (m_rt.SendRegister(username, password) == true) {
 		user.setUsername(username);
 
-		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully, " + user.getUsername());
+		QMessageBox::information(nullptr, " Title", "Your account has been registered successfully, " + user.getUsername());
 		m_loginPage->ChangeToLoginPage();
 		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
