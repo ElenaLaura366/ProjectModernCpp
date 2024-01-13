@@ -46,7 +46,7 @@ std::string skribbl::Database::GetWord(int id)
 	return m_db.select(&Words::m_word, sql::where(sql::c(&Words::m_id) == id)).front();
 }
 
-void skribbl::Database::AddGames(year_month_day date)
+void skribbl::Database::AddGame(year_month_day date)
 {
 	m_db.insert(Games{ -1, date });
 }
@@ -83,7 +83,7 @@ void skribbl::Database::PopulateStorage(const std::string& fileName)
 	std::ifstream fin(fileName);
 	if (!fin.is_open())
 	{
-		throw std::exception("File was unable to be oppened"); // TODO: treat this exception
+		throw std::exception("Unable to oppen file");
 	}
 	else
 	{
@@ -97,39 +97,28 @@ void skribbl::Database::PopulateStorage(const std::string& fileName)
 	}
 }
 
-void skribbl::Database::AddGameHistory(int playerId, int gameId, int points)
+void skribbl::Database::AddGameHistory(std::vector<std::pair<std::string, int16_t>> players)
 {
-	if (!UserExists(playerId)) {
-		throw std::exception("User ID does not exist."); //schimba
-	}
+	AddGame(CurrentDate());
+	int gameID = m_db.last_insert_rowid();
 
-	if (!GameExists(gameId)) {
-		throw std::exception("Game ID does not exist.");
+	for (const auto& player : players)
+	{
+		auto userId = m_db.select(&User::m_id, sql::where(sql::c(&User::m_username) == player.first));
+		if (!userId.empty())
+		{
+			m_db.insert(GameHistory{ -1, userId[0], gameID, player.second});
+		}
 	}
-
-	try {
-		m_db.insert(GameHistory{-1,std::make_unique<int>(playerId) ,std::make_unique<int>(gameId) ,points });
-	}
-	catch (const std::exception& e) {
-		throw std::exception("Error adding game history");
-	}
-}
-
-bool skribbl::Database::UserExists(int userId)
-{
-	return m_db.count<User>(sqlite_orm::where(sqlite_orm::c(&User::m_id) == userId)) > 0;
-}
-
-bool skribbl::Database::GameExists(int gameId)
-{
-	return m_db.count<Games>(sqlite_orm::where(sqlite_orm::c(&Games::m_id) == gameId)) > 0;
 }
 
 std::vector<std::tuple<int, std::string>> skribbl::Database::GetGameHistory(const std::string& username)
 {
 	auto userId = m_db.select(&User::m_id, sql::where(sql::c(&User::m_username) == username));
 
-	std::vector<std::tuple<int, std::string>> gameHistory = m_db.select(sql::columns(&GameHistory::m_points, sql::strftime("%Y-%m-%d", &Games::m_date)), sql::inner_join<Games>(sql::on (sql::c(&GameHistory::m_id_game) == &Games::m_id)));
+	std::vector<std::tuple<int, std::string>> gameHistory = m_db.select(sql::columns(&GameHistory::m_points, sql::strftime("%Y-%m-%d", &Games::m_date)),
+		sql::inner_join<Games>(sql::on (sql::c(&GameHistory::m_id_game) == &Games::m_id)), 
+		sql::where(sql::c(&GameHistory::m_id_player) == userId[0]));
 
 	return gameHistory;
 }

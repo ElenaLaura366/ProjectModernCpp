@@ -29,6 +29,7 @@ namespace skribbl
 		void UpdateCustomWordScore(int16_t score);
 		uint8_t GetNumberCustomWord() const;
 		bool AreCustomWordsLeft() const;
+		void AddCustomWordsToDatabase(uint8_t playersNumber);
 
 	private:
 		std::string m_currentWord;

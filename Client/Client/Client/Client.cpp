@@ -12,10 +12,7 @@ Client::Client(QWidget* parent)
 	this->setFixedSize(1200, 700);
 
 	m_stackedWidget = ui->centralWidget->findChild<QStackedWidget*>("stackedWidget");
-	ui->mainToolBar->hide();
 	ui->menuBar->hide();
-	ui->mainToolBar->setStyleSheet("background: transparent;");
-
 
 	m_loginPage = new LoginPage(this);
 	m_gamePage = new GamePage(this, &m_rt);
@@ -127,7 +124,6 @@ void Client::HandleLogin() {
 		QMessageBox::information(nullptr, "Title", "Hello " + user.getUsername());
 		emit loginButtonClicked();
 		ui->menuUsername->setTitle(user.getUsername());
-		ui->mainToolBar->show();
 		ui->menuBar->show();
 		m_userInfo->DisplayHistory(user.GetGameHistory());
 		ChangeToLobbyPage();
@@ -151,7 +147,6 @@ void Client::HandleRegister() {
 		QMessageBox::information(nullptr, " Title", "Your account has been registered successfully, " + user.getUsername());
 		m_loginPage->ChangeToLoginPage();
 		ui->menuUsername->setTitle(user.getUsername());
-		ui->mainToolBar->show();
 		ui->menuBar->show();
 	}
 	else {

@@ -47,6 +47,15 @@ bool WordHandler::AreCustomWordsLeft() const
 	return m_customWordPos < m_customWords.size();
 }
 
+void skribbl::WordHandler::AddCustomWordsToDatabase(uint8_t playersNumber)
+{
+	for (const auto& word : m_customWords)
+	{
+		if (word.second >= (100 * playersNumber) / 2)
+			m_db.AddCustomWordToDatabase(word.first);
+	}
+}
+
 void WordHandler::Reset()
 {
 	if (m_customWordPos < m_customWords.size())

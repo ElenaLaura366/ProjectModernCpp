@@ -47,6 +47,7 @@ namespace skribbl
 		void SetDrawing(const std::string& drawing) override;
 		void HandleAllPlayersGuessed();
 		void HandleEndTurn();
+		void HandleEndGame();
 		void AddCustomWord(const std::string& word) override;
 		uint8_t GetNumberCustomWord() override;
 

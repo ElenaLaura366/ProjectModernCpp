@@ -31,9 +31,11 @@ public:
 private slots:
 	void OnStartBtnPushed();
 	void AddCustomWord();
+	void OnExitGameBtnClicked();
 
 signals:
 	void goToGame();
+	void ExitGame();
 
 private:
 	Ui::WaitingRoomClass *ui;

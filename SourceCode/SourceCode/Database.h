@@ -120,8 +120,8 @@ namespace skribbl
 
 	struct GameHistory {
 		int m_id;
-		std::unique_ptr<int> m_id_player;
-		std::unique_ptr<int> m_id_game;
+		int m_id_player;
+		int m_id_game;
 		int m_points;
 	};
 
@@ -186,13 +186,11 @@ namespace skribbl
 		int GetNumberOfWords();
 		std::string GetWord(int id);
 
-		void AddGames(year_month_day date);
+		void AddGame(year_month_day date);
 		std::vector<Games> GetGames();
 		year_month_day CurrentDate();
 
-		void AddGameHistory(int playerId, int gameId, int points);
-		bool UserExists(int userId);
-		bool GameExists(int gameId);
+		void AddGameHistory(std::vector<std::pair<std::string, int16_t>> players);
 		std::vector<std::tuple<int, std::string>> GetGameHistory(const std::string& username);
 
 		void AddCustomWordToDatabase(const std::string& word);

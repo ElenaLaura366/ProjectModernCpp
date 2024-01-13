@@ -104,6 +104,19 @@
     <enum>Qt::LeftToRight</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="exitGameBtn">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>30</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit Game</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

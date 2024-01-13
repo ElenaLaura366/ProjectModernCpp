@@ -9,7 +9,7 @@
 #include <QString>
 
 Routing::Routing()
-	: m_url{ "http://localhoast:18080" }
+	: m_url{ "http://localhost:18080" }
 	, m_playerName{ "Not_Initialized" }
 	, m_lobbyCode{ "" }
 	, m_isDrawing{ false }

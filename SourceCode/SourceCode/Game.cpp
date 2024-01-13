@@ -16,7 +16,7 @@ Game::Game(skribbl::Database& db)
 	m_wordHandler = std::make_unique<WordHandler>(m_db);
 }
 
-IGame::IGamePtr IGame::Factory(Database& db)
+IGame::IGamePtr IGame::Factory(skribbl::Database& db)
 {
 	return std::make_unique<Game>(db);
 }
@@ -92,12 +92,12 @@ uint8_t Game::GetTime() const
 	return m_turn->GetRemainingTime();
 }
 
-const std::vector <Answer>& Game::GetAnswers() const
+const std::vector<Answer>& Game::GetAnswers() const
 {
 	return m_answers;
 }
 
-const std::string&  Game::GetDrawing() const
+const std::string& Game::GetDrawing() const
 {
 	return m_drawing;
 }
@@ -123,7 +123,7 @@ std::vector<uint8_t> Game::GetHint() const
 	return m_wordHandler->GenerateHint();
 }
 
-bool Game::HasStarted() const
+bool skribbl::Game::HasStarted() const
 {
 	return m_state != Game::State::WAITING;
 }
@@ -176,7 +176,7 @@ void Game::HandleEndTurn()
 		m_drawingPlayerPossition = 0;
 		if (m_state == Game::State::GAME_OVER)
 		{
-			//HandleEndGame();
+			HandleEndGame();
 			return;
 		}
 	}
@@ -187,12 +187,18 @@ void Game::HandleEndTurn()
 	m_turn->Reset();
 }
 
-void Game::AddCustomWord(const std::string& word)
+void skribbl::Game::HandleEndGame()
+{
+	m_db.AddGameHistory(GetPlayers());
+	m_wordHandler->AddCustomWordsToDatabase(m_players.size());
+}
+
+void skribbl::Game::AddCustomWord(const std::string& word)
 {
 	m_wordHandler->AddCustomWord(word);
 }
 
-uint8_t Game::GetNumberCustomWord()
+uint8_t skribbl::Game::GetNumberCustomWord()
 {
 	return m_wordHandler->GetNumberCustomWord();
 }

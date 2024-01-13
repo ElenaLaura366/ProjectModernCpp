@@ -10,6 +10,7 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 	ui->setupUi(this);
 	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::OnStartBtnPushed);
 	connect(ui->pushButton, &QPushButton::clicked, this, &WaitingRoom::AddCustomWord);
+	connect(ui->exitGameBtn, &QPushButton::clicked, this, &WaitingRoom::OnExitGameBtnClicked);
 }
 
 
@@ -94,4 +95,9 @@ void WaitingRoom::AddCustomWord()
 		ui->pushButton->setDisabled(true);
 		m_rt->SendCustomWord(word.toLatin1().data());
 	}
+}
+
+void WaitingRoom::OnExitGameBtnClicked()
+{
+	//emit ExitGame();
 }

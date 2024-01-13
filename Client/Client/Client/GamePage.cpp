@@ -46,6 +46,7 @@ void GamePage::paintEvent(QPaintEvent* e)
 			m_rt->SendDrawing(m_drawingArea->GetDrawing());
 		else
 			m_drawingArea->SetDrawing(m_rt->GetDrawing());
+		m_refreshCount = 1;
 	}
 
 	m_refreshCount++;
@@ -130,7 +131,6 @@ void GamePage::UpdateEndTurn()
 
 		ui->labelWord->setText(hiddenWord);
 	}
-
 }
 
 void GamePage::OnUndoBtnClicked() {
@@ -156,5 +156,3 @@ void GamePage::ShowLeaderBoard() {
 	m_leaderBoard = new LeaderBoardWidget(this, playersAndScores);
 	m_leaderBoard->show();
 }
-
-

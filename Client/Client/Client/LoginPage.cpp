@@ -119,7 +119,7 @@ bool LoginPage::ValidateInput()
 	}
 
 	if (ui->inputPassword->text() != ui->inputPasswordConfirm->text() && m_windowState == WindowState::REGISTER) {
-		QMessageBox::warning(nullptr, "Register error", "The two passwords are not the same");
+		QMessageBox::warning(nullptr, "Register error", "The passwords doesn't match");
 		return false;
 	}
 
