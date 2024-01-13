@@ -80,6 +80,7 @@ void Client::ChangeToWaitingRoom()
 	}
 
 	QString lobbyCode = optionalLobbyCode.value();
+	m_waitingRoom->ResetButtons();
 	m_waitingRoom->SetRoomCode(lobbyCode);
 	m_stackedWidget->setCurrentWidget(m_waitingRoom);
 }

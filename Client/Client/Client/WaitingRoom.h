@@ -23,9 +23,11 @@ public:
 	WaitingRoom(QWidget *parent = nullptr, Routing* m_rt = nullptr);
 	~WaitingRoom();
 	void SetRoomCode(QString lobbyCode);
-	void addUserToRoom(User& user);
-	void UpdatePlayerList(std::vector<User>& players);
+	void addUserToRoom(const User& user);
+	void UpdatePlayerList(const std::vector<User>& players);
 	void FetchPlayers();
+	void ResetButtons();
+
 	void paintEvent(QPaintEvent* e) override;
 
 private slots:
