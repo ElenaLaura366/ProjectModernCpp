@@ -51,13 +51,13 @@ void LoginPage::ChangeToRegister()
 
 void LoginPage::paintEvent(QPaintEvent* event) {
 	if (m_windowState == WindowState::LOGIN) {
-		ui->title->setText("Please Login in order to enter the game");
+		ui->title->setText("Login in order to play");
 		ui->btnProceed->setText("LOGIN");
 		ui->inputPasswordConfirm->setVisible(false);
 		ui->labelPswConf->setVisible(false);
 	}
 	else {
-		ui->title->setText("Please Register in order to enter the game");
+		ui->title->setText("Register in order to play");
 		ui->btnProceed->setText("REGISTER");
 		ui->inputPasswordConfirm->setVisible(true);
 		ui->labelPswConf->setVisible(true);

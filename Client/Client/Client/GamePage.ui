@@ -16,7 +16,7 @@
   <widget class="QFrame" name="frameChat">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>70</x>
      <y>110</y>
      <width>251</width>
      <height>261</height>
@@ -120,11 +120,16 @@
   <widget class="QLabel" name="labelTime">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>140</x>
      <y>70</y>
      <width>101</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Time: </string>
@@ -133,14 +138,23 @@
   <widget class="QLabel" name="labelRound">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>70</y>
-     <width>101</width>
+     <x>170</x>
+     <y>30</y>
+     <width>161</width>
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>Round</string>
+    <string>Fourth Round</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="undoLastLineBtn">
@@ -159,7 +173,7 @@
   <widget class="QPushButton" name="exitGameBtn">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>70</x>
      <y>30</y>
      <width>75</width>
      <height>24</height>
@@ -185,11 +199,16 @@
   <widget class="QLabel" name="lableSeconds">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>80</y>
-     <width>31</width>
-     <height>16</height>
+     <x>210</x>
+     <y>70</y>
+     <width>41</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>60 s</string>
@@ -198,7 +217,7 @@
   <widget class="QTableWidget" name="leaderBoard">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>100</x>
      <y>370</y>
      <width>199</width>
      <height>199</height>

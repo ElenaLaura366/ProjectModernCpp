@@ -16,11 +16,16 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>90</y>
-     <width>101</width>
-     <height>31</height>
+     <x>440</x>
+     <y>60</y>
+     <width>281</width>
+     <height>121</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Waiting room</string>
@@ -32,8 +37,8 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>640</x>
-     <y>200</y>
+     <x>630</x>
+     <y>240</y>
      <width>431</width>
      <height>121</height>
     </rect>
@@ -68,8 +73,8 @@
   <widget class="QPushButton" name="startGame">
    <property name="geometry">
     <rect>
-     <x>780</x>
-     <y>370</y>
+     <x>770</x>
+     <y>410</y>
      <width>121</width>
      <height>24</height>
     </rect>
@@ -81,11 +86,16 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>160</y>
-     <width>111</width>
-     <height>16</height>
+     <x>320</x>
+     <y>200</y>
+     <width>121</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>GAME_CODE</string>
@@ -94,8 +104,8 @@
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>200</y>
+     <x>160</x>
+     <y>240</y>
      <width>381</width>
      <height>261</height>
     </rect>
@@ -108,13 +118,31 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>30</y>
+     <y>50</y>
      <width>75</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
     <string>Exit Game</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>180</y>
+     <width>141</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Lobby Code:</string>
    </property>
   </widget>
  </widget>

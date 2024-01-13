@@ -128,6 +128,7 @@ void GamePage::UpdateEndTurn()
 
 	if (m_rt->GetIsDrawing()) {
 		ui->labelWord->setText(m_word);
+		ui->chatInput->setDisabled(true);
 	}
 	else {
 		QString hiddenWord;
@@ -135,6 +136,7 @@ void GamePage::UpdateEndTurn()
 			hiddenWord += "_ ";
 
 		ui->labelWord->setText(hiddenWord);
+		ui->chatInput->setDisabled(false);
 	}
 }
 
