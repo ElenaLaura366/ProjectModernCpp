@@ -44,8 +44,8 @@ private:
 	Routing* m_rt;
 	uint m_refreshCount;
 	bool m_leaderBoardShow;
+	QString m_word;
 
 	static const uint8_t kRefreshRate{ 5 };
 	const QString kGameOverState { "Game Over" };
-	const std::unordered_set<QString> kTimeOutValues{ { "0", "60", "59", "58"}};
 };

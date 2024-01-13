@@ -39,8 +39,12 @@ void GamePage::paintEvent(QPaintEvent* e)
 
 		ui->lableSeconds->setText(time);
 
-		if (kTimeOutValues.find(time) != kTimeOutValues.end())
+		auto word = m_rt->GetWord();
+
+		if (word != m_word) {
+			m_word = word;
 			UpdateEndTurn();
+		}
 
 		if (m_rt->GetIsDrawing())
 			m_rt->SendDrawing(m_drawingArea->GetDrawing());
@@ -110,6 +114,7 @@ void GamePage::UpdateChat(const std::vector<QString>& answers) {
 void GamePage::UpdateEndTurn()
 {
 	m_drawingArea->SetIsPlayerDrawing(m_rt->IsDrawingPlayer());
+	m_drawingArea->ResetDrawing();
 
 	QString round = m_rt->GetRound();
 	ui->labelRound->setText(round);
@@ -119,14 +124,14 @@ void GamePage::UpdateEndTurn()
 
 	UpdateLeaderBoard();
 
-	QString word = m_rt->GetWord();
+	m_word = m_rt->GetWord();
 
 	if (m_rt->GetIsDrawing()) {
-		ui->labelWord->setText(word);
+		ui->labelWord->setText(m_word);
 	}
 	else {
 		QString hiddenWord;
-		for (size_t i = 0; i < word.size(); i++)
+		for (size_t i = 0; i < m_word.size(); i++)
 			hiddenWord += "_ ";
 
 		ui->labelWord->setText(hiddenWord);

@@ -153,8 +153,6 @@ void Game::ResetPlayersGuessed()
 
 void Game::HandleEndTurn()
 {
-	// this function is to be given to the timer as a callback so that is being called when the timer runs out
-
 	m_players[m_drawingPlayerPossition]->UpdateScore(m_turn->ScoreDrawingPlayer());
 	for (size_t i = 0; i < m_players.size(); i++)
 	{
@@ -182,6 +180,7 @@ void Game::HandleEndTurn()
 	}
 
 	ResetPlayersGuessed();
+	m_drawing.clear();
 	m_wordHandler->Reset();
 	m_turn->SetCurrentWord(m_wordHandler->GetWord());
 	m_turn->Reset();
