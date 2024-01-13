@@ -1,16 +1,20 @@
 ﻿#include "DrawingAreaWidget.h"
+#include <QPalette>
 
 DrawingAreaWidget::DrawingAreaWidget(QWidget* parent)
 	: QWidget{ parent }
 	, m_isMousePressed{ false }
 	, m_isPlayerDrawing{ false }
 {
-	// empty
+	QPalette pal = palette();
+	pal.setColor(QPalette::Window, Qt::white);
+	setAutoFillBackground(true);
+	setPalette(pal);
 }
 
 void DrawingAreaWidget::UndoLastLine()
 {
-	if (!m_drawing.empty()) {
+	if (m_isPlayerDrawing && !m_drawing.empty()) {
 		m_drawing.pop_back();
 		update();
 	}
@@ -18,8 +22,10 @@ void DrawingAreaWidget::UndoLastLine()
 
 void DrawingAreaWidget::ResetDrawing()
 {
-	m_drawing.clear();
-	update();
+	if (m_isPlayerDrawing) {
+		m_drawing.clear();
+		update();
+	}
 }
 
 const DrawingConfig& DrawingAreaWidget::GetDrawing() const
@@ -69,7 +75,6 @@ void DrawingAreaWidget::paintEvent(QPaintEvent* event) {
 	Q_UNUSED(event);
 
 	QPainter painter(this);
-	painter.fillRect(rect(), QColor(255, 255, 255));
 
 	if (!m_drawing.empty()) {
 		for (const auto& line : m_drawing)
