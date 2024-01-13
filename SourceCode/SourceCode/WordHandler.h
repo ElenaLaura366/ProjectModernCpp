@@ -26,7 +26,9 @@ namespace skribbl
 		std::vector<uint8_t> GenerateHint();
 
 		void AddCustomWord(const std::string& word);
+		void UpdateCustomWordScore(int16_t score);
 		uint8_t GetNumberCustomWord() const;
+		bool AreCustomWordsLeft() const;
 
 	private:
 		std::string m_currentWord;
@@ -34,5 +36,6 @@ namespace skribbl
 		skribbl::Database& m_db;
 		std::vector<std::pair<std::string, int16_t>> m_customWords;
 		std::vector<uint8_t> m_hint;
+		int m_customWordPos;
 	};
 }

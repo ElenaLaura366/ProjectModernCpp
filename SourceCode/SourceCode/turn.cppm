@@ -28,17 +28,19 @@ namespace skribbl
 		void Reset();
 		
 		bool VerifyGuess(const std::string& guess);
-		int8_t ScoreGuessingPlayer() const;
-		int8_t GetMinimGuessingScore() const;
-		int8_t ScoreDrawingPlayer() const;
+		int16_t ScoreGuessingPlayer();
+		int16_t GetMinimGuessingScore();
+		int16_t ScoreDrawingPlayer();
 		uint8_t AvrageAnswerTime() const;
 		bool IsOver() const;
 		uint8_t GetRemainingTime() const;
 		void SetCurrentWord(const std::string& word);
+		int16_t GetTurnScore() const;
 
 	private:
 		std::unique_ptr<Timer> m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
 		std::string m_currentWord;
+		int m_turnScore;
 	};
 }

@@ -48,7 +48,6 @@ Game::State Game::GetNextState(State currentState)
 void Game::Start()
 {
 	m_turn = std::make_unique<Turn>([this]() {HandleEndTurn(); }, [this]() {GetHint(); });
-	//m_wordHandler = std::make_unique<WordHandler>(m_db);
 
 	m_state = Game::State::FIRST_ROUND;
 
@@ -163,6 +162,11 @@ void Game::HandleEndTurn()
 		{
 			m_players[i]->UpdateScore(m_turn->GetMinimGuessingScore());
 		}
+	}
+
+	if (m_wordHandler->AreCustomWordsLeft())
+	{
+		m_wordHandler->UpdateCustomWordScore(m_turn->GetTurnScore());
 	}
 
 	m_drawingPlayerPossition++;

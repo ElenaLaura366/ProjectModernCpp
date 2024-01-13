@@ -243,7 +243,6 @@ crow::response Routing::JoinLobby(const crow::request& req)
 	std::lock_guard lock{ m_mutex };
 
 	std::string lobbyCode = req.url_params.get("lobbyCode");
-
 	if (m_games.find(lobbyCode) == m_games.end())
 		return crow::response(404, "Lobby not found!");
 
@@ -262,6 +261,8 @@ crow::response Routing::JoinLobby(const crow::request& req)
 crow::response Routing::StartGame(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
 
 	m_games[lobbyCode]->Start();
 
@@ -288,6 +289,8 @@ crow::response Routing::CreateLobby(const crow::request& req)
 crow::response Routing::GetGameLeaderboard(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
 
 	std::vector<crow::json::wvalue> results;
 	for (const auto& comp : m_games[lobbyCode]->GetLeaderboard())
@@ -305,6 +308,9 @@ crow::response Routing::RemovePlayer(const crow::request& req)
 	std::lock_guard lock{ m_mutex };
 
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	std::string playerName = req.url_params.get("playerName");
 
 	m_games[lobbyCode]->RemovePlayer(playerName);
@@ -323,6 +329,9 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 	std::lock_guard lock{ m_mutex };
 
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	std::string playerName = req.url_params.get("playerName");
 	std::string answer = req.url_params.get("answer");
 
@@ -343,6 +352,9 @@ crow::response Routing::ProcessAnswer(const crow::request& req)
 crow::response Routing::ProcessDrawing(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	auto drawing = req.url_params.get("drawing");
 	m_games[lobbyCode]->SetDrawing(req.url_params.get("drawing"));
 	return crow::response(200);
@@ -351,6 +363,9 @@ crow::response Routing::ProcessDrawing(const crow::request& req)
 crow::response Routing::GetDrawing(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	std::string drawingStr = m_games[lobbyCode]->GetDrawing();
 	return crow::response(200, drawingStr);
 }
@@ -358,6 +373,9 @@ crow::response Routing::GetDrawing(const crow::request& req)
 crow::response Routing::GetWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	std::string playerName = req.url_params.get("playerName");
 
 	return crow::response(200, m_games[lobbyCode]->GetWord());
@@ -366,6 +384,9 @@ crow::response Routing::GetWord(const crow::request& req)
 crow::response Routing::GetAnswers(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 
 	std::vector<crow::json::wvalue> answers_json;
 	auto answers = m_games[lobbyCode]->GetAnswers();
@@ -384,12 +405,18 @@ crow::response Routing::GetAnswers(const crow::request& req)
 crow::response Routing::GetDrawingPlayer(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	return crow::response(200, m_games[lobbyCode]->GetDrawingPlayer());
 }
 
 crow::response Routing::GetGameState(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	return crow::response(200, m_games[lobbyCode]->GetState());
 }
 
@@ -429,12 +456,17 @@ crow::response Routing::Register(const crow::request& req)
 crow::response Routing::GetTime(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	return crow::response(200, std::to_string(m_games[lobbyCode]->GetTime()));
 }
 
 crow::response Routing::GetHint(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
 	
 	std::vector<uint8_t> hints = m_games[lobbyCode]->GetHint();
 	
@@ -453,6 +485,8 @@ crow::response Routing::GetHint(const crow::request& req)
 crow::response Routing::GetGamePlayers(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
 
 	std::vector<std::pair<std::string, int16_t>> players = m_games[lobbyCode]->GetPlayers();
 
@@ -485,6 +519,9 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req)
 crow::response skribbl::Routing::GetNumberCustomWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	uint8_t number = m_games[lobbyCode]->GetNumberCustomWord();
 
 	crow::json::wvalue jsonResponse;
@@ -497,6 +534,9 @@ crow::response skribbl::Routing::GetNumberCustomWord(const crow::request& req)
 crow::response skribbl::Routing::AddCustomWord(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
 	std::string word = req.url_params.get("word");
 	m_games[lobbyCode]->AddCustomWord(word);//in game
 
