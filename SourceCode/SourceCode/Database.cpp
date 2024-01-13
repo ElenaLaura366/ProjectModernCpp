@@ -136,5 +136,6 @@ std::vector<std::tuple<int, std::string>> skribbl::Database::GetGameHistory(cons
 
 void skribbl::Database::AddCustomWordToDatabase(const std::string& word)
 {
-	m_db.insert(Words{ -1, word });
+	if(m_db.count<Words>(sql::where(sql::c(&Words::m_word) == word)) == 0)
+		m_db.insert(Words{ -1, word });
 }

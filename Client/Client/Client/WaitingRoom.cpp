@@ -13,8 +13,14 @@ WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
 }
 
 
-void WaitingRoom::OnStartBtnPushed() {
-	if(m_rt->SendStartGame())
+void WaitingRoom::OnStartBtnPushed() 
+{
+	if (m_rt->GetPlayers().size() <= 1)
+		QMessageBox::warning(this, "Waiting Room", "Not enough players to start the game.");
+	else
+		if (CheckAllCustomWordsAdded() == false)
+			QMessageBox::warning(this, "Custom Word", "Not all players have added their custom word yet. Please wait until everyone has finished their input before starting the game.");
+	else
 		emit goToGame();
 }
 
@@ -84,5 +90,16 @@ void WaitingRoom::AddCustomWord()
 		ui->lineEdit->setDisabled(true);
 		ui->pushButton->setDisabled(true);
 		m_rt->SendCustomWord(word.toLatin1().data());
+		std::string username = m_rt->GetPlayerName();
+		m_customWords[username] = true;
 	}
+}
+
+bool WaitingRoom::CheckAllCustomWordsAdded() {
+	for (const auto& pair : m_customWords) {
+		if (!pair.second) {
+			return false;
+		}
+	}
+	return true;
 }

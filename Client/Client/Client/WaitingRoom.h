@@ -45,6 +45,9 @@ private:
 	User m_admin;
 	const QString kWaitingState{ "Waiting" };
 
+	std::unordered_map<std::string, bool> m_customWords;
+
 private:
 	bool ValidateInput();
+	bool CheckAllCustomWordsAdded();
 };
