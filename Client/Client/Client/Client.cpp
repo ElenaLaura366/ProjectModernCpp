@@ -149,7 +149,7 @@ void Client::HandleRegister() {
 		user.setUsername(username);
 
 		QMessageBox::information(nullptr, "Title", "Your account has been registered successfully, " + user.getUsername());
-		emit loginButtonClicked(); 
+		m_loginPage->ChangeToLoginPage();
 		ui->menuUsername->setTitle(user.getUsername());
 		ui->mainToolBar->show();
 		ui->menuBar->show();

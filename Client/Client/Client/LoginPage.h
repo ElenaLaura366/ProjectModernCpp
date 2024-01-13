@@ -22,6 +22,7 @@ public:
 	~LoginPage();
 
 	Ui::LoginPageClass* GetUi();
+	void ChangeToLoginPage();
 
 protected:     
 	void paintEvent(QPaintEvent* event) override;

@@ -26,6 +26,11 @@ Ui::LoginPageClass* LoginPage::GetUi()
 	return ui;
 }
 
+void LoginPage::ChangeToLoginPage()
+{
+	m_windowState = WindowState::LOGIN;
+}
+
 void LoginPage::ChangeToLogin()
 {
 	if (m_windowState != WindowState::LOGIN) {
