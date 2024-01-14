@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "Database.h"
+#include <ranges>
 import uniquerandom;
 
 namespace skribbl
@@ -22,14 +23,15 @@ namespace skribbl
 		void Reset();
 		void ResetToInitialState();
 		
-		std::string GetWord();
-		std::vector<uint8_t> GenerateHint();
-
 		void AddCustomWord(const std::string& word);
-		void UpdateCustomWordScore(int16_t score);
-		uint8_t GetNumberCustomWord() const;
-		bool AreCustomWordsLeft() const;
 		void AddCustomWordsToDatabase(uint8_t playersNumber);
+		void UpdateCustomWordScore(int16_t score);
+		
+		bool AreCustomWordsLeft() const;
+		const std::string& GetWord();
+		const std::vector<uint8_t>& GenerateHint();
+
+		uint8_t GetNumberCustomWord() const;
 
 
 	private:

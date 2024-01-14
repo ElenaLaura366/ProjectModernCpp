@@ -57,6 +57,12 @@ void Player::setGuessed(bool guessed)
 	m_guessed = guessed;
 }
 
+void skribbl::Player::Reset()
+{
+	m_score = 0;
+	m_guessed = false;
+}
+
 bool Player::HasGuessed() const
 {
 	return m_guessed;

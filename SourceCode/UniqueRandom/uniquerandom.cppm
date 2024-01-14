@@ -21,7 +21,7 @@ public:
 		Reset();
 	}
 
-	void SetRange(int number)
+	void SetLimit(int number)
 	{
 		m_dist = std::uniform_int_distribution<int>(0, number - 1);
 	}

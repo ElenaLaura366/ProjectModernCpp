@@ -187,7 +187,6 @@ namespace skribbl
 		std::string GetWord(int id);
 
 		void AddGame(year_month_day date);
-		std::vector<Games> GetGames();
 		year_month_day CurrentDate();
 
 		void AddGameHistory(const std::vector<std::pair<std::string, int16_t>>& players);

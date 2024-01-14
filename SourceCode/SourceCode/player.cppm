@@ -26,6 +26,7 @@ namespace skribbl
 		void SetUsername(const std::string& username);
 		void UpdateScore(int8_t score);
 		void setGuessed(bool guessed);
+		void Reset();
 		bool HasGuessed() const;
 
 	private:

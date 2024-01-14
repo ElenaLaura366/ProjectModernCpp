@@ -7,12 +7,12 @@ skribbl::WordHandler::WordHandler(skribbl::Database& db) : m_db{ db }, m_current
 	m_ur = std::make_unique<UniqueRandom<int>>(m_db.GetNumberOfWords());
 }
 
-std::string WordHandler::GetWord()
+const std::string& WordHandler::GetWord()
 {
 	return m_currentWord;
 }
 
-std::vector<uint8_t> WordHandler::GenerateHint()
+const std::vector<uint8_t>& WordHandler::GenerateHint()
 {
 	UniqueRandom<int> randomPossitions(m_currentWord.size());
 

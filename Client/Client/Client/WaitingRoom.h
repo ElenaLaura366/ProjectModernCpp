@@ -33,7 +33,6 @@ public:
 private slots:
 	void OnStartBtnPushed();
 	void AddCustomWord();
-	void OnExitGameBtnClicked();
 
 signals:
 	void goToGame();

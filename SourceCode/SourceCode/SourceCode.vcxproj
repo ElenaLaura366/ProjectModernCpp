@@ -207,6 +207,9 @@
       <Project>{2aaad372-a886-4cd8-adee-a0b7b10ab4f1}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="database.sqlite" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

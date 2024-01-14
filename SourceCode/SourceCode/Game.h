@@ -50,6 +50,7 @@ namespace skribbl
 		void HandleEndTurn();
 		void HandleEndGame();
 		void AddCustomWord(const std::string& word) override;
+		void ResetPlayers();
 		uint8_t GetNumberCustomWord() override;
 
 		std::string GetWord() const override;

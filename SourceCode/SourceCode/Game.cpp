@@ -14,6 +14,7 @@ Game::Game(skribbl::Database& db)
 {
 	m_players.reserve(kMaxPlayersNumber);
 	m_wordHandler = std::make_unique<WordHandler>(m_db);
+	m_turn = std::make_unique<Turn>([this]() {HandleEndTurn(); }, [this]() {GetHint(); });
 }
 
 IGame::IGamePtr IGame::Factory(skribbl::Database& db)
@@ -47,10 +48,8 @@ Game::State Game::GetNextState(State currentState)
 
 void Game::Start()
 {
-	m_turn = std::make_unique<Turn>([this]() {HandleEndTurn(); }, [this]() {GetHint(); });
-
+	ResetPlayers();
 	m_state = Game::State::FOURTH_ROUND;
-
 	m_drawingPlayerPossition = 0;
 	m_wordHandler->Reset();
 	m_turn->SetCurrentWord(m_wordHandler->GetWord());
@@ -63,7 +62,7 @@ void Game::Reset()
 	m_wordHandler->ResetToInitialState();
 	m_answers.clear();
 	m_playerGuessCount = 0;
-	m_drawingPlayerPossition = kMaxPlayersNumber;
+	m_drawingPlayerPossition = 0;
 	m_drawing.clear();
 }
 
@@ -199,13 +198,21 @@ void Game::HandleEndTurn()
 void Game::HandleEndGame()
 {
 	//m_turn->StopTimer();
-	//m_db.AddGameHistory(GetPlayers());
+	m_db.AddGameHistory(GetPlayers());
 	m_wordHandler->AddCustomWordsToDatabase(m_players.size());
 }
 
 void Game::AddCustomWord(const std::string& word)
 {
 	m_wordHandler->AddCustomWord(word);
+}
+
+void Game::ResetPlayers()
+{
+	for (auto& player : m_players)
+	{
+		player->Reset();
+	}
 }
 
 uint8_t Game::GetNumberCustomWord()

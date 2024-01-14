@@ -51,11 +51,6 @@ void skribbl::Database::AddGame(year_month_day date)
 	m_db.insert(Games{ -1, date });
 }
 
-std::vector<skribbl::Games> skribbl::Database::GetGames()
-{
-	return m_db.get_all<Games>();
-}
-
 year_month_day skribbl::Database::CurrentDate()
 {
 	auto now = system_clock::now();
@@ -100,14 +95,16 @@ void skribbl::Database::PopulateStorage(const std::string& fileName)
 void skribbl::Database::AddGameHistory(const std::vector<std::pair<std::string, int16_t>>& players)
 {
 	AddGame(CurrentDate());
-	int gameID = m_db.last_insert_rowid();
+	auto games = m_db.get_all<Games>();
+	int gameID = games[games.size() - 1].m_id;
 
 	for (const auto& player : players)
 	{
-		auto userId = m_db.select(&User::m_id, sql::where(sql::c(&User::m_username) == player.first));
-		if (!userId.empty())
+		auto userIds = m_db.select(&User::m_id, sql::where(sql::c(&User::m_username) == player.first));
+		if (!userIds.empty())
 		{
-			m_db.insert(GameHistory{ -1, userId[0], gameID, player.second});
+			int userId = userIds[0];
+			m_db.insert(GameHistory{ -1, userId, gameID, player.second});
 		}
 	}
 }

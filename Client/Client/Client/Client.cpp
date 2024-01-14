@@ -28,7 +28,6 @@ Client::Client(QWidget* parent)
 	setCentralWidget(m_stackedWidget);
 
 	connect(m_lobbyPage, &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
-	//connect(m_lobbyPage, &LobbyPage::goToGamePage, this, &Client::ChangeToGamePage);
 	connect(m_lobbyPage, &LobbyPage::SendCreateLobbyToServer, this, &Client::HandleCreateLobby);
 	connect(m_lobbyPage, &LobbyPage::SendJoinLobbyToServer, this, &Client::HandleJoinLobby);
 	connect(m_gamePage, &GamePage::SendAnswerToServer, this, &Client::HandleAnswer);

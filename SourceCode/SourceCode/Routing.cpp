@@ -3,7 +3,7 @@ using namespace skribbl;
 
 skribbl::Routing::Routing(skribbl::Database& db) : m_db(db)
 {
-	m_ur.SetRange(kmaxGamesSupported);
+	m_ur.SetLimit(kmaxGamesSupported);
 }
 
 void skribbl::Routing::Run()
