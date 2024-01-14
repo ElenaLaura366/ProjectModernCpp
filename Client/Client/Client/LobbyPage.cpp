@@ -1,10 +1,9 @@
 #include "LobbyPage.h"
 #include <QMessageBox>
 
-LobbyPage::LobbyPage(QWidget* parent, std::shared_ptr<Routing> rt)
+LobbyPage::LobbyPage(QWidget *parent)
 	: QWidget{ parent }
 	, ui{ new Ui::LobbyClass() }
-	, m_rt{ rt }
 {
 	ui->setupUi(this);
 
@@ -23,36 +22,27 @@ Ui::LobbyClass* LobbyPage::GetUi()
 	return ui;
 }
 
+void LobbyPage::ChangeToGamePage()
+{
+	emit goToGamePage();
+}
+
 void LobbyPage::ChangeToLoginPage()
 {
-	emit GoToLoginPage();
+	emit goToLoginPage();
 }
 
 void LobbyPage::OnJoinLobbyClicked()
 {
-	if (ui->lobbyCode->text().isEmpty()) {
+	if (ui->lobbyCode->text().isEmpty())
+	{
 		QMessageBox::warning(nullptr, "Title", "LobbyCode field is null");
 		return;
 	}
-
-	std::string lobbyCode = ui->lobbyCode->text().toUtf8().constData();
-	if (!m_rt->SendJoinLobby(lobbyCode)) {
-		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not joined.");
-		return;
-	} 
-	else {
-		GoToWaitingRoom();
-	}
+	emit SendJoinLobbyToServer();
 }
 
 void LobbyPage::OnCreateLobbyClicked()
 {
-	std::string lobbyName = m_rt->GetPlayerName();
-
-	if (!m_rt->SendCreateLobby(lobbyName)) {
-		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not created."); //de revizuit
-	}
-	else {
-		GoToWaitingRoom();
-	}
+	emit SendCreateLobbyToServer();
 }

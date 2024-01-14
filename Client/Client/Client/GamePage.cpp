@@ -11,7 +11,7 @@ GamePage::GamePage(QWidget* parent, std::shared_ptr<Routing> rt)
 {
 	ui->setupUi(this);
 	ui->labelWord->setStyleSheet("font-size: 40px;");
-	m_drawingArea = std::make_unique<DrawingAreaWidget>(ui->drawingArea);
+	m_drawingArea = ui->drawingArea;
 
 	connect(ui->sendAnswerBtn, &QPushButton::clicked, this, &GamePage::OnSendAnswerBtnClicked);
 	connect(ui->undoLastLineBtn, &QPushButton::clicked, this, &GamePage::OnUndoBtnClicked);
@@ -83,7 +83,6 @@ void GamePage::OnSendAnswerBtnClicked() {
 
 	if (!m_rt->SendAnswer(answer.toUtf8().constData()))
 		QMessageBox::information(nullptr, "Server Conection Problem", "Answert not sent.");
-	ui->chatInput->clear();
 }
 
 void GamePage::UpdateLeaderBoard()
@@ -166,7 +165,7 @@ void GamePage::OnExitGameBtnClicked() {
 	emit ExitGame();
 }
 
-void GamePage::UpdateHint(const std::vector<uint8_t>& hintIndexs)
+void GamePage::UpdateHint(std::vector<uint8_t> hintIndexs)
 {
 	QString hiddenWord;
 
@@ -182,7 +181,7 @@ void GamePage::UpdateHint(const std::vector<uint8_t>& hintIndexs)
 void GamePage::ShowLeaderBoard() {
 	std::vector<std::pair<QString, int16_t>> playersAndScores = m_rt->GetLeaderBoard();
 
-	m_leaderBoard = std::make_unique<LeaderBoardWidget>(this, playersAndScores);
+	m_leaderBoard = new LeaderBoardWidget(this, playersAndScores);
 	m_leaderBoard->show();
 	emit HandleEndGame();
 }

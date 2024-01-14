@@ -18,6 +18,134 @@ Routing::Routing()
 }
 
 
+bool Routing::SendLogin(const std::string& username, const std::string& password) {
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/login" },
+		cpr::Parameters{
+			{"username", username},
+			{"password", password}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201) {
+		m_playerName = response.text;
+		return true;
+	}
+
+	return false;
+}
+
+bool Routing::SendRegister(const std::string& username, const std::string& password) {
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/register" },
+		cpr::Parameters{
+			{"username", username},
+			{"password", password}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201) {
+		m_playerName = response.text;
+		return true;
+	}
+
+	return false;
+}
+
+bool Routing::SendCreateLobby(const std::string& username)
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/create_lobby" },
+		cpr::Parameters{
+			{"playerName", username}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201) {
+		m_lobbyCode = response.text;
+		return true;
+	}
+
+	return false;
+}
+
+
+bool Routing::SendJoinLobby(const std::string lobbyCode)
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/join_lobby" },
+		cpr::Parameters{
+			{"lobbyCode", lobbyCode},
+			{"playerName", m_playerName}
+		}
+	);
+
+	if (response.status_code == 200 || response.status_code == 201) {
+		m_lobbyCode = lobbyCode;
+		return true;
+	}
+
+	return false;
+}
+
+void Routing::SendCustomWord(const std::string& word)
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/custom_word" },
+		cpr::Parameters{
+			{ "lobbyCode", m_lobbyCode },
+			{ "word", word }
+		}
+	);
+}
+
+bool Routing::SendStartGame()
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/start" },
+		cpr::Parameters{
+			{"lobbyCode", m_lobbyCode}
+		}
+	);
+
+	if (response.status_code == 204)
+		return true;
+	return false;
+}
+
+bool Routing::ResetGame() const
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/reset" },
+		cpr::Parameters{
+			{ "lobbyCode",  m_lobbyCode}
+		}
+	);
+	if (response.status_code == 204) {
+		return true;
+	}
+	return false;
+}
+
+bool Routing::ExitGame()
+{
+	if (m_lobbyCode != "x") {
+
+		auto response = cpr::Put(
+			cpr::Url{ m_url + "/remove" },
+			cpr::Parameters{
+				{ "lobbyCode",  m_lobbyCode},
+				{ "playerName", m_playerName },
+			}
+		);
+		if (response.status_code == 204) {
+			m_lobbyCode = "x";
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Routing::SendAnswer(const std::string& answer)
 {
 	auto response = cpr::Put(
@@ -34,45 +162,40 @@ bool Routing::SendAnswer(const std::string& answer)
 	return false;
 }
 
-bool Routing::SendGameHistory(const std::vector<GameHistory>& gameHistory)
+void Routing::SendDrawing(const DrawingConfig& drawing)
 {
-	// send game history
-	
-
-
-	return false;
-}
-
-QString Routing::GetTime()
-{
-	cpr::Response response = cpr::Get(
-		cpr::Url{ m_url + "/get_time" },
-		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
-	);
-
-	return QString::fromLatin1(response.text.data());
-}
-
-std::vector<QString> Routing::GetAnswers()
-{
-	cpr::Response response = cpr::Get(
-		cpr::Url{ m_url + "/get_answers" },
-		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
-	);
-
-	if (response.status_code == 204)
-		return std::vector<QString>();
-
-	std::vector<QString> answerList;
-	auto answers = crow::json::load(response.text);
-	for (auto answer : answers)
+	std::string drawingStr;
+	for (const auto& line : drawing)
 	{
-		std::string mess = std::string(answer["playerName"]);
-		std::string message = mess + ": " + std::string(answer["answer"]);
-		QString text = QString::fromLatin1(message.data());
-		answerList.push_back(text);
+		for (const auto& point : line)
+		{
+			drawingStr.append(std::to_string(point.x()));
+			drawingStr.append(" ");
+			drawingStr.append(std::to_string(point.y()));
+			drawingStr.append(" ");
+		}
+		drawingStr.append("/");
 	}
-	return answerList;
+
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/send_drawing" },
+		cpr::Parameters{
+			{ "lobbyCode", m_lobbyCode },
+			{ "drawing", drawingStr }
+		}
+	);
+}
+
+QString Routing::GetWord() const
+{
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/get_word" },
+		cpr::Parameters{
+			{ "lobbyCode", m_lobbyCode },
+			{ "playerName", m_playerName }
+		}
+	);
+	return QString::fromLatin1(response.text.data());
 }
 
 DrawingConfig Routing::GetDrawing()
@@ -112,51 +235,26 @@ DrawingConfig Routing::GetDrawing()
 	return std::move(result);
 }
 
-QString Routing::GetWord() const
+std::vector<QString> Routing::GetAnswers()
 {
-	auto response = cpr::Get(
-		cpr::Url{ m_url + "/get_word" },
-		cpr::Parameters{
-			{ "lobbyCode", m_lobbyCode },
-			{ "playerName", m_playerName }
-		}
+	cpr::Response response = cpr::Get(
+		cpr::Url{ m_url + "/get_answers" },
+		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
 	);
-	return QString::fromLatin1(response.text.data());
-}
 
-std::vector<uint8_t> Routing::GetHint() const
-{
-	auto response = cpr::Get(
-		cpr::Url{ m_url + "/get_hint" },
-		cpr::Parameters{
-			{ "lobbyCode", m_lobbyCode },
-		}
-	);
-	std::vector<uint8_t> hints;
-	
-	for (const auto& el : response.text) {
-		hints.push_back(static_cast<int>(el));
+	if (response.status_code == 204)
+		return std::vector<QString>();
+
+	std::vector<QString> answerList;
+	auto answers = crow::json::load(response.text);
+	for (auto answer : answers)
+	{
+		std::string mess = std::string(answer["playerName"]);
+		std::string message = mess + ": " + std::string(answer["answer"]);
+		QString text = QString::fromLatin1(message.data());
+		answerList.push_back(text);
 	}
-
-	return hints;
-}
-
-QString Routing::GetRound() const
-{
-	auto response = cpr::Get(
-		cpr::Url{ m_url + "/game_state" },
-		cpr::Parameters{
-			{ "lobbyCode", m_lobbyCode },
-		}
-	);
-	if (response.status_code == 200)
-		return QString::fromLatin1(response.text.data());
-	return QString("No Server Answer");
-}
-
-QString Routing::GetPlayer() const
-{
-	return  QString::fromUtf8(m_playerName.c_str());
+	return answerList;
 }
 
 bool Routing::IsDrawingPlayer()
@@ -180,154 +278,44 @@ bool Routing::IsDrawingPlayer()
 	}
 }
 
-void Routing::SendDrawing(const DrawingConfig& drawing)
+QString Routing::GetRound() const
 {
-	std::string drawingStr;
-	for (const auto& line : drawing)
-	{
-		for (const auto& point : line)
-		{
-			drawingStr.append(std::to_string(point.x()));
-			drawingStr.append(" ");
-			drawingStr.append(std::to_string(point.y()));
-			drawingStr.append(" ");
-		}
-		drawingStr.append("/");
-	}
-
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/send_drawing" },
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/game_state" },
 		cpr::Parameters{
 			{ "lobbyCode", m_lobbyCode },
-			{ "drawing", drawingStr }
 		}
 	);
+	if (response.status_code == 200)
+		return QString::fromLatin1(response.text.data());
+	return QString("No Server Answer");
 }
 
-bool Routing::GetIsDrawing() const
+QString Routing::GetTime()
 {
-	return m_isDrawing;
+	cpr::Response response = cpr::Get(
+		cpr::Url{ m_url + "/get_time" },
+		cpr::Parameters{ { {"lobbyCode"}, m_lobbyCode } }
+	);
+
+	return QString::fromLatin1(response.text.data());
 }
 
-bool Routing::ResetGame() const
+std::vector<uint8_t> Routing::GetHint() const
 {
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/reset" },
+	auto response = cpr::Get(
+		cpr::Url{ m_url + "/get_hint" },
 		cpr::Parameters{
-			{ "lobbyCode",  m_lobbyCode}
+			{ "lobbyCode", m_lobbyCode },
 		}
 	);
-	if (response.status_code == 204) {
-		return true;
-	}
-	return false;
-}
-
-bool Routing::ExitGame()
-{
-	if (m_lobbyCode != "x") {
-
-		auto response = cpr::Put(
-			cpr::Url{ m_url + "/remove" },
-			cpr::Parameters{
-				{ "lobbyCode",  m_lobbyCode},
-				{ "playerName", m_playerName },
-			}
-		);
-		if (response.status_code == 204) {
-			m_lobbyCode = "x";
-			return true;
-		}
-	}
-	return false;
-}
-
-std::string Routing::GetLobbyCode() const
-{
-	return m_lobbyCode;
-}
-
-bool Routing::SendStartGame()
-{
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/start" },
-		cpr::Parameters{
-			{"lobbyCode", m_lobbyCode}
-		}
-	);
-
-	if (response.status_code == 204)
-		return true;
-	return false;
-}
-
-bool Routing::SendLogin(const std::string& username, const std::string& password) {
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/login" },
-		cpr::Parameters{
-			{"username", username},
-			{"password", password}
-		}
-	);
-
-	if (response.status_code == 200 || response.status_code == 201) {
-		m_playerName = response.text;
-		return true;
+	std::vector<uint8_t> hints;
+	
+	for (const auto& el : response.text) {
+		hints.push_back(static_cast<int>(el));
 	}
 
-	return false;
-}
-
-bool Routing::SendRegister(const std::string& username, const std::string& password) {
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/register" },
-		cpr::Parameters{
-			{"username", username},
-			{"password", password}
-		}
-	);
-
-	if (response.status_code == 200 || response.status_code == 201) {
-		m_playerName = response.text;
-		return true;
-	}
-
-	return false;
-}
-
-bool Routing::SendJoinLobby(const std::string lobbyCode)
-{
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/join_lobby" },
-		cpr::Parameters{
-			{"lobbyCode", lobbyCode},
-			{"playerName", m_playerName}
-		}
-	);
-
-	if (response.status_code == 200 || response.status_code == 201) {
-		m_lobbyCode = lobbyCode;
-		return true;
-	}
-
-	return false;
-}
-
-bool Routing::SendCreateLobby(const std::string& username)
-{
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/create_lobby" },
-		cpr::Parameters{
-			{"playerName", username}
-		}
-	);
-
-	if (response.status_code == 200 || response.status_code == 201) {
-		m_lobbyCode = response.text;
-		return true;
-	}
-
-	return false;
+	return hints;
 }
 
 std::vector<QString> Routing::GetPlayers()
@@ -352,7 +340,7 @@ std::vector<QString> Routing::GetPlayers()
 		players.push_back(player);
 	}
 
-	return std::move(players);
+	return players;
 }
 
 std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
@@ -378,12 +366,7 @@ std::vector<std::pair<QString, int16_t>> Routing::GetLeaderBoard()
 		leaderBoard.emplace_back(playerName, score);
 	}
 
-	return std::move(leaderBoard);
-}
-
-std::string Routing::GetPlayerName() const
-{
-	return m_playerName;
+	return leaderBoard;
 }
 
 std::vector<GameHistory> Routing::GetGamesHistory()
@@ -412,30 +395,19 @@ std::vector<GameHistory> Routing::GetGamesHistory()
 	return gameHistory;
 }
 
-void Routing::SendCustomWord(const std::string& word)
-{
-	auto response = cpr::Put(
-		cpr::Url{ m_url + "/custom_word" },
-		cpr::Parameters{
-			{ "lobbyCode", m_lobbyCode },
-			{ "word", word }
-		}
-	);
-}
-
-uint8_t Routing::GetNumberOfCustomWords() const
+uint8_t Routing::GetCustomWordsCount() const
 {
 	auto response = cpr::Get(
-		cpr::Url{ m_url + "/number_custom_words" },
+		cpr::Url{ m_url + "/custom_words_count" },
 		cpr::Parameters{
 			{"lobbyCode", m_lobbyCode}
 		}
 	);
 
-	if (response.status_code == 200) 
+	if (response.status_code == 200)
 	{
 		auto jsonResponse = crow::json::load(response.text);
-		if (jsonResponse) 
+		if (jsonResponse)
 		{
 			auto numberCustomWords = jsonResponse["numberCustomWords"].u();
 			return static_cast<uint8_t>(numberCustomWords);
@@ -445,3 +417,17 @@ uint8_t Routing::GetNumberOfCustomWords() const
 	return 0;
 }
 
+std::string Routing::GetPlayerName() const
+{
+	return m_playerName;
+}
+
+std::string Routing::GetLobbyCode() const
+{
+	return m_lobbyCode;
+}
+
+bool Routing::GetIsDrawing() const
+{
+	return m_isDrawing;
+}

@@ -15,7 +15,7 @@ WaitingRoom::WaitingRoom(QWidget* parent, std::shared_ptr<Routing> rt)
 void WaitingRoom::OnStartBtnPushed()
 {
 	auto players = m_rt->GetPlayers();
-	auto nrCustomWords = m_rt->GetNumberOfCustomWords();
+	auto nrCustomWords = m_rt->GetCustomWordsCount();
 	if (players.size() <= 1)
 		QMessageBox::warning(this, "Waiting Room", "Not enough players to start the game.");
 	else
