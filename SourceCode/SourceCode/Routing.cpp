@@ -234,7 +234,7 @@ void skribbl::Routing::Run()
 			}
 	);
 
-	CROW_ROUTE(m_app, "/number_custom_words")
+	CROW_ROUTE(m_app, "/custom_words_count")
 		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
 			{
