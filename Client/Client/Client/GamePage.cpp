@@ -83,6 +83,7 @@ void GamePage::OnSendAnswerBtnClicked() {
 
 	if (!m_rt->SendAnswer(answer.toUtf8().constData()))
 		QMessageBox::information(nullptr, "Server Conection Problem", "Answert not sent.");
+	ui->chatInput->clear();
 }
 
 void GamePage::UpdateLeaderBoard()

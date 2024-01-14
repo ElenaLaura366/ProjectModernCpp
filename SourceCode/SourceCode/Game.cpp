@@ -25,7 +25,7 @@ IGame::IGamePtr IGame::Factory(skribbl::Database& db)
 void Game::Start()
 {
 	ResetPlayers();
-	m_state = Game::State::FOURTH_ROUND;
+	m_state = Game::State::FIRST_ROUND;
 	m_drawingPlayerPossition = 0;
 	m_wordHandler->Reset();
 	m_turn->SetCurrentWord(m_wordHandler->GetWord());
@@ -42,6 +42,24 @@ void Game::Restart()
 	m_drawing.clear();
 }
 
+std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard() const
+{
+	std::vector<std::pair<std::string, int16_t>> leaderboard;
+	leaderboard.reserve(m_players.size());
+
+	for (const auto& player : m_players)
+	{
+		leaderboard.push_back({ player->GetUsername(), player->GetScore() });
+	}
+
+	std::ranges::sort(leaderboard, [](const std::pair<std::string, int16_t>& firstPlayer, const std::pair<std::string, int16_t>& secondPlayer)
+		{
+			return firstPlayer.second > secondPlayer.second;
+		}
+	);
+
+	return leaderboard;
+}
 void Game::RemovePlayer(const std::string& name)
 {
 	std::erase_if(m_players, [&name, this](const Player::PlayerPtr& player)
@@ -56,6 +74,10 @@ void Game::RemovePlayer(const std::string& name)
 		});
 }
 
+const std::vector<Answer>& Game::GetAnswers() const
+{
+	return m_answers;
+}
 bool Game::AddPlayer(const std::string& name)
 {
 	if (m_players.size() < kMaxPlayersNumber)
@@ -65,6 +87,7 @@ bool Game::AddPlayer(const std::string& name)
 	}
 	return false;
 }
+
 
 void Game::AddAnswer(const std::string& name, const std::string& answer)
 {
@@ -104,10 +127,6 @@ bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
 	return false;
 }
 
-const std::vector<Answer>& Game::GetAnswers() const
-{
-	return m_answers;
-}
 
 const std::vector<uint8_t>& Game::GetHint() const
 {
@@ -124,24 +143,6 @@ const std::string& Game::GetDrawing() const
 	return m_drawing;
 }
 
-std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard() const
-{
-	std::vector<std::pair<std::string, int16_t>> leaderboard;
-	leaderboard.reserve(m_players.size());
-
-	for (const auto& player : m_players)
-	{
-		leaderboard.push_back({ player->GetUsername(), player->GetScore() });
-	}
-
-	std::ranges::sort(leaderboard, [](const std::pair<std::string, int16_t>& firstPlayer, const std::pair<std::string, int16_t>& secondPlayer)
-		{
-			return firstPlayer.second > secondPlayer.second;
-		}
-	);
-
-	return leaderboard;
-}
 
 std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 {
