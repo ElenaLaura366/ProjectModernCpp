@@ -24,21 +24,20 @@ namespace skribbl
 		void ResetToInitialState();
 		
 		void AddCustomWord(const std::string& word);
-		void AddCustomWordsToDatabase(uint8_t playersNumber);
-		void UpdateCustomWordScore(int16_t score);
-		
+		void AddCustomWordToDatabase();
+
 		bool AreCustomWordsLeft() const;
 		const std::string& GetWord();
 		const std::vector<uint8_t>& GenerateHint();
 
-		uint8_t GetNumberCustomWord() const;
+		uint8_t GetCustomWordsCount() const;
 
 
 	private:
 		std::string m_currentWord;
 		UniqueRandom<int>::UniqueRandomPtr m_ur;
 		skribbl::Database& m_db;
-		std::vector<std::pair<std::string, int16_t>> m_customWords;
+		std::vector<std::string> m_customWords;
 		std::vector<uint8_t> m_hint;
 		int m_customWordPos;
 	};

@@ -25,6 +25,7 @@ public:
 	{
 		m_dist = std::uniform_int_distribution<int>(0, number - 1);
 	}
+
 	T GetValue() {
 		int current = m_currentValue;
 		Reset();
@@ -34,6 +35,7 @@ public:
 		else if constexpr (std::is_same<T, int>::value)
 			return m_currentValue;
 	}
+
 	void Reset() {
 		do
 		{
@@ -42,10 +44,12 @@ public:
 
 		m_usedNumber.emplace(m_currentValue);
 	}
+
 	void RemoveValue(int value)
 	{
 		m_usedNumber.erase(value);
 	}
+
 	void ResetToInitialState()
 	{
 		m_usedNumber.clear();

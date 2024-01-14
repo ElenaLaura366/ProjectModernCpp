@@ -16,18 +16,21 @@ namespace skribbl
 	public:
 		Player();
 		Player(const std::string& username);
-		Player(const Player& player);
-		Player& operator=(const Player& other);
+		Player(const Player& player) = delete;
+		Player& operator=(const Player& other) = delete;
 		Player(Player&& player) noexcept = default;
 		Player& operator=(Player&& player) noexcept = default;
 
-		int16_t GetScore() const;
-		std::string GetUsername() const;
-		void SetUsername(const std::string& username);
-		void UpdateScore(int8_t score);
-		void setGuessed(bool guessed);
 		void Reset();
+
+		void SetUsername(const std::string& username);
+		void SetGuessed(bool guessed);
+		void UpdateScore(int8_t score);
+		
 		bool HasGuessed() const;
+		
+		int16_t GetScore() const;
+		const std::string& GetUsername() const;
 
 	private:
 		std::string m_username;

@@ -48,7 +48,7 @@ namespace skribbl
 		crow::response GetGameLeaderboard(const crow::request& req);
 
 		crow::response GetGamesHistory(const crow::request& req) const;
-		crow::response GetNumberCustomWord(const crow::request& req);
+		crow::response GetCustomWordsCount(const crow::request& req);
 
 	private:
 		crow::SimpleApp m_app;

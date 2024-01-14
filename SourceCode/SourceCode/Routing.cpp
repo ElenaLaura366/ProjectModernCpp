@@ -238,7 +238,7 @@ void skribbl::Routing::Run()
 		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
 			{
-				return GetNumberCustomWord(req);
+				return GetCustomWordsCount(req);
 			}
 	);
 
@@ -534,13 +534,13 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req) cons
 	return crow::json::wvalue{ results };
 }
 
-crow::response skribbl::Routing::GetNumberCustomWord(const crow::request& req)
+crow::response skribbl::Routing::GetCustomWordsCount(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	if (m_games.find(lobbyCode) == m_games.end())
 		return crow::response(404, "Game not found!");
 
-	uint8_t number = m_games[lobbyCode]->GetNumberCustomWord();
+	uint8_t number = m_games[lobbyCode]->GetCustomWordsCount();
 
 	crow::json::wvalue jsonResponse;
 	jsonResponse["numberCustomWords"] = number;

@@ -39,7 +39,30 @@ void Turn::StopTimer()
 	m_timer->Stop();
 }
 
-int16_t Turn::ScoreGuessingPlayer()
+void Turn::SetCurrentWord(const std::string& word)
+{
+	m_currentWord = word;
+}
+
+bool Turn::IsOver() const
+{
+	return m_timer->IsTimeUp();
+}
+
+bool Turn::VerifyGuess(const std::string& guess)
+{
+	if (guess == m_currentWord)
+	{
+		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer->GetElapsedTime());
+		uint8_t time = timeInSeconds.count();
+		m_answerTimestamps.push_back(time);
+		return true;
+	}
+	else
+		return false;
+}
+
+int16_t Turn::GetGuessingPlayerScore()
 {
 	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer->GetElapsedTime());
 	uint8_t time = timeInSeconds.count();
@@ -61,7 +84,7 @@ uint8_t Turn::AvrageAnswerTime() const
 	return std::accumulate(m_answerTimestamps.begin(), m_answerTimestamps.end(), 0.0) / m_answerTimestamps.size();
 }
 
-int16_t Turn::ScoreDrawingPlayer()
+int16_t Turn::GetDrawingPlayerScore()
 {
 	int16_t score;
 	if (m_answerTimestamps.size() != 0)
@@ -75,32 +98,9 @@ int16_t Turn::ScoreDrawingPlayer()
 	return score;
 }
 
-bool Turn::VerifyGuess(const std::string& guess)
-{
-	if (guess == m_currentWord)
-	{
-		std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer->GetElapsedTime());
-		uint8_t time = timeInSeconds.count();
-		m_answerTimestamps.push_back(time);
-		return true;
-	}
-	else
-		return false;
-}
-
-bool Turn::IsOver() const
-{
-	return m_timer->IsTimeUp();
-}
-
 uint8_t Turn::GetRemainingTime() const
 {
 	return m_timer->GetRemainingTime();
-}
-
-void Turn::SetCurrentWord(const std::string& word)
-{
-	m_currentWord = word;
 }
 
 int16_t Turn::GetTurnScore() const

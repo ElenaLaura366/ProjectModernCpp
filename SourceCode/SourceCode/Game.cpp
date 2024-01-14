@@ -155,14 +155,14 @@ void Game::ResetPlayersGuessed()
 {
 	for (auto& player : m_players)
 	{
-		player->setGuessed(false);
+		player->SetGuessed(false);
 	}
 	m_playerGuessCount = 0;
 }
 
 void Game::HandleEndTurn()
 {
-	m_players[m_drawingPlayerPossition]->UpdateScore(m_turn->ScoreDrawingPlayer());
+	m_players[m_drawingPlayerPossition]->UpdateScore(m_turn->GetDrawingPlayerScore());
 	for (size_t i = 0; i < m_players.size(); i++)
 	{
 		if (!m_players[i]->HasGuessed() && i != m_drawingPlayerPossition)
@@ -173,7 +173,8 @@ void Game::HandleEndTurn()
 
 	if (m_wordHandler->AreCustomWordsLeft())
 	{
-		m_wordHandler->UpdateCustomWordScore(m_turn->GetTurnScore());
+		if (m_turn->GetTurnScore() >= 100 * m_players.size() / 2)
+			m_wordHandler->AddCustomWordToDatabase();
 	}
 
 	m_drawingPlayerPossition++;
@@ -199,7 +200,6 @@ void Game::HandleEndGame()
 {
 	//m_turn->StopTimer();
 	m_db.AddGameHistory(GetPlayers());
-	m_wordHandler->AddCustomWordsToDatabase(m_players.size());
 }
 
 void Game::AddCustomWord(const std::string& word)
@@ -215,9 +215,9 @@ void Game::ResetPlayers()
 	}
 }
 
-uint8_t Game::GetNumberCustomWord()
+uint8_t Game::GetCustomWordsCount()
 {
-	return m_wordHandler->GetNumberCustomWord();
+	return m_wordHandler->GetCustomWordsCount();
 }
 
 void Game::HandleAllPlayersGuessed()
@@ -236,7 +236,7 @@ bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
 		{
 			if (player->GetUsername() == name)
 			{
-				player->UpdateScore(m_turn->ScoreGuessingPlayer());
+				player->UpdateScore(m_turn->GetGuessingPlayerScore());
 				m_playerGuessCount++;
 				HandleAllPlayersGuessed();
 				return true;
