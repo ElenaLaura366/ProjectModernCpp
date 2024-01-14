@@ -29,8 +29,8 @@ namespace skribbl
 		
 		bool HasGuessed() const;
 		
-		int16_t GetScore() const;
 		const std::string& GetUsername() const;
+		int16_t GetScore() const;
 
 	private:
 		std::string m_username;

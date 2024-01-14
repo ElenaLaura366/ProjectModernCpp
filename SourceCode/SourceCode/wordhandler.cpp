@@ -48,11 +48,6 @@ bool WordHandler::AreCustomWordsLeft() const
 	return m_customWordPos <= m_customWords.size();
 }
 
-const std::string& WordHandler::GetWord()
-{
-	return m_currentWord;
-}
-
 const std::vector<uint8_t>& WordHandler::GenerateHint()
 {
 	UniqueRandom<int> randomPossitions(m_currentWord.size());
@@ -65,6 +60,11 @@ const std::vector<uint8_t>& WordHandler::GenerateHint()
 		}
 	}
 	return m_hint;
+}
+
+const std::string& WordHandler::GetWord()
+{
+	return m_currentWord;
 }
 
 uint8_t WordHandler::GetCustomWordsCount() const

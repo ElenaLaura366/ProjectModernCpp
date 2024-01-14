@@ -41,9 +41,9 @@ namespace skribbl
 		uint8_t GetRemainingTime() const;
 
 	private:
-		std::unique_ptr<Timer> m_timer;
 		std::vector<uint8_t> m_answerTimestamps;
 		std::string m_currentWord;
+		std::unique_ptr<Timer> m_timer;
 		int m_turnScore;
 	};
 }

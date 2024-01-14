@@ -21,6 +21,12 @@ public:
 		Reset();
 	}
 
+	void ResetToInitialState()
+	{
+		m_usedNumber.clear();
+		m_currentValue = 0;
+	}
+
 	void SetLimit(int number)
 	{
 		m_dist = std::uniform_int_distribution<int>(0, number - 1);
@@ -49,13 +55,7 @@ public:
 	{
 		m_usedNumber.erase(value);
 	}
-
-	void ResetToInitialState()
-	{
-		m_usedNumber.clear();
-		m_currentValue = 0;
-	}
-
+	
 private:
 	std::random_device m_rand;
 	std::uniform_int_distribution<int> m_dist;

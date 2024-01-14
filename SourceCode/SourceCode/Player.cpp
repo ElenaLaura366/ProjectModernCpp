@@ -41,12 +41,12 @@ bool Player::HasGuessed() const
 	return m_guessed;
 }
 
-int16_t Player::GetScore() const
-{
-	return m_score;
-}
-
 const std::string& Player::GetUsername() const
 {
 	return m_username;
+}
+
+int16_t Player::GetScore() const
+{
+	return m_score;
 }

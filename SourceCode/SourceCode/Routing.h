@@ -54,7 +54,7 @@ namespace skribbl
 		crow::SimpleApp m_app;
 		std::unordered_map<std::string, IGame::IGamePtr> m_games;
 		skribbl::Database& m_db;
-		UniqueRandom<std::string> m_ur;
+		UniqueRandom<std::string>::UniqueRandomPtr m_ur;
 		std::mutex m_mutex;
 	};
 }

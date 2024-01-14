@@ -22,6 +22,108 @@ IGame::IGamePtr IGame::Factory(skribbl::Database& db)
 	return std::make_unique<Game>(db);
 }
 
+void Game::Start()
+{
+	ResetPlayers();
+	m_state = Game::State::FOURTH_ROUND;
+	m_drawingPlayerPossition = 0;
+	m_wordHandler->Reset();
+	m_turn->SetCurrentWord(m_wordHandler->GetWord());
+	m_turn->Start();
+}
+
+void Game::Restart()
+{
+	m_state = Game::State::WAITING;
+	m_wordHandler->ResetToInitialState();
+	m_answers.clear();
+	m_playerGuessCount = 0;
+	m_drawingPlayerPossition = 0;
+	m_drawing.clear();
+}
+
+void Game::RemovePlayer(const std::string& name)
+{
+	std::erase_if(m_players, [&name, this](const Player::PlayerPtr& player)
+		{
+			if (player->GetUsername() == name)
+			{
+				if (player->HasGuessed())
+					m_playerGuessCount--;
+				return true;
+			}
+			return false;
+		});
+}
+
+bool Game::AddPlayer(const std::string& name)
+{
+	if (m_players.size() < kMaxPlayersNumber)
+	{
+		m_players.push_back(std::make_unique<Player>(name));
+		return true;
+	}
+	return false;
+}
+
+void Game::AddAnswer(const std::string& name, const std::string& answer)
+{
+	m_answers.emplace_back(name, answer);
+}
+
+void Game::AddCustomWord(const std::string& word)
+{
+	m_wordHandler->AddCustomWord(word);
+}
+
+void Game::SetDrawing(const std::string& drawing)
+{
+	m_drawing = drawing;
+}
+
+bool skribbl::Game::HasStarted() const
+{
+	return m_state != Game::State::WAITING;
+}
+
+bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
+{
+	if (m_turn->VerifyGuess(answer))
+	{
+		for (auto& player : m_players)
+		{
+			if (player->GetUsername() == name)
+			{
+				player->UpdateScore(m_turn->GetGuessingPlayerScore());
+				m_playerGuessCount++;
+				HandleAllPlayersGuessed();
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+const std::vector<Answer>& Game::GetAnswers() const
+{
+	return m_answers;
+}
+
+const std::vector<uint8_t>& Game::GetHint() const
+{
+	return m_wordHandler->GenerateHint();
+}
+
+const std::string& Game::GetWord() const
+{
+	return m_wordHandler->GetWord();
+}
+
+const std::string& Game::GetDrawing() const
+{
+	return m_drawing;
+}
+
 std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard() const
 {
 	std::vector<std::pair<std::string, int16_t>> leaderboard;
@@ -41,82 +143,6 @@ std::vector<std::pair<std::string, int16_t>> Game::GetLeaderboard() const
 	return leaderboard;
 }
 
-Game::State Game::GetNextState(State currentState)
-{
-	return static_cast<State>(static_cast<int>(currentState) + 1);
-}
-
-void Game::Start()
-{
-	ResetPlayers();
-	m_state = Game::State::FOURTH_ROUND;
-	m_drawingPlayerPossition = 0;
-	m_wordHandler->Reset();
-	m_turn->SetCurrentWord(m_wordHandler->GetWord());
-	m_turn->Start();
-}
-
-void Game::Reset()
-{
-	m_state = Game::State::WAITING;
-	m_wordHandler->ResetToInitialState();
-	m_answers.clear();
-	m_playerGuessCount = 0;
-	m_drawingPlayerPossition = 0;
-	m_drawing.clear();
-}
-
-bool Game::AddPlayer(const std::string& name)
-{
-	if (m_players.size() < kMaxPlayersNumber)
-	{
-		m_players.push_back(std::make_unique<Player>(name));
-		return true;
-	}
-	return false;
-}
-
-void Game::AddAnswer(const std::string& name, const std::string& answer)
-{
-	m_answers.emplace_back(name, answer);
-}
-
-void Game::SetDrawing(const std::string& drawing)
-{
-	m_drawing = drawing;
-}
-
-std::string Game::GetWord() const
-{
-	return m_wordHandler->GetWord();
-}
-
-std::string Game::GetDrawingPlayer() const
-{
-	return (m_drawingPlayerPossition < m_players.size()) ? m_players[m_drawingPlayerPossition]->GetUsername() : "\0";
-}
-
-uint8_t Game::GetTime() const
-{
-	return m_turn->GetRemainingTime();
-}
-
-const std::vector<Answer>& Game::GetAnswers() const
-{
-	return m_answers;
-}
-
-const std::string& Game::GetDrawing() const
-{
-	return m_drawing;
-}
-
-std::string Game::GetState() const
-{
-	std::vector<std::string> states{ "Waiting" , "First Round","Second Round", "Third Round" , "Fourth Round", "Game Over" };
-	return states[static_cast<int>(m_state)];
-}
-
 std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 {
 	std::vector<std::pair<std::string, int16_t>> players;
@@ -127,28 +153,33 @@ std::vector<std::pair<std::string, int16_t>> Game::GetPlayers()
 	return players;
 }
 
-std::vector<uint8_t> Game::GetHint() const
+std::string Game::GetDrawingPlayer() const
 {
-	return m_wordHandler->GenerateHint();
+	return (m_drawingPlayerPossition < m_players.size()) ? m_players[m_drawingPlayerPossition]->GetUsername() : "\0";
 }
 
-bool skribbl::Game::HasStarted() const
+std::string Game::GetState() const
 {
-	return m_state != Game::State::WAITING;
+	std::vector<std::string> states{ "Waiting" , "First Round","Second Round", "Third Round" , "Fourth Round", "Game Over" };
+	return states[static_cast<int>(m_state)];
 }
 
-void Game::RemovePlayer(const std::string& name)
+uint8_t Game::GetTime() const
 {
-	std::erase_if(m_players, [&name, this](const Player::PlayerPtr& player)
-		{
-			if (player->GetUsername() == name)
-			{
-				if (player->HasGuessed())
-					m_playerGuessCount--;
-				return true;
-			}
-			return false;
-		});
+	return m_turn->GetRemainingTime();
+}
+
+uint8_t Game::GetCustomWordsCount()
+{
+	return m_wordHandler->GetCustomWordsCount();
+}
+
+void Game::ResetPlayers()
+{
+	for (auto& player : m_players)
+	{
+		player->Reset();
+	}
 }
 
 void Game::ResetPlayersGuessed()
@@ -158,6 +189,14 @@ void Game::ResetPlayersGuessed()
 		player->SetGuessed(false);
 	}
 	m_playerGuessCount = 0;
+}
+
+void Game::HandleAllPlayersGuessed()
+{
+	if (m_playerGuessCount != m_players.size() - 1)
+		return;
+
+	HandleEndTurn();
 }
 
 void Game::HandleEndTurn()
@@ -202,46 +241,7 @@ void Game::HandleEndGame()
 	m_db.AddGameHistory(GetPlayers());
 }
 
-void Game::AddCustomWord(const std::string& word)
+Game::State Game::GetNextState(State currentState)
 {
-	m_wordHandler->AddCustomWord(word);
-}
-
-void Game::ResetPlayers()
-{
-	for (auto& player : m_players)
-	{
-		player->Reset();
-	}
-}
-
-uint8_t Game::GetCustomWordsCount()
-{
-	return m_wordHandler->GetCustomWordsCount();
-}
-
-void Game::HandleAllPlayersGuessed()
-{
-	if (m_playerGuessCount != m_players.size() - 1)
-		return;
-
-	HandleEndTurn();
-}
-
-bool Game::VerifyAnswer(const std::string& name, const std::string& answer)
-{
-	if (m_turn->VerifyGuess(answer))
-	{
-		for (auto& player : m_players)
-		{
-			if (player->GetUsername() == name)
-			{
-				player->UpdateScore(m_turn->GetGuessingPlayerScore());
-				m_playerGuessCount++;
-				HandleAllPlayersGuessed();
-				return true;
-			}
-		}
-	}
-	return false;
+	return static_cast<State>(static_cast<int>(currentState) + 1);
 }

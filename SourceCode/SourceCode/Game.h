@@ -1,5 +1,4 @@
 #pragma once
-
 #include <algorithm>
 #include <ranges>
 #include "IGame.h"
@@ -39,42 +38,48 @@ namespace skribbl
 		Game& operator=(Game&& otherGame) noexcept = default;
 
 		void Start() override;
-		void Reset() override;
+		void Restart() override;
+		
 		void RemovePlayer(const std::string& name) override;
-		void ResetPlayersGuessed();
-		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
 		bool AddPlayer(const std::string& name) override;
+		
 		void AddAnswer(const std::string& name, const std::string& answer) override;
+		void AddCustomWord(const std::string& word) override;
 		void SetDrawing(const std::string& drawing) override;
+		
+		bool HasStarted() const override;
+		bool VerifyAnswer(const std::string& name,const std::string& answer) override;
+		
+		const std::vector <Answer>& GetAnswers() const override;
+		const std::vector<uint8_t>& GetHint() const override;
+		const std::string& GetWord() const override;
+		const std::string& GetDrawing() const override;
+		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
+		std::vector<std::pair<std::string, int16_t>> GetPlayers() override;
+		std::string GetDrawingPlayer() const override;
+		std::string GetState() const override;
+		uint8_t GetTime() const override;
+		uint8_t GetCustomWordsCount() override;
+		
+	private:
+		void ResetPlayers();
+		void ResetPlayersGuessed();
+		
 		void HandleAllPlayersGuessed();
 		void HandleEndTurn();
 		void HandleEndGame();
-		void AddCustomWord(const std::string& word) override;
-		void ResetPlayers();
-		uint8_t GetCustomWordsCount() override;
-
-		std::string GetWord() const override;
-		std::string GetDrawingPlayer() const override;
-		uint8_t GetTime() const override;
-		const std::vector <Answer>& GetAnswers() const override;
-		const std::string& GetDrawing() const override;
-		std::vector<std::pair<std::string, int16_t>> GetLeaderboard() const override;
-		std::string GetState() const override;
-		std::vector<std::pair<std::string, int16_t>> GetPlayers() override;
-		std::vector<uint8_t> GetHint() const override;
-		bool HasStarted() const override;
-
+		
 		State GetNextState(State currentState);
 		
 	private:
+		skribbl::Database& m_db;
 		std::vector<Player::PlayerPtr> m_players;
+		std::vector<Answer> m_answers;
+		std::string m_drawing;
+		WordHandler::WordHandlerPtr m_wordHandler;
 		Turn::TurnPtr m_turn;
 		State m_state;
 		uint8_t m_playerGuessCount;
-		std::vector<Answer> m_answers;
-		std::string m_drawing;
 		uint8_t m_drawingPlayerPossition;
-		skribbl::Database& m_db;
-		WordHandler::WordHandlerPtr m_wordHandler;
 	};
 }

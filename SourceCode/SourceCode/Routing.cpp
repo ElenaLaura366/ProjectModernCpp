@@ -3,7 +3,7 @@ using namespace skribbl;
 
 skribbl::Routing::Routing(skribbl::Database& db) : m_db(db)
 {
-	m_ur.SetLimit(kmaxGamesSupported);
+	m_ur = std::make_unique<UniqueRandom<std::string>>(kmaxGamesSupported);
 }
 
 void skribbl::Routing::Run()
@@ -282,7 +282,7 @@ crow::response skribbl::Routing::ResetGame(const crow::request& req)
 	if (m_games.find(lobbyCode) == m_games.end())
 		return crow::response(404, "Game not found!");
 
-	m_games[lobbyCode]->Reset();
+	m_games[lobbyCode]->Restart();
 	return crow::response(204);
 }
 
@@ -293,7 +293,7 @@ crow::response Routing::CreateLobby(const crow::request& req)
 	if (m_games.size() == kmaxGamesSupported)
 		return crow::response(503, "Server full!");
 
-	std::string lobbyCode = m_ur.GetValue();
+	std::string lobbyCode = m_ur->GetValue();
 
 	m_games[lobbyCode] = IGame::Factory(m_db);
 
@@ -336,7 +336,7 @@ crow::response Routing::RemovePlayer(const crow::request& req)
 	{
 		auto it = m_games.find(lobbyCode);
 		m_games.erase(it);
-		m_ur.RemoveValue(std::stoi(lobbyCode));
+		m_ur->RemoveValue(std::stoi(lobbyCode));
 	}
 	return crow::response(204);
 }
