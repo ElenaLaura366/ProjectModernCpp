@@ -1,8 +1,9 @@
 #include "GamePage.h"
 #include <QKeyEvent>
 #include <QTableWidgetItem>
+#include <QMessageBox>
 
-GamePage::GamePage(QWidget* parent, Routing* rt)
+GamePage::GamePage(QWidget* parent, std::shared_ptr<Routing> rt)
 	: QWidget{ parent }
 	, ui{ new Ui::GamePageClass() }
 	, m_refreshCount{ 0 }
@@ -79,7 +80,9 @@ void GamePage::OnSendAnswerBtnClicked() {
 	QString answer = ui->chatInput->text();
 	if (answer.isEmpty())
 		return;
-	emit SendAnswerToServer();
+
+	if (!m_rt->SendAnswer(answer.toUtf8().constData()))
+		QMessageBox::information(nullptr, "Server Conection Problem", "Answert not sent.");
 }
 
 void GamePage::UpdateLeaderBoard()

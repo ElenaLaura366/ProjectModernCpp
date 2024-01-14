@@ -72,7 +72,7 @@ std::vector<QString> Routing::GetAnswers()
 		QString text = QString::fromLatin1(message.data());
 		answerList.push_back(text);
 	}
-	return std::move(answerList);
+	return answerList;
 }
 
 DrawingConfig Routing::GetDrawing()
@@ -295,7 +295,7 @@ bool Routing::SendRegister(const std::string& username, const std::string& passw
 	return false;
 }
 
-bool Routing::SendJoinLobby(std::string lobbyCode)
+bool Routing::SendJoinLobby(const std::string lobbyCode)
 {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/join_lobby" },
@@ -313,7 +313,7 @@ bool Routing::SendJoinLobby(std::string lobbyCode)
 	return false;
 }
 
-bool Routing::SendCreateLobby(std::string& username)
+bool Routing::SendCreateLobby(const std::string& username)
 {
 	auto response = cpr::Put(
 		cpr::Url{ m_url + "/create_lobby" },

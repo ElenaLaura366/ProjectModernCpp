@@ -14,7 +14,7 @@ class GamePage : public QWidget
 	Q_OBJECT
 
 public:
-	GamePage(QWidget* parent = nullptr, Routing* m_rt = nullptr);
+	GamePage(QWidget* parent = nullptr, std::shared_ptr<Routing> m_rt = nullptr);
 	~GamePage();
 
 	Ui::GamePageClass* GetUi();
@@ -37,13 +37,12 @@ private:
 signals:
 	void ExitGame();
 	void HandleEndGame();
-	void SendAnswerToServer();
 
 private:
 	Ui::GamePageClass* ui;
 	DrawingAreaWidget* m_drawingArea;
 	LeaderBoardWidget* m_leaderBoard;
-	Routing* m_rt;
+	std::shared_ptr<Routing> m_rt;
 	uint m_refreshCount;
 	QString m_word;
 

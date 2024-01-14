@@ -20,7 +20,7 @@ class WaitingRoom : public QWidget
 	Q_OBJECT
 
 public:
-	WaitingRoom(QWidget *parent = nullptr, Routing* m_rt = nullptr);
+	WaitingRoom(QWidget *parent = nullptr, std::shared_ptr<Routing> rt = nullptr);
 	~WaitingRoom();
 	void SetRoomCode(QString lobbyCode);
 	void addUserToRoom(const User& user);
@@ -40,7 +40,7 @@ signals:
 
 private:
 	Ui::WaitingRoomClass *ui;
-	Routing* m_rt;
+	std::shared_ptr<Routing> m_rt;
 
 	static const uint8_t kRefreshRate{ 2 };
 	uint m_refreshCount;

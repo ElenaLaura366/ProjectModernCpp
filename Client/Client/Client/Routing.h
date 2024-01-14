@@ -19,8 +19,8 @@ public:
 	bool SendStartGame();
 	bool SendLogin(const std::string& username, const std::string& password);
 	bool SendRegister(const std::string& username, const std::string& password);
-	bool SendJoinLobby(std::string lobbyCode);
-	bool SendCreateLobby(std::string& username);
+	bool SendJoinLobby(const std::string lobbyCode);
+	bool SendCreateLobby(const std::string& username);
 	bool SendAnswer(const std::string& answer);
 	bool SendGameHistory(const std::vector<GameHistory>& gameHistory);
 	void SendDrawing(const DrawingConfig& drawing);

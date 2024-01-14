@@ -1,10 +1,10 @@
 ﻿#include "WaitingRoom.h"
 
-WaitingRoom::WaitingRoom(QWidget* parent, Routing* m_rt)
+WaitingRoom::WaitingRoom(QWidget* parent, std::shared_ptr<Routing> rt)
 	: QWidget(parent)
 	, ui(new Ui::WaitingRoomClass())
 	, m_refreshCount{ 0 }
-	, m_rt{ m_rt }
+	, m_rt{ rt }
 	, m_admin{ User() }
 {
 	ui->setupUi(this);
@@ -89,7 +89,6 @@ void WaitingRoom::AddCustomWord()
 	QString word = ui->lineEdit->text();
 	if (!word.isEmpty())
 	{
-		QMessageBox::information(this, "Custom Word", word);
 		ui->lineEdit->setDisabled(true);
 		ui->pushButton->setDisabled(true);
 		m_rt->SendCustomWord(word.toLatin1().data());

@@ -19,47 +19,46 @@
 
 class Client : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    Client(QWidget *parent = nullptr);
-    ~Client() = default;
+	Client(QWidget* parent = nullptr);
+	~Client() = default;
 
-    void closeEvent(QCloseEvent* event) override;
+	void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void ChangeToLoginPage();
-    void ChangeToGamePage();
-    void ChangeToLobbyPage();
-    void ChangeToWaitingRoom();
-    void ShowUserInfo();
+	void ChangeToLoginPage();
+	void ChangeToGamePage();
+	void ChangeToLobbyPage();
+	void ChangeToWaitingRoom();
+	void ShowUserInfo();
 
-    void HandleAnswer();
-    void HandleLogin();
-    void HandleRegister();
-    void HandleCreateLobby();
-    void HandleJoinLobby();
-    void HandleEndGame();
-    void ExitGame();
+	void HandleAnswer();
+	void HandleLogin();
+	void HandleRegister();
+	void HandleCreateLobby();
+	void HandleJoinLobby();
+	void HandleEndGame();
+	void ExitGame();
 
 private:
-    bool ValidInput();
-    User user;
-    
+	bool ValidInput();
+	User user;
+
 private:
-    Ui::ClientClass* ui;
-    QStackedWidget* m_stackedWidget;
-    LoginPage* m_loginPage;
-    GamePage* m_gamePage;
-    LobbyPage* m_lobbyPage;
-    UserInfo* m_userInfo;
-    WaitingRoom* m_waitingRoom;
+	Ui::ClientClass* ui;
+	std::unique_ptr<QStackedWidget> m_stackedWidget;
+	std::unique_ptr <LoginPage> m_loginPage;
+	std::unique_ptr <GamePage> m_gamePage;
+	std::unique_ptr <LobbyPage> m_lobbyPage;
+	std::unique_ptr <UserInfo> m_userInfo;
+	std::unique_ptr <WaitingRoom> m_waitingRoom;
 
-
-    Routing m_rt;
+	std::shared_ptr<Routing> m_rt;
 
 signals:
-    void loginButtonClicked();
+	void loginButtonClicked();
 
 };
 
