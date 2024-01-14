@@ -46,6 +46,11 @@ public:
 	{
 		m_usedNumber.erase(value);
 	}
+	void ResetToInitialState()
+	{
+		m_usedNumber.clear();
+		m_currentValue = 0;
+	}
 
 private:
 	std::random_device m_rand;

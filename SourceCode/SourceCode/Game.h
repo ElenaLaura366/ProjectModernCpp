@@ -39,6 +39,7 @@ namespace skribbl
 		Game& operator=(Game&& otherGame) noexcept = default;
 
 		void Start() override;
+		void Reset() override;
 		void RemovePlayer(const std::string& name) override;
 		void ResetPlayersGuessed();
 		bool VerifyAnswer(const std::string& name,const std::string& answer) override;

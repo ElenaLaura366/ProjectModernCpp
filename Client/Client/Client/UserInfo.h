@@ -17,7 +17,7 @@ public:
 	UserInfo(QWidget *parent = nullptr);
 	~UserInfo();
 
-	void DisplayHistory(std::vector<GameHistory> gameHistory);
+	void DisplayHistory(const std::vector<GameHistory>& gameHistory);
 
 private:
 	Ui::UserInfoClass *ui;

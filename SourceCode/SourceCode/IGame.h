@@ -28,6 +28,7 @@ namespace skribbl
 		virtual ~IGame() = default;
 
 		virtual void Start() = 0;
+		virtual void Reset() = 0;
 		virtual void RemovePlayer(const std::string& name) = 0;
 		virtual bool VerifyAnswer(const std::string& name, const std::string& answer) = 0;
 		virtual bool AddPlayer(const std::string& name) = 0;

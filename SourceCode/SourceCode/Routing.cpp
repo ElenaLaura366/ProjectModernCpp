@@ -116,6 +116,13 @@ void skribbl::Routing::Run()
 			}
 	);
 
+	CROW_ROUTE(m_app, "/reset")
+		.methods(crow::HTTPMethod::PUT)(
+			[this](const crow::request& req)
+			{
+				return ResetGame(req);
+			});
+
 	CROW_ROUTE(m_app, "/drawing_player")
 		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
@@ -212,8 +219,8 @@ void skribbl::Routing::Run()
 			}
 	);
 
-	CROW_ROUTE(m_app, "/gamesHistory")
-		.methods(crow::HTTPMethod::PUT)(
+	CROW_ROUTE(m_app, "/games_history")
+		.methods(crow::HTTPMethod::GET)(
 			[this](const crow::request& req)
 			{
 				return GetGamesHistory(req);
@@ -266,6 +273,16 @@ crow::response Routing::StartGame(const crow::request& req)
 
 	m_games[lobbyCode]->Start();
 
+	return crow::response(204);
+}
+
+crow::response skribbl::Routing::ResetGame(const crow::request& req)
+{
+	std::string lobbyCode = req.url_params.get("lobbyCode");
+	if (m_games.find(lobbyCode) == m_games.end())
+		return crow::response(404, "Game not found!");
+
+	m_games[lobbyCode]->Reset();
 	return crow::response(204);
 }
 
@@ -424,8 +441,8 @@ crow::response Routing::Login(const crow::request& req)
 {
 	std::lock_guard lock{ m_mutex };
 
-	std::string password = req.url_params.get("password");
 	std::string username = req.url_params.get("username");
+	std::string password = req.url_params.get("password");
 
 	std::optional<skribbl::User> user = m_db.AuthenticateUser(username, password);
 	if (user.has_value())
@@ -513,6 +530,7 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req) cons
 			{"date", std::get<1>(history)}
 			});
 	}
+
 	return crow::json::wvalue{ results };
 }
 

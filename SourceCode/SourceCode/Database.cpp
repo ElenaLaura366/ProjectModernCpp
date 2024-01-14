@@ -97,7 +97,7 @@ void skribbl::Database::PopulateStorage(const std::string& fileName)
 	}
 }
 
-void skribbl::Database::AddGameHistory(std::vector<std::pair<std::string, int16_t>> players)
+void skribbl::Database::AddGameHistory(const std::vector<std::pair<std::string, int16_t>>& players)
 {
 	AddGame(CurrentDate());
 	int gameID = m_db.last_insert_rowid();

@@ -12,10 +12,11 @@ UserInfo::~UserInfo()
 	delete ui;
 }
 
-void UserInfo::DisplayHistory(std::vector<GameHistory> gameHistory)
+void UserInfo::DisplayHistory(const std::vector<GameHistory>& gameHistory)
 {
 
 	ui->tableWidget->setRowCount(gameHistory.size());
+
 
 	int rowIndex = 0;
 	for (const auto& history : gameHistory) {

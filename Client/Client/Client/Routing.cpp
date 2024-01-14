@@ -372,7 +372,7 @@ std::string Routing::GetPlayerName() const
 std::vector<GameHistory> Routing::GetGamesHistory()
 {
 	auto response = cpr::Get(
-		cpr::Url{ m_playerName + "/gamesHistory" },
+		cpr::Url{ m_url + "/games_history" },
 		cpr::Parameters{
 			{"username", m_playerName}
 		}

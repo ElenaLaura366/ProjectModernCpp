@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
+    <width>450</width>
     <height>400</height>
    </rect>
   </property>
@@ -17,25 +17,20 @@
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>130</y>
-      <width>311</width>
-      <height>192</height>
+      <x>120</x>
+      <y>120</y>
+      <width>202</width>
+      <height>190</height>
      </rect>
     </property>
     <column>
      <property name="text">
-      <string>game_id</string>
+      <string>date</string>
      </property>
     </column>
     <column>
      <property name="text">
       <string>points</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>date</string>
      </property>
     </column>
    </widget>

@@ -33,6 +33,7 @@ namespace skribbl
 		crow::response JoinLobby(const crow::request& req);
 		crow::response AddCustomWord(const crow::request& req);
 		crow::response StartGame(const crow::request& req);
+		crow::response ResetGame(const crow::request& req);
 		crow::response RemovePlayer(const crow::request& req);
 		crow::response ProcessAnswer(const crow::request& req);
 		crow::response ProcessDrawing(const crow::request& req);

@@ -23,7 +23,6 @@ std::vector<uint8_t> WordHandler::GenerateHint()
 			m_hint.emplace_back(pos);
 		}
 	}
-
 	return m_hint;
 }
 
@@ -67,5 +66,14 @@ void WordHandler::Reset()
 		int wordPos = 1 + m_ur->GetValue();
 		m_currentWord = m_db.GetWord(wordPos);
 	}
+	m_hint.clear();
+}
+
+void skribbl::WordHandler::ResetToInitialState()
+{
+	m_ur->ResetToInitialState();
+	m_currentWord = "Not_Initialized";
+	m_customWordPos = 0;
+	m_customWords.clear();
 	m_hint.clear();
 }

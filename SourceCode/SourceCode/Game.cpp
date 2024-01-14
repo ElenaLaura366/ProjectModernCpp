@@ -57,6 +57,16 @@ void Game::Start()
 	m_turn->Start();
 }
 
+void Game::Reset()
+{
+	m_state = Game::State::WAITING;
+	m_wordHandler->ResetToInitialState();
+	m_answers.clear();
+	m_playerGuessCount = 0;
+	m_drawingPlayerPossition = kMaxPlayersNumber;
+	m_drawing.clear();
+}
+
 bool Game::AddPlayer(const std::string& name)
 {
 	if (m_players.size() < kMaxPlayersNumber)

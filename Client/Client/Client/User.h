@@ -15,7 +15,7 @@ public:
     QString getUsername() const;
     std::optional<QString> getLobbyCode();
 
-    void AddGameHistory(int id, int id_game, int points);
+    void SetGameHistory(const std::vector<GameHistory>& history);
 
     std::vector<GameHistory> GetGameHistory();
 

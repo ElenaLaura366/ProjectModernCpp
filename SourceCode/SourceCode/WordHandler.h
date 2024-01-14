@@ -20,9 +20,9 @@ namespace skribbl
 		WordHandler& operator=(WordHandler&&)noexcept = default;
 
 		void Reset();
+		void ResetToInitialState();
 		
 		std::string GetWord();
-		//std::string GetHint() const; // displays the number of characters and several characters from the word
 		std::vector<uint8_t> GenerateHint();
 
 		void AddCustomWord(const std::string& word);
@@ -30,6 +30,7 @@ namespace skribbl
 		uint8_t GetNumberCustomWord() const;
 		bool AreCustomWordsLeft() const;
 		void AddCustomWordsToDatabase(uint8_t playersNumber);
+
 
 	private:
 		std::string m_currentWord;

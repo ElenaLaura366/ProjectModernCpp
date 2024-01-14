@@ -190,7 +190,7 @@ namespace skribbl
 		std::vector<Games> GetGames();
 		year_month_day CurrentDate();
 
-		void AddGameHistory(std::vector<std::pair<std::string, int16_t>> players);
+		void AddGameHistory(const std::vector<std::pair<std::string, int16_t>>& players);
 		std::vector<std::tuple<int, std::string>> GetGameHistory(const std::string& username);
 
 		void AddCustomWordToDatabase(const std::string& word);
