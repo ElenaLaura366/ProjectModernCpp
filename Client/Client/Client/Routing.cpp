@@ -330,7 +330,7 @@ bool Routing::SendCreateLobby(const std::string& username)
 	return false;
 }
 
-std::vector<User> Routing::GetPlayers()
+std::vector<QString> Routing::GetPlayers()
 {
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/players" },
@@ -341,17 +341,15 @@ std::vector<User> Routing::GetPlayers()
 
 	if (response.status_code != 200)
 	{
-		return std::vector<User>();
+		return std::vector<QString>();
 	}
 
-	std::vector<User> players;
+	std::vector<QString> players;
 	auto jsonResponse = crow::json::load(response.text);
 	for (const auto& playerName : jsonResponse)
 	{
-		std::string mess = std::string(playerName["playerName"]);
-		User user;
-		user.setUsername(mess);
-		players.push_back(user);
+		QString player = QString::fromLatin1(std::string(playerName["playerName"]).data());
+		players.push_back(player);
 	}
 
 	return std::move(players);

@@ -32,7 +32,7 @@ Client::Client(QWidget* parent)
 	connect(m_loginPage.get(), &LoginPage::SendLoginToServer, this, &Client::HandleLogin);
 	connect(m_loginPage.get(), &LoginPage::SendRegisterToServer, this, &Client::HandleRegister);
 
-	connect(m_waitingRoom.get(), &WaitingRoom::goToGame, this, &Client::ChangeToGamePage);
+	connect(m_waitingRoom.get(), &WaitingRoom::GoToGame, this, &Client::ChangeToGamePage);
 
 	connect(m_lobbyPage.get(), &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
 	connect(m_lobbyPage.get(), &LobbyPage::SendCreateLobbyToServer, this, &Client::HandleCreateLobby);

@@ -5,13 +5,12 @@ WaitingRoom::WaitingRoom(QWidget* parent, std::shared_ptr<Routing> rt)
 	, ui(new Ui::WaitingRoomClass())
 	, m_refreshCount{ 0 }
 	, m_rt{ rt }
-	, m_admin{ User() }
+	, m_admin{ "" }
 {
 	ui->setupUi(this);
 	connect(ui->startGame, &QPushButton::clicked, this, &WaitingRoom::OnStartBtnPushed);
 	connect(ui->pushButton, &QPushButton::clicked, this, &WaitingRoom::AddCustomWord);
 }
-
 
 void WaitingRoom::OnStartBtnPushed()
 {
@@ -24,7 +23,7 @@ void WaitingRoom::OnStartBtnPushed()
 			QMessageBox::warning(this, "Custom Word", "Not all players have added their custom word yet. Please wait until everyone has finished their input before starting the game.");
 		else
 			if (m_rt->SendStartGame())
-				emit goToGame();
+				emit GoToGame();
 }
 
 WaitingRoom::~WaitingRoom()
@@ -37,24 +36,33 @@ void WaitingRoom::SetRoomCode(QString lobbyCode)
 	ui->label_2->setText(lobbyCode);
 }
 
-void WaitingRoom::addUserToRoom(const User& user)
+void WaitingRoom::AddUserToRoom(const QString& user)
 {
-	UserWidget* userWidget = new UserWidget(user.getUsername(), this);
-
-	QListWidgetItem* item = new QListWidgetItem();
-	item->setSizeHint(userWidget->sizeHint());
-	ui->listWidget->addItem(item);
-	ui->listWidget->setItemWidget(item, userWidget);
+	QListWidgetItem* existingItem = nullptr;
+	for (int i = 0; i < ui->listWidget->count(); ++i)
+	{
+		QListWidgetItem* item = ui->listWidget->item(i);
+		if (item->text() == user)
+		{
+			existingItem = item;
+			break;
+		}
+	}
+	if(!existingItem)
+	{
+		QListWidgetItem* item = new QListWidgetItem(user);
+		ui->listWidget->addItem(item);
+	}
 }
 
-void WaitingRoom::UpdatePlayerList(const std::vector<User>& players)
+void WaitingRoom::UpdatePlayerList(const std::vector<QString>& players)
 {
 	ui->listWidget->clear();
 	m_admin = players[0];
 	for (const auto& player : players)
 	{
-		addUserToRoom(player);
-		if (QString::fromLatin1(m_rt->GetPlayerName().data()) == m_admin.getUsername())
+		AddUserToRoom(player);
+		if (QString::fromLatin1(m_rt->GetPlayerName().data()) == m_admin)
 			ui->startGame->setVisible(true);
 		else ui->startGame->setVisible(false);
 	}
@@ -62,7 +70,7 @@ void WaitingRoom::UpdatePlayerList(const std::vector<User>& players)
 
 void WaitingRoom::FetchPlayers()
 {
-	std::vector<User> players = m_rt->GetPlayers();
+	std::vector<QString> players = m_rt->GetPlayers();
 	UpdatePlayerList(players);
 }
 
@@ -79,7 +87,7 @@ void WaitingRoom::paintEvent(QPaintEvent* e)
 	{
 		FetchPlayers();
 		if (m_rt->GetRound() != kWaitingState)
-			emit goToGame();
+			emit GoToGame();
 	}
 	m_refreshCount++;
 }

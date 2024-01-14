@@ -23,8 +23,8 @@ public:
 	WaitingRoom(QWidget *parent = nullptr, std::shared_ptr<Routing> rt = nullptr);
 	~WaitingRoom();
 	void SetRoomCode(QString lobbyCode);
-	void addUserToRoom(const User& user);
-	void UpdatePlayerList(const std::vector<User>& players);
+	void AddUserToRoom(const QString& user);
+	void UpdatePlayerList(const std::vector<QString>& players);
 	void FetchPlayers();
 	void ResetButtons();
 
@@ -35,7 +35,7 @@ private slots:
 	void AddCustomWord();
 
 signals:
-	void goToGame();
+	void GoToGame();
 	void ExitGame();
 
 private:
@@ -45,9 +45,6 @@ private:
 	static const uint8_t kRefreshRate{ 2 };
 	uint m_refreshCount;
 
-	User m_admin;
+	QString m_admin;
 	const QString kWaitingState{ "Waiting" };
-
-private:
-	bool ValidateInput();
 };

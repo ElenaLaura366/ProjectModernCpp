@@ -6,7 +6,7 @@ using GameHistory = std::pair<std::string, std::string>;
 class User
 {
 public: 
-
+    
     User();
     void setUsername(const std::string& username);
     void setLobbyCode(const std::string& lobbyCode);
