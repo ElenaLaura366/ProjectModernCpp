@@ -124,7 +124,7 @@ QString Routing::GetWord() const
 	return QString::fromLatin1(response.text.data());
 }
 
-QString Routing::GetHint() const
+std::vector<uint8_t> Routing::GetHint() const
 {
 	auto response = cpr::Get(
 		cpr::Url{ m_url + "/get_hint" },
@@ -132,8 +132,13 @@ QString Routing::GetHint() const
 			{ "lobbyCode", m_lobbyCode },
 		}
 	);
+	std::vector<uint8_t> hints;
+	
+	for (const auto& el : response.text) {
+		hints.push_back(static_cast<int>(el));
+	}
 
-	return QString::fromLatin1(response.text.data());
+	return hints;
 }
 
 QString Routing::GetRound() const

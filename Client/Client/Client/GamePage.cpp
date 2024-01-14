@@ -53,8 +53,14 @@ void GamePage::paintEvent(QPaintEvent* e)
 
 		if (m_rt->GetIsDrawing())
 			m_rt->SendDrawing(m_drawingArea->GetDrawing());
-		else
+		else {
+			if (m_rt->GetTime().toInt() <= kFirstHintTime) {
+				UpdateHint(m_rt->GetHint());
+			}
+
 			m_drawingArea->SetDrawing(m_rt->GetDrawing());
+		}
+
 		m_refreshCount = 1;
 	}
 
@@ -154,6 +160,19 @@ void GamePage::OnExitGameBtnClicked() {
 	m_drawingArea->ResetDrawing();
 
 	emit ExitGame();
+}
+
+void GamePage::UpdateHint(std::vector<uint8_t> hintIndexs)
+{
+	QString hiddenWord;
+
+	for (int i = 0; i < m_word.size(); i++)
+		hiddenWord += "_ ";
+
+	for (const auto& index : hintIndexs) {
+		hiddenWord[index*2] = m_word[index];
+	}
+	ui->labelWord->setText(hiddenWord);
 }
 
 void GamePage::ShowLeaderBoard() {

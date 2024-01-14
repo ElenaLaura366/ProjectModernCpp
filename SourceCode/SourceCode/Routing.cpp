@@ -487,16 +487,14 @@ crow::response Routing::GetHint(const crow::request& req)
 	
 	std::vector<uint8_t> hints = m_games[lobbyCode]->GetHint();
 	
-	std::vector<crow::json::wvalue> results;
+	std::string hintsString = "";
 	
 	for (const auto& hint : hints)
 	{
-		results.push_back(crow::json::wvalue{
-			{"wordIndex", hint},
-			});
+		hintsString += hint;
 	}
 
-	return crow::json::wvalue{results};
+	return crow::response(200, hintsString);
 }
 
 crow::response Routing::GetGamePlayers(const crow::request& req)

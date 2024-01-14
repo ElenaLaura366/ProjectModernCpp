@@ -32,6 +32,7 @@ private:
 	void OnUndoBtnClicked();
 	void OnResetDrawingBtnClicked();
 	void OnExitGameBtnClicked();
+	void UpdateHint(std::vector<uint8_t> hintIndexs);
 
 signals:
 	void ExitGame();
@@ -47,6 +48,7 @@ private:
 	QString m_word;
 
 	static const uint8_t kRefreshRate{ 5 };
+	const uint8_t kFirstHintTime { 30 };
 	const QString kGameOverState { "Game Over" };
 	const QString kWaitingState { "Waiting" };
 };

@@ -29,7 +29,7 @@ public:
 	QString GetTime();
 	std::vector<QString> GetAnswers();
 	DrawingConfig GetDrawing();
-	QString GetHint() const;
+	std::vector<uint8_t> GetHint() const;
 	QString GetWord() const;
 	QString GetRound() const;
 	QString GetPlayer() const;
