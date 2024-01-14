@@ -13,22 +13,21 @@ class LobbyPage : public QWidget
 	Q_OBJECT
 
 public:
-	LobbyPage(QWidget *parent = nullptr);
+	LobbyPage(QWidget *parent = nullptr, std::shared_ptr<Routing> rt = nullptr);
 	~LobbyPage();
 
 	Ui::LobbyClass* GetUi();
 
 private slots:
 	void ChangeToLoginPage();
-	void ChangeToGamePage();
 	void OnJoinLobbyClicked();
 	void OnCreateLobbyClicked();
 
 signals:
-	void goToLoginPage();
-	void goToGamePage();
-	void SendCreateLobbyToServer();  // send to server de revizuit
-	void SendJoinLobbyToServer();
+	void GoToLoginPage();
+	void GoToWaitingRoom();
+
 private:
 	Ui::LobbyClass *ui;
+	std::shared_ptr<Routing> m_rt;
 };

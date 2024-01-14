@@ -32,7 +32,7 @@ private:
 	void OnUndoBtnClicked();
 	void OnResetDrawingBtnClicked();
 	void OnExitGameBtnClicked();
-	void UpdateHint(std::vector<uint8_t> hintIndexs);
+	void UpdateHint(const std::vector<uint8_t>& hintIndexs);
 
 signals:
 	void ExitGame();
@@ -40,8 +40,8 @@ signals:
 
 private:
 	Ui::GamePageClass* ui;
-	DrawingAreaWidget* m_drawingArea;
-	LeaderBoardWidget* m_leaderBoard;
+	std::unique_ptr<DrawingAreaWidget> m_drawingArea;
+	std::unique_ptr<LeaderBoardWidget> m_leaderBoard;
 	std::shared_ptr<Routing> m_rt;
 	uint m_refreshCount;
 	QString m_word;

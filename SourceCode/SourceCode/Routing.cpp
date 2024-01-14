@@ -276,7 +276,7 @@ crow::response Routing::StartGame(const crow::request& req)
 	return crow::response(204);
 }
 
-crow::response skribbl::Routing::ResetGame(const crow::request& req)
+crow::response Routing::ResetGame(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	if (m_games.find(lobbyCode) == m_games.end())
@@ -532,7 +532,7 @@ crow::response skribbl::Routing::GetGamesHistory(const crow::request & req) cons
 	return crow::json::wvalue{ results };
 }
 
-crow::response skribbl::Routing::GetCustomWordsCount(const crow::request& req)
+crow::response Routing::GetCustomWordsCount(const crow::request& req)
 {
 	std::string lobbyCode = req.url_params.get("lobbyCode");
 	if (m_games.find(lobbyCode) == m_games.end())

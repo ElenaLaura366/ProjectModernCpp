@@ -34,11 +34,9 @@ private slots:
 	void ChangeToWaitingRoom();
 	void ShowUserInfo();
 
-	void HandleAnswer();
 	void HandleLogin();
 	void HandleRegister();
 	void HandleCreateLobby();
-	void HandleJoinLobby();
 	void HandleEndGame();
 	void ExitGame();
 

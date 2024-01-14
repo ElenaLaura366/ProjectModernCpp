@@ -17,7 +17,7 @@ Client::Client(QWidget* parent)
 	m_rt = std::make_shared<Routing>();
 	m_loginPage = std::make_unique<LoginPage>(this);
 	m_gamePage = std::make_unique<GamePage>(this, m_rt);
-	m_lobbyPage = std::make_unique<LobbyPage>(this);
+	m_lobbyPage = std::make_unique<LobbyPage>(this, m_rt);
 	m_waitingRoom = std::make_unique<WaitingRoom>(this, m_rt);
 	m_userInfo = std::make_unique<UserInfo>(this);
 
@@ -34,9 +34,8 @@ Client::Client(QWidget* parent)
 
 	connect(m_waitingRoom.get(), &WaitingRoom::GoToGame, this, &Client::ChangeToGamePage);
 
-	connect(m_lobbyPage.get(), &LobbyPage::goToLoginPage, this, &Client::ChangeToLoginPage);
-	connect(m_lobbyPage.get(), &LobbyPage::SendCreateLobbyToServer, this, &Client::HandleCreateLobby);
-	connect(m_lobbyPage.get(), &LobbyPage::SendJoinLobbyToServer, this, &Client::HandleJoinLobby);
+	connect(m_lobbyPage.get(), &LobbyPage::GoToLoginPage, this, &Client::ChangeToLoginPage);
+	connect(m_lobbyPage.get(), &LobbyPage::GoToWaitingRoom, this, &Client::ChangeToWaitingRoom);
 
 	connect(m_gamePage.get(), &GamePage::ExitGame, this, &Client::ExitGame);
 	connect(m_gamePage.get(), &GamePage::HandleEndGame, this, &Client::HandleEndGame);
@@ -70,13 +69,13 @@ void Client::ChangeToLobbyPage() {
 
 void Client::ChangeToWaitingRoom()
 {
-	auto optionalLobbyCode = user.getLobbyCode();
-	if (!optionalLobbyCode.has_value()) {
+	auto optionalLobbyCode = m_rt->GetLobbyCode();
+	if (!optionalLobbyCode.size()) {
 		QMessageBox::information(nullptr, "Error", "Lobby Code is not set.");
 		return;
 	}
 
-	QString lobbyCode = optionalLobbyCode.value();
+	QString lobbyCode = QString::fromLatin1(optionalLobbyCode.data());
 	m_waitingRoom->ResetButtons();
 	m_waitingRoom->SetRoomCode(lobbyCode);
 	m_stackedWidget->setCurrentWidget(m_waitingRoom.get());
@@ -87,16 +86,6 @@ void Client::ShowUserInfo()
 	m_userInfo->setWindowTitle(user.getUsername() + "'s game history");
 	m_userInfo->DisplayHistory(m_rt->GetGamesHistory());
 	m_userInfo->show();
-}
-
-void Client::HandleAnswer()
-{
-	auto gameUi = m_gamePage->GetUi();
-	std::string answer = gameUi->chatInput->text().toUtf8().constData();
-	gameUi->chatInput->clear();
-
-	
-
 }
 
 void Client::ExitGame()
@@ -171,20 +160,6 @@ void Client::HandleCreateLobby()
 	}
 }
 
-void Client::HandleJoinLobby()
-{
-	auto lobbyUi = m_lobbyPage->GetUi();
-	std::string lobbyName = lobbyUi->lobbyCode->text().toUtf8().constData();
-	user.setLobbyCode(lobbyName);
-
-	if (!m_rt->SendJoinLobby(lobbyName)) {
-		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not joined.");
-		return;
-	}
-	else {
-		ChangeToWaitingRoom();
-	}
-}
 
 void Client::HandleEndGame()
 {
