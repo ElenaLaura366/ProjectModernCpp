@@ -1,10 +1,8 @@
-#pragma once
 #include <vector>
 #include <string>
 #include <memory>
-#include <ranges>
 #include "Database.h"
-
+#include <ranges>
 import uniquerandom;
 
 namespace skribbl
@@ -29,18 +27,19 @@ namespace skribbl
 		void AddCustomWordToDatabase();
 
 		bool AreCustomWordsLeft() const;
-		const std::vector<uint8_t>& GenerateHint();
 		const std::string& GetWord();
+		const std::vector<uint8_t>& GenerateHint();
 
 		uint8_t GetCustomWordsCount() const;
 
 
 	private:
+		std::string m_currentWord;
+		UniqueRandom<int>::UniqueRandomPtr m_ur;
+		UniqueRandom<int>::UniqueRandomPtr m_randomPositions;
 		skribbl::Database& m_db;
 		std::vector<std::string> m_customWords;
 		std::vector<uint8_t> m_hint;
-		std::string m_currentWord;
-		UniqueRandom<int>::UniqueRandomPtr m_ur;
 		int m_customWordPos;
 	};
 }

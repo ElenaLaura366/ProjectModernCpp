@@ -41,8 +41,8 @@ void Timer::Start(uint8_t hintCount)
 					m_handleTimeOut();
 				}
 
-				if (m_elapsedTime.load() <= kFirstHintTime && 
-					(duration_cast<seconds>(kFirstHintTime - m_elapsedTime.load())) % ((kFirstHintTime / m_hintCount) - seconds(1)) == 0s) {
+				if (duration_cast<seconds>(m_elapsedTime.load()) >= kFirstHintTime &&
+					(m_elapsedTime.load() - duration_cast<milliseconds>(kFirstHintTime)) % duration_cast<milliseconds>((kFirstHintTime / (m_hintCount-1)) - seconds(0)) == 0s) {
 					m_handleHint();
 				}
 

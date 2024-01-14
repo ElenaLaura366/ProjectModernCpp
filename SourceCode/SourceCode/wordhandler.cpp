@@ -19,9 +19,10 @@ void WordHandler::Reset()
 		{
 			int wordPos = 1 + m_ur->GetValue();
 			m_currentWord = m_db.GetWord(wordPos);
-		} while(std::ranges::find(m_customWords, m_currentWord) != m_customWords.end());
+		} while (std::ranges::find(m_customWords, m_currentWord) != m_customWords.end());
 	}
 	m_hint.clear();
+	m_randomPositions =  std::move(std::make_unique<UniqueRandom<int>>(m_currentWord.size()));
 }
 
 void WordHandler::ResetToInitialState()
@@ -48,23 +49,18 @@ bool WordHandler::AreCustomWordsLeft() const
 	return m_customWordPos <= m_customWords.size();
 }
 
-const std::vector<uint8_t>& WordHandler::GenerateHint()
-{
-	UniqueRandom<int> randomPossitions(m_currentWord.size());
-
-	if (m_hint.size() < m_currentWord.size() / 2 && m_currentWord.size() == 0) {
-		int pos = randomPossitions.GetValue();
-		if (std::find(m_hint.begin(), m_hint.end(), pos) == m_hint.end())
-		{
-			m_hint.emplace_back(pos);
-		}
-	}
-	return m_hint;
-}
-
 const std::string& WordHandler::GetWord()
 {
 	return m_currentWord;
+}
+
+const std::vector<uint8_t>& WordHandler::GenerateHint(){
+
+	if (m_hint.size() < m_currentWord.size() / 2) {
+		int pos = m_randomPositions->GetValue();
+		m_hint.emplace_back(pos);
+	}
+	return m_hint;
 }
 
 uint8_t WordHandler::GetCustomWordsCount() const
