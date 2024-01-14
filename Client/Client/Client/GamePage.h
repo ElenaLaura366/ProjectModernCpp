@@ -35,6 +35,7 @@ private:
 
 signals:
 	void ExitGame();
+	void HandleEndGame();
 	void SendAnswerToServer();
 
 private:
@@ -43,9 +44,9 @@ private:
 	LeaderBoardWidget* m_leaderBoard;
 	Routing* m_rt;
 	uint m_refreshCount;
-	bool m_leaderBoardShow;
 	QString m_word;
 
 	static const uint8_t kRefreshRate{ 5 };
 	const QString kGameOverState { "Game Over" };
+	const QString kWaitingState { "Waiting" };
 };

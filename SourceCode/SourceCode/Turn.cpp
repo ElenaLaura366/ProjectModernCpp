@@ -34,6 +34,11 @@ void Turn::Reset()
 	m_answerTimestamps.clear();
 }
 
+void Turn::StopTimer()
+{
+	m_timer->Stop();
+}
+
 int16_t Turn::ScoreGuessingPlayer()
 {
 	std::chrono::seconds timeInSeconds = std::chrono::duration_cast<std::chrono::seconds>(m_timer->GetElapsedTime());

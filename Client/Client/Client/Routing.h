@@ -25,6 +25,7 @@ public:
 	bool SendGameHistory(const std::vector<GameHistory>& gameHistory);
 	void SendDrawing(const DrawingConfig& drawing);
 	bool GetIsDrawing() const;
+	bool ResetGame() const;
 	QString GetTime();
 	std::vector<QString> GetAnswers();
 	DrawingConfig GetDrawing();

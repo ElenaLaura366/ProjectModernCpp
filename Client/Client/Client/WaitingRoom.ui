@@ -113,6 +113,9 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
   </widget>
   <widget class="QPushButton" name="exitGameBtn">
    <property name="geometry">

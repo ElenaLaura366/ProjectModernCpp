@@ -39,7 +39,7 @@ private slots:
     void HandleRegister();
     void HandleCreateLobby();
     void HandleJoinLobby();
-    // void handleStartGame() // when the game has been started? 
+    void HandleEndGame();
     void ExitGame();
 
 private:

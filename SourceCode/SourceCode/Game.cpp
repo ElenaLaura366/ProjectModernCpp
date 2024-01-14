@@ -49,7 +49,7 @@ void Game::Start()
 {
 	m_turn = std::make_unique<Turn>([this]() {HandleEndTurn(); }, [this]() {GetHint(); });
 
-	m_state = Game::State::FIRST_ROUND;
+	m_state = Game::State::FOURTH_ROUND;
 
 	m_drawingPlayerPossition = 0;
 	m_wordHandler->Reset();
@@ -196,18 +196,19 @@ void Game::HandleEndTurn()
 	m_turn->Reset();
 }
 
-void skribbl::Game::HandleEndGame()
+void Game::HandleEndGame()
 {
-	m_db.AddGameHistory(GetPlayers());
+	//m_turn->StopTimer();
+	//m_db.AddGameHistory(GetPlayers());
 	m_wordHandler->AddCustomWordsToDatabase(m_players.size());
 }
 
-void skribbl::Game::AddCustomWord(const std::string& word)
+void Game::AddCustomWord(const std::string& word)
 {
 	m_wordHandler->AddCustomWord(word);
 }
 
-uint8_t skribbl::Game::GetNumberCustomWord()
+uint8_t Game::GetNumberCustomWord()
 {
 	return m_wordHandler->GetNumberCustomWord();
 }

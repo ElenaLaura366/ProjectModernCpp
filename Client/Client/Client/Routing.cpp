@@ -87,7 +87,7 @@ DrawingConfig Routing::GetDrawing()
 	auto answers = crow::json::load(response.text);
 
 	DrawingConfig result;
-	if (response.text.size() == 0)
+	if (response.status_code == 404)
 		return result;
 	std::istringstream ss(response.text);
 	std::string line;
@@ -202,6 +202,20 @@ void Routing::SendDrawing(const DrawingConfig& drawing)
 bool Routing::GetIsDrawing() const
 {
 	return m_isDrawing;
+}
+
+bool Routing::ResetGame() const
+{
+	auto response = cpr::Put(
+		cpr::Url{ m_url + "/reset" },
+		cpr::Parameters{
+			{ "lobbyCode",  m_lobbyCode}
+		}
+	);
+	if (response.status_code == 204) {
+		return true;
+	}
+	return false;
 }
 
 bool Routing::ExitGame()

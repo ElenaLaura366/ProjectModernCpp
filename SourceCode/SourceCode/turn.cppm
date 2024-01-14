@@ -26,6 +26,7 @@ namespace skribbl
 
 		void Start();
 		void Reset();
+		void StopTimer();
 		
 		bool VerifyGuess(const std::string& guess);
 		int16_t ScoreGuessingPlayer();

@@ -33,6 +33,7 @@ Client::Client(QWidget* parent)
 	connect(m_lobbyPage, &LobbyPage::SendJoinLobbyToServer, this, &Client::HandleJoinLobby);
 	connect(m_gamePage, &GamePage::SendAnswerToServer, this, &Client::HandleAnswer);
 	connect(m_gamePage, &GamePage::ExitGame, this, &Client::ExitGame);
+	connect(m_gamePage, &GamePage::HandleEndGame, this, &Client::HandleEndGame);
 	
 	connect(m_waitingRoom, &WaitingRoom::goToGame, this, &Client::ChangeToGamePage);
 
@@ -44,7 +45,6 @@ Client::Client(QWidget* parent)
 	QMenu* menuUsername = ui->menuUsername;
 	menuUsername->addAction(menuAction);
 	connect(menuAction, &QAction::triggered, this, &Client::ShowUserInfo);
-
 
 	ChangeToLoginPage();
 }
@@ -149,6 +149,7 @@ void Client::HandleRegister() {
 		m_loginPage->ChangeToLoginPage();
 		ui->menuUsername->setTitle(user.getUsername());
 		ui->menuBar->show();
+		ChangeToLobbyPage();
 	}
 	else {
 		QMessageBox::information(nullptr, "Title", "An account with this username already exist");
@@ -185,5 +186,11 @@ void Client::HandleJoinLobby()
 	else {
 		ChangeToWaitingRoom();
 	}
+}
+
+void Client::HandleEndGame()
+{
+	m_rt.ResetGame();
+	ChangeToWaitingRoom();
 }
 
