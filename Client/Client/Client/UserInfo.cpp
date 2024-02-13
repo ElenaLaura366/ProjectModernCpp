@@ -28,8 +28,8 @@ void UserInfo::DisplayHistory(const std::vector<GameHistory>& gameHistory)
 		pointsCell->setFlags(pointsCell->flags() & ~Qt::ItemIsEditable);
 		dateCell->setFlags(dateCell->flags() & ~Qt::ItemIsEditable);
 
-		ui->tableWidget->setItem(rowIndex, 0, pointsCell);
-		ui->tableWidget->setItem(rowIndex, 1, dateCell);
+		ui->tableWidget->setItem(rowIndex, 0, dateCell);
+		ui->tableWidget->setItem(rowIndex, 1, pointsCell);
 		rowIndex++;
 	}
 }

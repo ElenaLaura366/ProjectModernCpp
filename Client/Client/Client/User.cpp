@@ -7,27 +7,27 @@ User::User()
 	m_lobbyCode = std::nullopt;
 }
 
-void User::setUsername(const std::string& username)
+void User::SetUsername(const std::string& username)
 {
 	m_username = QString::fromUtf8(username.c_str());
 }
 
-void User::setLobbyCode(const std::string& lobbyCode)
+void User::SetLobbyCode(const std::string& lobbyCode)
 {
 	m_lobbyCode = QString::fromUtf8(lobbyCode.c_str());
 }
 
-void User::setAdmin()
+void User::SetAdmin()
 {
 	m_isAdmin = true;
 }
 
-QString User::getUsername() const
+QString User::GetUsername() const
 {
 	return m_username;
 }
 
-std::optional<QString> User::getLobbyCode()
+std::optional<QString> User::GetLobbyCode()
 {
 	return m_lobbyCode;
 }

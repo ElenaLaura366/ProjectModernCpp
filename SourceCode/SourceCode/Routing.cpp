@@ -467,7 +467,7 @@ crow::response Routing::Register(const crow::request& req)
 
 	m_db.CreateNewUser(username, password);
 
-	return crow::response(201, "User created!");
+	return crow::response(201, username);
 }
 
 crow::response Routing::GetTime(const crow::request& req)

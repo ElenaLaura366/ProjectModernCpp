@@ -8,12 +8,12 @@ class User
 public: 
     
     User();
-    void setUsername(const std::string& username);
-    void setLobbyCode(const std::string& lobbyCode);
-    void setAdmin();
+    void SetUsername(const std::string& username);
+    void SetLobbyCode(const std::string& lobbyCode);
+    void SetAdmin();
 
-    QString getUsername() const;
-    std::optional<QString> getLobbyCode();
+    QString GetUsername() const;
+    std::optional<QString> GetLobbyCode();
 
     void SetGameHistory(const std::vector<GameHistory>& history);
 

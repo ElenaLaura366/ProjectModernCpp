@@ -70,7 +70,7 @@ void Client::ChangeToLobbyPage() {
 
 void Client::ChangeToWaitingRoom()
 {
-	auto optionalLobbyCode = user.getLobbyCode();
+	auto optionalLobbyCode = user.GetLobbyCode();
 	if (!optionalLobbyCode.has_value()) {
 		QMessageBox::information(nullptr, "Error", "Lobby Code is not set.");
 		return;
@@ -84,7 +84,7 @@ void Client::ChangeToWaitingRoom()
 
 void Client::ShowUserInfo()
 {
-	m_userInfo->setWindowTitle(user.getUsername() + "'s game history");
+	m_userInfo->setWindowTitle(user.GetUsername() + "'s game history");
 	m_userInfo->DisplayHistory(m_rt->GetGamesHistory());
 	m_userInfo->show();
 }
@@ -120,10 +120,10 @@ void Client::HandleLogin() {
 	
 
 	if (m_rt->SendLogin(username, password) == true) {
-		user.setUsername(username);
-		QMessageBox::information(nullptr, "Title", "Hello " + user.getUsername());
+		user.SetUsername(username);
+		QMessageBox::information(nullptr, "Title", "Hello " + user.GetUsername());
 		emit loginButtonClicked();
-		ui->menuUsername->setTitle(user.getUsername());
+		ui->menuUsername->setTitle(user.GetUsername());
 		ui->menuBar->show();
 		m_userInfo->DisplayHistory(user.GetGameHistory());
 		ChangeToLobbyPage();
@@ -141,11 +141,11 @@ void Client::HandleRegister() {
 	std::string password = std::string(QCryptographicHash::hash(loginUi->inputPassword->text().toUtf8(), QCryptographicHash::Sha256));
 
 	if (m_rt->SendRegister(username, password) == true) {
-		user.setUsername(username);
+		user.SetUsername(username);
 
-		QMessageBox::information(nullptr, " Title", "Your account has been registered successfully, " + user.getUsername());
+		QMessageBox::information(nullptr, " Title", "Your account has been registered successfully, " + user.GetUsername());
 		m_loginPage->ChangeToLoginPage();
-		ui->menuUsername->setTitle(user.getUsername());
+		ui->menuUsername->setTitle(user.GetUsername());
 		ui->menuBar->show();
 		ChangeToLobbyPage();
 	}
@@ -157,7 +157,7 @@ void Client::HandleRegister() {
 void Client::HandleCreateLobby()
 {
 	auto lobbyUiUser = m_loginPage->GetUi();
-	user.setAdmin();
+	user.SetAdmin();
 
 	std::string lobbyName = lobbyUiUser->inputUsername->text().toUtf8().constData();
 
@@ -166,7 +166,7 @@ void Client::HandleCreateLobby()
 		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not created."); //de revizuit
 	}
 	else {
-		user.setLobbyCode(m_rt->GetLobbyCode());
+		user.SetLobbyCode(m_rt->GetLobbyCode());
 		ChangeToWaitingRoom();
 	}
 }
@@ -175,7 +175,7 @@ void Client::HandleJoinLobby()
 {
 	auto lobbyUi = m_lobbyPage->GetUi();
 	std::string lobbyName = lobbyUi->lobbyCode->text().toUtf8().constData();
-	user.setLobbyCode(lobbyName);
+	user.SetLobbyCode(lobbyName);
 
 	if (!m_rt->SendJoinLobby(lobbyName)) {
 		QMessageBox::information(nullptr, "Server Conection Problem", "Lobby not joined.");
