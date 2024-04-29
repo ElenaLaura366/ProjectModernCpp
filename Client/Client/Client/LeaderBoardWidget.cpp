@@ -23,6 +23,9 @@ LeaderBoardWidget::LeaderBoardWidget(QWidget *parent, const std::vector<std::pai
 		playerNameItem->setTextAlignment(Qt::AlignCenter);
 		scoreItem->setTextAlignment(Qt::AlignCenter);
 
+		playerNameItem->setFlags(playerNameItem->flags() & ~Qt::ItemIsEditable);
+		scoreItem->setFlags(scoreItem->flags() & ~Qt::ItemIsEditable);
+
 		ui.leaderBoard->setItem(row, 0, playerNameItem);
 		ui.leaderBoard->setItem(row, 1, scoreItem);
 	}
